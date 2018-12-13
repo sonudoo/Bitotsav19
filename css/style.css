@@ -942,7 +942,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(27, 23, 53);
+  background-color: rgb(49, 53, 23);
   /* change if the mask should have another color then white */
   z-index: 99;
   /* makes sure it stays on top */
@@ -1313,5 +1313,4 @@ transform: scale(0.55);
 
 .iicons:hover {
   height: 100px;
-  width: auto;
 }
