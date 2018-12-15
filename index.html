@@ -23,7 +23,7 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body style="overflow: hidden;">
+<body style="overflow: hidden; background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 138, 4)); background-size: cover;">
   <!-- Page Content
     ================================================== -->
   <!-- Hero -->
@@ -379,14 +379,16 @@
 
       <a href="https://www.twitter.com/bitotsav" target="_blank"><i class="fa fa-twitter fa-5x icons" aria-hidden="true"></i></a>
     </div>
-    <section style="background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 167, 4)); background-size: cover; color: #fff; height: 100vh;">
+    <div class="row" style="background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 138, 4)); background-size: cover;">
+      <div class="col-md-12" style="text-align: left;">
+        <img id="bitlogo" src="img/bit.png" style="height: 70px; width: 70px; padding: 10px;">
+        <img id="bitotsavlogo" src="img/bitotsav.png" style="height: 70px; width: 70px; padding: 10px; float: right;">
+      </div>
+    </div>
+    <section style="background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 138, 4)); background-size: cover; color: #fff; height: 100vh;"
+      id="main">
       <div>
-        <div class="row">
-          <div class="col-md-12" style="text-align: left;">
-            <img id="bitlogo" src="img/bit.png" style="height: 70px; width: 70px; padding: 10px;">
-            <img id="bitotsavlogo" src="img/bitotsav.png" style="height: 70px; width: 70px; padding: 10px; float: right;">
-          </div>
-        </div>
+
         <div class="row text-center">
           <img src="img/bitotsav_logo_white.png" style="height: 30%; width: 30%; margin: 0 auto; z-index: 10;" id="bitotsav_main">
         </div>
@@ -406,7 +408,7 @@
               <div class="col-md-5 text-center"></div>
               <div class="col-md-1 text-center">
                 <a href="#">
-                  <img class="iicons" src="img/sap.png" style="background: rgb(255, 246, 120); height: 70px; width: auto; border-radius: 100%; padding: 10px; margin: 20px; border: #000 dotted 1px; ">
+                  <img onclick="showSAP()" class="iicons" src="img/sap.png" style="background: rgb(255, 246, 120); height: 70px; width: auto; border-radius: 100%; padding: 10px; margin: 20px; border: #000 dotted 1px; ">
                 </a>
               </div>
               <div class="col-md-1 text-center">
@@ -423,34 +425,106 @@
       </div>
 
     </section>
+    <section class="sap" id="sap" style="background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 138, 4)); background-size: cover; min-height: 100vh;">
+      <div class="container">
+
+        <h2 style="text-align: center;">
+          Student Ambassador Program
+        </h2>
+        <style>
+          .form-control{
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #ffa928;
+          }
+          .form-control:focus {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #b36b00;
+          }
+          .error{
+            display: block;
+            color: red;
+            font-size: 12px;
+          }
+          label{
+            font-weight: bold;
+            font-size: 12px;
+          }
+        </style>
+
+        <form action="/action_page.php">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" id="name" autocomplete="off">
+                <div class="error" id="name-error"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="college">College: </label>
+                <input type="text" class="form-control" id="college" autocomplete="off">
+                <div class="error" id="college-error"></div>
+              </div>
+              <div class="form-group">
+                <label for="q1">Why do you wish to become the Student Ambassador of your college?</label>
+                <textarea type="text" class="form-control" id="q1" autocomplete="off"></textarea>
+                <div class="error" id="q1-error"></div>
+              </div>
+              <div class="form-group">
+                <label for="q2">How long have you been enrolled in your college?</label>
+                <textarea type="text" class="form-control" id="q2" autocomplete="off"></textarea>
+                <div class="error" id="q2-error"></div>
+              </div>
+              <div class="form-group">
+                <label for="q3">Do you have any other commitments in the month of January-February 2019?</label>
+                <textarea type="text" class="form-control" id="q3" autocomplete="off"></textarea>
+                <div class="error" id="q3-error"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Email: </label>
+                <input type="email" class="form-control" id="email" autocomplete="off">
+                <div class="error" id="email-error"></div>
+              </div>
+              <div class="form-group">
+                <label for="phno">Phno: </label>
+                <input type="number" class="form-control" id="phno" autocomplete="off">
+                <div class="error" id="phno-error"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="q4">Do you have any club related experience in your college?</label>
+                <textarea type="text" class="form-control" id="q4" autocomplete="off"></textarea>
+                <div class="error" id="q4-error"></div>
+              </div>
+              <div class="form-group">
+                <label for="q5">How many participants can we expect if you are made the Student Ambassador?</label>
+                <textarea type="text" class="form-control" id="q5" autocomplete="off"></textarea>
+                <div class="error" id="q5-error"></div>
+              </div>
+              <br>
+              <center>
+                  <div class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
+              </center>
+              
+
+            </div>
+          </div>
+
+          <center>
+            <div class="error" id="global-error"></div>
+          </center>
+          <center><a class="btn btn-info" id="btn" onclick="registerSAP()" style="background-color: rgba(32, 44, 36, 0.959); color: #FFF; border-radius: 10px; margin: 20px;">Register</a></center>
+
+        </form>
+
+      </div>
+    </section>
   </div>
   <!--
-  <section class="about" id="about" style="background-image: url('img/asia_background.png'); background-size: cover; min-height: 100vh;">
-    <div class="container text-center">
-      <h2 style="margin-top: 100px;">
-        Bitotsav
-      </h2>
-      <div style="background-image: linear-gradient(to right, rgba(251, 255, 0, 0.76), rgba(255, 167, 4, 0.719)); margin: 10 vh; opacity: 1; padding: 10vh;">
-        <p>
-          Deemed as an institute of national importance, Birla Institute of Technology, Mesra, is one of the country's
-          most honourable and distinguished educational university. It was founded and established by the visionary
-          industrialist, B.M. Birla over more than six decades ago, and has been creating waves of success ever since.
-          The massive 850 acre camus has been home to diverse, multitudinous talent, and inspiring leaders.
-        </p>
-        <p>
-          BIT Mesra has not only produced some of the finest technocrats in the country, but has also churned out
-          winners in professions as diverse as music, art and literature. Our annual cultural extravaganza, BITOTSAV,
-          is an affluent celebration os the rich cultural heritage that resides in our country and an attempt to revel
-          in the euphoric essence of India's cultural potency. BITOTSAV has a pletheora of events to realize its cause
-          of bringing students from all spheres and from all places, together, to enjoy culture while supporting
-          something of socirtal importance. As the grandeur of BITOTSAV keeps on growing, this year's BITOTSAV is set
-          to be majestic: bigger and better than ever before. With enthralling events, mesmerizing nights, enticing
-          performances by prominent celebrities, and whole lot of dance and music, we welcome you to BITOTSAV '19.
-        </p>
-      </div>
-
-    </div>
-  </section>
   
   <section class="stars" id="stars" style="background-image: url('img/fireworks.jpg'); min-height: 100vh; background-size: cover;">
     <div class="container text-center">
@@ -740,6 +814,8 @@
 
 
   <!-- Required JavaScript Libraries -->
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/jquery/jquery-migrate.min.js"></script>
   <script src="lib/superfish/hoverIntent.js"></script>
