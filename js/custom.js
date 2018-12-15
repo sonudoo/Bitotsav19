@@ -10,8 +10,13 @@ $(window).on('load', function () {
     $('#asia').addClass('animated zoomIn');
     $('.sidenav').addClass('animated fadeIn');
     $('#buttons').addClass('animated fadeInUp');
+    $('#sap-form2').hide();
+    $('#sap-success').hide();
   }, 500);
 });
+
+
+let sapid = null;
 
 function showSAP() {
   $('#main').addClass('animated fadeOutUp');
@@ -93,7 +98,7 @@ function registerSAP() {
   else {
     $("#global-error").html("");
   }
-  data = {
+  let data = {
     name: name,
     email: email,
     phno: phno,
@@ -105,14 +110,68 @@ function registerSAP() {
     q5: q5,
     "g-recaptcha-response": grecaptcha.getResponse()
   }
+ 
   $("#btn").html("Registering..");
   $.ajax({
-    url: 'http://localhost:3000/api/sap',
+    url: 'https://bitotsav.in/api/sap',
     type: 'post',
     dataType: 'json',
     contentType: 'application/json',
     success: function (data) {
-      alert(data.success);
+      if(data.success == true){
+        $("#sap-form").hide(500);
+        $("#sap-form2").show(500);
+        sapid = data.id;
+      }
+      else{
+        $("#global-error").html("An unknown error occured.");
+        $("#btn").html("Register");
+      }
+    },
+    error: function(data){
+      $("#global-error").html("An unknown error occured.");
+      $("#btn").html("Register");
+    },
+    data: JSON.stringify(data)
+  });
+}
+
+function registerSAP2(){
+  if(sapid == null){
+    alert("SAP ID is missing. Please complete step one of registration.");
+    return;
+  }
+  if (/[0-9]{6,6}/.test($("#otp").val()) == false) {
+    $("#otp-error").html("OTP must be 6 digits long.");
+    return;
+  }
+  else{
+    $("#otp-error").html("");
+  }
+  let data = {
+    id: sapid,
+    otp: $("#otp").val()
+  };
+  $("#btn2").html("Verifying..");
+  $.ajax({
+    url: 'https://bitotsav.in/api/sap2',
+    type: 'post',
+    dataType: 'json',
+    contentType: 'application/json',
+    success: function (data) {
+      if(data.success == true){
+        $("#msg").html("You have successfully registered for SAP. Your SAP ID is <b>BITOTSAV/SAP/"+sapid+"</b>. You will be contacted soon by one of our team member.");
+        $("#sap-form2").hide(500);
+        $("#sap-success").show(500);
+      }
+      else{
+        $("#global-error2").html("Incorrect OTP.");
+        $("#btn2").html("Verify");
+      }
+    },
+    error: function(data){
+      $("#global-error2").html("An unknown error occured.");
+      $("#btn2").html("Verify");
     },
     data: JSON.stringify(data)
   });
