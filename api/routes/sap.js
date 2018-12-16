@@ -8,6 +8,14 @@ const nodemailer = require('nodemailer');
 const secretKey = require('../setup').secretKey;
 const db = require('../setup').db;
 
+
+router.get('/getSapbirywfb7ruiqgr', (req, res) => {
+    db.sap.find({ verified: true }, function (error, result) {
+        return res.send(JSON.stringify(result));
+    });
+});
+
+
 router.post('/sap', (req, res) => {
     req.checkBody('name', 'Incorrect Name Entered').matches(/^[a-zA-Z .]+$/, "i");
     req.checkBody('email', 'Incorrect Email Entered').matches(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, "i");
