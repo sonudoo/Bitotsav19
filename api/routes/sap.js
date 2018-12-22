@@ -200,8 +200,10 @@ Likes, sharing and subscribing Facebook posts, YouTube Channel and Tweets come u
 <li>Anyone found violating the guidelines or defaming Bitotsav in any way possible would bebanned from this program.</li>
 </ul>
 <br>
-It is recommended to get connected with the members in the Contact Us page for better communication. <br>
+It is recommended to get connected with the members in the Contact Us page for better communication. Please follow the link below to join the WhatsApp group for SAP:<br>
 <br>
+<a href="https://chat.whatsapp.com/ITyOIsBmVU103K3tBR3IQ9">https://chat.whatsapp.com/ITyOIsBmVU103K3tBR3IQ9</a>
+<br><br>
 Regards,<br>
 Publicity Team,<br> 
 Bitotsav '19<br>

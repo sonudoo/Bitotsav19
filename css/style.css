@@ -1188,7 +1188,7 @@ html, #status {
 
 
 #background-wrap {
-  bottom: 0;
+bottom: 0;
 left: 0;
 padding-top: 50px;
 position: fixed;
@@ -1288,7 +1288,7 @@ transform: scale(0.55);
   height: auto; /* Full-height: remove this if you want "auto" height */
   width: 50; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
+  z-index: 7; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
@@ -1317,76 +1317,234 @@ transform: scale(0.55);
 
 
 /*Events Page */
+.wrapper {
+  background: -webkit-linear-gradient(right, #c56f82, #497ccb);
+  background: linear-gradient(270deg, #c56f82, #497ccb);
+  height: 100vh;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/* -------------------------------------------------------------------------
+   begin Scroll Down Button
+ * ------------------------------------------------------------------------- */
+button.scroll_down {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 30px;
+  bottom: 60px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+}
+button.scroll_down:before {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: scroll_down_btn-animation 2s infinite;
+  animation: scroll_down_btn-animation 2s infinite;
+  box-sizing: border-box;
+}
+
+@keyframes scroll_down_btn-animation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes scroll_down_btn-animation {
+  0% {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translate(0, 20px);
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   end Scroll Down Button 
+ * ------------------------------------------------------------------------- */
+.disable-scroll{
+  margin: 0; height: 100%; overflow: hidden;
+}
 .events-background{
-  background-image: url('../img/events-background.jpg');
-  opacity: 1.0;
-  overflow: hidden;
+  position: relative;
+  height:-webkit-fill-available;
+  background-image:url('../img/events-background.jpg');
+  background-size:cover;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  opacity:1;
   margin: 0;
+  z-index: 2;
 }
-.events-container{
+@media screen and (max-width: 444px){
+    .events-background {
+        background-position-x: -30vw;
+    }
+}
+
+.events-cover-background{
+  opacity: 0.4;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  z-index:2;
   min-width: 100%;
- 
+  min-height: 95%;
+	background: linear-gradient(-45deg, rgb(238, 119, 82,1), rgb(231, 60, 126,1),
+  rgb(35, 166, 213,1), rgb(35, 213, 171,1));
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 5s ease infinite;
+	-moz-animation: Gradient 5s ease infinite;
+	animation: Gradient 5s ease infinite;
 }
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+  .event-content{
+    position:relative;
+    z-index:4;
+  }
+
  .heading {
   font-family: 'Staatliches', cursive;
   font-family: 'Anton', sans-serif;
-  font-size: 243px;
+  font-size: 10vw;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #ccc;
+  color: rgb(228, 228, 228);
   transition: font-size 0.3s;
 }
 .heading::first-letter {
-  color: #db2d8e;
+  color: #ff0000;
+}
+.event-card-group{
+
+  position: relative;
+  overflow: scroll;
+}
+::-webkit-scrollbar {
+  width: 0px; /*remove scrollbar space*/
+  background: transparent optional; /*just make scrollbar invisible */
 }
 div.event-card {
-  box-sizing: inherit;
-  margin: 4vw;
-  float:left;
-  width: 350px;
-  height: 350px;
-  
-  border-radius: 3px;
+  margin: auto;
+  width: 55vw;
+  height: 55vw;
+  border-radius: 234vw;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 div.event-card .thumb {
-  width: auto;
-  height: 260px;
+  height: 55vw;
+  width: 55vw;
   background: url("../img/amit_trivedi.jpg") no-repeat center;
-  background-size: cover;
-  border-radius: 3px;
+  background-size: 100%;
+
 }
 div.event-card .infos {
   background-color: #FCE601;
   width: auto;
-  height: 350px;
+  height: 55vw;
   position: relative;
   padding: 14px 24px;
   transition: 0.4s 0.15s cubic-bezier(0.17, 0.67, 0.5, 1.03);
 }
 div.event-card .infos .title {
+  text-align: -webkit-center;
   position: relative;
-  margin: 10px 0;
+  margin: 7vw 0 10px 0;
   letter-spacing: 3px;
   color: #152536;
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 1rem;
+  font-size: 2rem;
   text-transform: uppercase;
   text-shadow: 0 0 0px #32577f;
 }
 
 div.event-card .infos .date, div.event-card .infos .seats {
+  text-align: -webkit-center;
   margin-bottom: 10px;
   text-transform: uppercase;
-  font-size: .85rem;
+  font-size: 1rem;
   color: rgba(21, 37, 54, 0.7);
   font-family: "Grotesque", sans-serif;
 }
 div.event-card .infos .seats {
+  text-align: -webkit-center;
   display: inline-block;
   margin-bottom: 24px;
   padding-bottom: 24px;
@@ -1395,32 +1553,32 @@ div.event-card .infos .seats {
   transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
 }
 div.event-card .infos .txt {
+  text-align: -webkit-center;
   font-family: "Merriweather", sans-serif;
   line-height: 2;
-  font-size: .95rem;
+  font-size: 1rem;
   color: rgba(21, 37, 54, 0.7);
   opacity: 0;
   transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
 }
 div.event-card .infos .details {
-  position: absolute;
-  left: 0;
-  left: 0;
-  bottom: 0;
+  text-align: -webkit-center;
+
+
   margin: 10px 0;
   padding: 20px 24px;
   letter-spacing: 1px;
   color: #4e958b;
   font-family: 'Josefin Sans', sans-serif;
-  font-size: .9rem;
+  font-size: .95rem;
   text-transform: uppercase;
   cursor: pointer;
   opacity: 0;
   transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
 }
 div.event-card:hover .infos {
-  -webkit-transform: translateY(-260px);
-          transform: translateY(-260px);
+  -webkit-transform: translateY(-55vw);
+          transform: translateY(-55vw);
 }
 div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-card:hover .infos .details {
   opacity: 1;
