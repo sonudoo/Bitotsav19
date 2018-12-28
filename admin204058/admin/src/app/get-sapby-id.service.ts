@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GetSAPByIdService {
 
-  _url = '../api/admin/getSAPById';
+  _url = 'https://bitotsav.in/api/admin/getSAPById';
   constructor(private _http: HttpClient) { 
 
   }

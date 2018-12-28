@@ -4,6 +4,7 @@ nav {
     margin-left: -20px;
     width: 50%;
     height: 100%;
+    color: #EEE;
 }
 
 a {
@@ -11,5 +12,6 @@ a {
 }
 
 a:hover {
+    cursor: pointer;
     color: #999;
 }

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class LoginService {
-  _loginUrl = "../api/admin/login";
+  _loginUrl = "https://bitotsav.in/api/admin/login";
   
   constructor(private _http: HttpClient) { }
   login(username: String, password: String){

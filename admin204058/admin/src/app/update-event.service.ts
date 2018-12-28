@@ -6,7 +6,7 @@ import { UpdateEventData } from './update-event/update-event-data';
   providedIn: 'root'
 })
 export class UpdateEventService {
-  _url = '../api/admin/updateEvent';
+  _url = 'https://bitotsav.in/api/admin/updateEvent';
   constructor(private _http: HttpClient) { 
 
   }
