@@ -29,10 +29,13 @@ export class UpdateEventComponent implements OnInit {
     eventContact2Name: "",
     eventContact2Number: 0,
     eventRequirement: "",
-    eventOrganizer: "",
+    eventCategory: "",
     eventPoints1: 0,
     eventPoints2: 0,
     eventPoints3: 0,
+    eventPrize1: 0,
+    eventPrize2: 0,
+    eventPrize3: 0,
     eventType: "",
     eventMinimumMembers: 0,
     eventMaximumMembers: 0,
@@ -78,15 +81,17 @@ export class UpdateEventComponent implements OnInit {
             eventContact2Name: data.eventContact2Name,
             eventContact2Number: data.eventContact2Number,
             eventRequirement: data.eventRequirement,
-            eventOrganizer: data.eventOrganizer,
+            eventCategory: data.eventCategory,
             eventPoints1: data.eventPoints1,
             eventPoints2: data.eventPoints2,
             eventPoints3: data.eventPoints3,
+            eventPrize1: data.eventPrize1,
+            eventPrize2: data.eventPrize2,
+            eventPrize3: data.eventPrize3,
             eventType: data.eventType,
             eventMinimumMembers: data.eventMinimumMembers,
             eventMaximumMembers: data.eventMaximumMembers,
             eventStatus: data.eventStatus
-
           }
         },
         error => {
@@ -109,6 +114,10 @@ export class UpdateEventComponent implements OnInit {
       alert("Event Points are not properly ordered");
       return false;
     }
+    if (this.updateEventData.eventPrize2 > this.updateEventData.eventPrize1 || this.updateEventData.eventPrize3 > this.updateEventData.eventPrize2 || this.updateEventData.eventPrize3 > this.updateEventData.eventPrize1) {
+      alert("Event Prizes are not properly ordered");
+      return false;
+    }
     if(this.storage.get('token') != undefined){
       this.updateEventService.updateEvent(this.storage.get('token'), this.currentEventId, this.updateEventData).subscribe(
         data => {
@@ -126,10 +135,13 @@ export class UpdateEventComponent implements OnInit {
               eventContact2Name: "",
               eventContact2Number: 0,
               eventRequirement: "",
-              eventOrganizer: "",
+              eventCategory: "",
               eventPoints1: 0,
               eventPoints2: 0,
               eventPoints3: 0,
+              eventPrize1: 0,
+              eventPrize2: 0,
+              eventPrize3: 0,
               eventType: "",
               eventMinimumMembers: 0,
               eventMaximumMembers: 0,

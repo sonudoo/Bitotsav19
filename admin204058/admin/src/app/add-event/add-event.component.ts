@@ -25,10 +25,13 @@ export class AddEventComponent implements OnInit {
     eventContact2Name: "",
     eventContact2Number: 0,
     eventRequirement: "",
-    eventOrganizer: "",
+    eventCategory: "",
     eventPoints1: 0,
     eventPoints2: 0,
     eventPoints3: 0,
+    eventPrize1: 0,
+    eventPrize2: 0,
+    eventPrize3: 0,
     eventType: "",
     eventMinimumMembers: 0,
     eventMaximumMembers: 0
@@ -44,6 +47,10 @@ export class AddEventComponent implements OnInit {
     }
     if (this.addEventData.eventPoints2 > this.addEventData.eventPoints1 || this.addEventData.eventPoints3 > this.addEventData.eventPoints2 || this.addEventData.eventPoints3 > this.addEventData.eventPoints1) {
       alert("Event Points are not properly ordered");
+      return false;
+    }
+    if (this.addEventData.eventPrize2 > this.addEventData.eventPrize1 || this.addEventData.eventPrize3 > this.addEventData.eventPrize2 || this.addEventData.eventPrize3 > this.addEventData.eventPrize1) {
+      alert("Event Prizes are not properly ordered");
       return false;
     }
     if (this.storage.get('token') != undefined) {
@@ -63,10 +70,13 @@ export class AddEventComponent implements OnInit {
               eventContact2Name: "",
               eventContact2Number: 0,
               eventRequirement: "",
-              eventOrganizer: "",
+              eventCategory: "",
               eventPoints1: 0,
               eventPoints2: 0,
               eventPoints3: 0,
+              eventPrize1: 0,
+              eventPrize2: 0,
+              eventPrize3: 0,
               eventType: "",
               eventMinimumMembers: 0,
               eventMaximumMembers: 0

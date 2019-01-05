@@ -11,10 +11,13 @@ export interface UpdateEventData {
     eventContact2Name: String;
     eventContact2Number: Number;
     eventRequirement: String;
-    eventOrganizer: String;
+    eventCategory: String;
     eventPoints1: Number;
     eventPoints2: Number;
     eventPoints3: Number;
+    eventPrize1: Number;
+    eventPrize2: Number;
+    eventPrize3: Number;
     eventType: String;
     eventMinimumMembers: Number;
     eventMaximumMembers: Number;

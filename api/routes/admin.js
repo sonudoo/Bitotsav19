@@ -128,7 +128,11 @@ router.post('/addEvent', (req, res) => {
             }));
         }
         else {
-            req.body.eventId = result.length + 1;
+            req.body.addEventData.eventId = result.length + 1;
+            req.body.addEventData.eventStatus = "Scheduled";
+            req.body.addEventData.eventPosition1 = "NA";
+            req.body.addEventData.eventPosition2 = "NA";
+            req.body.addEventData.eventPosition3 = "NA";
             db.events.insert(req.body.addEventData, function (error, result) {
                 if (error) {
                     res.send(JSON.stringify({
