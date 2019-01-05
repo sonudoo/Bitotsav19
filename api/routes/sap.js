@@ -2,21 +2,11 @@
 
 const express = require('express');
 const router = express.Router();
-const crypto = require('crypto');
 const request = require("request");
 const nodemailer = require('nodemailer');
-const secretKey = require('../setup').secretKey;
 const db = require('../setup').db;
 
-
-router.get('/getSapbirywfb7ruiqgr', (req, res) => {
-    db.sap.find({ verified: true }, function (error, result) {
-        return res.send(JSON.stringify(result));
-    });
-});
-
-
-router.post('/sap', (req, res) => {
+router.post('/register', (req, res) => {
     req.checkBody('name', 'Incorrect Name Entered').matches(/^[a-zA-Z .]+$/, "i");
     req.checkBody('email', 'Incorrect Email Entered').matches(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, "i");
     req.checkBody('phno', 'Phone numbers must be exactly 10 digits long').matches(/[0-9]{10}/, "i");
@@ -111,7 +101,7 @@ router.post('/sap', (req, res) => {
 });
 
 
-router.post('/sap2', (req, res) => {
+router.post('/verify', (req, res) => {
     req.checkBody('otp', 'OTP must be exactly 6 digits long').matches(/[0-9]{6,6}/, "i");
     if (req.body.id == "" ||
         req.body.id == undefined) {

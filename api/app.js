@@ -8,6 +8,7 @@ const cors = require('cors');
  * Include all the routes
  */
 const sapOpsHandler = require('./routes/sap');
+const adminOpsHandler = require('./routes/admin')
 
 const app = express();
 
@@ -25,7 +26,8 @@ app.use(cors());
  * Use all routes here
  */
 
-app.use('/api', sapOpsHandler);
+app.use('/api/sap', sapOpsHandler);
+app.use('/api/admin', adminOpsHandler);
 
 /**
  * Listen indefinitely on port 3000

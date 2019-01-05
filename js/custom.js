@@ -113,7 +113,7 @@ function registerSAP() {
  
   $("#btn").html("Registering..");
   $.ajax({
-    url: 'https://bitotsav.in/api/sap',
+    url: 'https://bitotsav.in/api/sap/register',
     type: 'post',
     dataType: 'json',
     contentType: 'application/json',
@@ -154,7 +154,7 @@ function registerSAP2(){
   };
   $("#btn2").html("Verifying..");
   $.ajax({
-    url: 'https://bitotsav.in/api/sap2',
+    url: 'https://bitotsav.in/api/sap/verify',
     type: 'post',
     dataType: 'json',
     contentType: 'application/json',
