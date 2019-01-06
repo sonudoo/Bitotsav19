@@ -242,5 +242,27 @@ router.post('/getParticipantById', (req, res) => {
     });
 });
 
+router.post('/getTeamsList', (req, res) => {
+    if (req.body.eventId == undefined) {
+        return res.sendStatus(403);
+    }
+    db.teams.find({ eventId: req.body.eventId }, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        }
+        else {
+            if (result.length != 1) {
+                return res.sendStatus(404);
+            }
+            else {
+                return res.send(JSON.stringify(result[0]));
+            }
+        }
+    });
+});
+
 
 module.exports = router;

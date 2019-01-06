@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { ParticipantComponent } from './participant/participant.component';
 import { ParticipantDetailsComponent } from './participant-details/participant-details.component';
+import { TeamListComponent } from './participant-list/team-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ParticipantDetailsComponent } from './participant-details/participant-d
     SAPComponent,
     LoginComponent,
     ParticipantComponent,
-    ParticipantDetailsComponent
+    ParticipantDetailsComponent,
+    TeamListComponent
   ],
   imports: [
     BrowserModule,

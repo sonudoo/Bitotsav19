@@ -61,6 +61,7 @@ export class ParticipantDetailsComponent implements OnInit {
               day4: data.payment.day4
             }
           }
+          console.log(this.participantData);
         },
         error => {
           alert("No such participant found.");

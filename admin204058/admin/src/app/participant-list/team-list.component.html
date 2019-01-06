@@ -1,0 +1,22 @@
+<form>
+    <div class="form-group">
+      <label for="eventId">Event Id</label>
+      <select class="form-control" id="eventId" #eventId="ngModel" name="eventId" [(ngModel)]="currentEventId"
+        [class.is-invalid]="eventId.invalid && eventId.touched" required (change)="onChange(eventId.value)">
+        <option *ngFor="let event of events" value="{{event.eventId}}">{{event.eventId}} - {{event.eventName}}</option>
+      </select>
+      <small class="text-danger" [class.d-none]="eventId.valid || eventId.untouched">Event Id is required.</small>
+    </div>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Event Id</th>
+            <th>Team Leader Id</th>
+            <th>Other Member Id</th>
+          </tr>
+        </thead>
+        <tbody #tbody>
+          
+        </tbody>
+      </table>
+  </form>
