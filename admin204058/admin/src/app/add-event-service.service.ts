@@ -7,7 +7,7 @@ import { AddEventData } from './add-event/add-event-data';
 })
 
 export class AddEventService {
-  _url = '../api/admin/addEvent';
+  _url = 'https://bitotsav.in/api/admin/addEvent';
   constructor(private _http: HttpClient) { 
 
   }

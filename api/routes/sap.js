@@ -47,7 +47,7 @@ router.post('/register', (req, res) => {
                 }));
             }
             else {
-                db.sap.find({}, function (error, result) {
+                db.saps.find({}, function (error, result) {
                     if (error) {
                         res.send(JSON.stringify({
                             success: false,
@@ -56,7 +56,7 @@ router.post('/register', (req, res) => {
                     }
                     let id = result.length + 1 + 10000;
                     let otp = Math.floor(100000 + Math.random() * 900000);
-                    db.sap.insert({
+                    db.saps.insert({
                         id: id,
                         name: req.body.name,
                         email: req.body.email,
@@ -133,7 +133,7 @@ router.post('/verify', (req, res) => {
             }
             else {
                 let email = result[0].email;
-                db.sap.update({ id: req.body.id, verified: false, otp: Number(req.body.otp) },
+                db.saps.update({ id: req.body.id, verified: false, otp: Number(req.body.otp) },
                     { $set: { verified: true } },
                     function (error, result) {
                         if (error) {

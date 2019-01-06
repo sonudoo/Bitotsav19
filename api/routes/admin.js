@@ -205,4 +205,42 @@ router.post('/getSAPById', (req, res) => {
     });
 });
 
+
+router.post('/getAllParticipants', (req, res) => {
+    db.participants.find({verified: true}, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: error
+            }));
+        }
+        else {
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+router.post('/getParticipantById', (req, res) => {
+    if (req.body.id == undefined) {
+        return res.sendStatus(403);
+    }
+    db.saps.find({ id: req.body.id }, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        }
+        else {
+            if (result.length != 1) {
+                return res.sendStatus(404);
+            }
+            else {
+                return res.send(JSON.stringify(result[0]));
+            }
+        }
+    });
+});
+
+
 module.exports = router;

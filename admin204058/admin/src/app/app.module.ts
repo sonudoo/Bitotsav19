@@ -13,6 +13,7 @@ import { EventTopbarComponent } from './event-topbar/event-topbar.component';
 import { SAPComponent } from './sap/sap.component';
 import { LoginComponent } from './login/login.component';
 import { StorageServiceModule } from 'angular-webstorage-service';
+import { ParticipantComponent } from './participant/participant.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { StorageServiceModule } from 'angular-webstorage-service';
     EventComponent,
     EventTopbarComponent,
     SAPComponent,
-    LoginComponent
+    LoginComponent,
+    ParticipantComponent
   ],
   imports: [
     BrowserModule,
