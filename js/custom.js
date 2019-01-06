@@ -19,9 +19,12 @@ $(window).on('load', function () {
 let sapid = null;
 
 function showSAP() {
-  $('#main').addClass('animated fadeOutUp');
-  $("#main").hide();
-  $("#sap").show();
+  //$('#main').addClass('animated fadeOutUp');
+  $("#main").fadeOut();
+  setTimeout(function(){
+    $("#sap").fadeIn();
+  },1000)
+  
   $('#sap').addClass('animated fadeInUp');
 }
 
@@ -176,4 +179,28 @@ function registerSAP2(){
     data: JSON.stringify(data)
   });
 }
-
+function showAbout(){
+  $("#main").fadeOut();
+  setTimeout(function(){
+  $("#about-page").fadeIn();
+  },1000);
+}
+function showContactDetails(){
+  $("#main").fadeOut();
+  setTimeout(function(){
+  $("#contact-page").fadeIn();
+  },1000);
+}
+function showTheme(){
+  $("#main").fadeOut();
+  setTimeout(function(){
+  $("#theme-page").fadeIn();
+  },1000);
+}
+function showHomepage(){
+  $(".div-shift").fadeOut();
+  $("#main").css("display","none");
+  setTimeout(function(){
+  $("#main").fadeIn();
+  },1000);
+}

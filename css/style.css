@@ -1304,13 +1304,26 @@ transform: scale(0.55);
   display: block;
   border-radius: 100%;
 }
-
+.sidenav-img {
+  height: 65px;
+  width: 65px;
+  padding: 20px 20px 20px 17px;
+  padding: 20px;
+  text-decoration: none;
+  font-size: 25px;
+  color: rgba(255, 136, 0, 1);
+  display: block;
+  border-radius: 100%;
+}
 /* When you mouse over the navigation links, change their color */
-.sidenav i:hover {
+.sidenav-img:hover{
   color: #f1f1f1;
   background: #000000;
 }
-
+.sidenav i:hover{
+  color: #f1f1f1;
+  background: #000000;
+}
 .iicons:hover {
   height: 100px;
 }
@@ -1413,11 +1426,11 @@ button.scroll_down:before {
   margin: 0;
   z-index: 2;
 }
-@media screen and (max-width: 444px){
+/*@media screen and (max-width: 444px){
     .events-background {
         background-position-x: -30vw;
     }
-}
+}*/
 
 .events-cover-background{
   opacity: 0.4;
@@ -1430,9 +1443,9 @@ button.scroll_down:before {
 	background: linear-gradient(-45deg, rgb(238, 119, 82,1), rgb(231, 60, 126,1),
   rgb(35, 166, 213,1), rgb(35, 213, 171,1));
 	background-size: 400% 400%;
-	-webkit-animation: Gradient 5s ease infinite;
-	-moz-animation: Gradient 5s ease infinite;
-	animation: Gradient 5s ease infinite;
+	-webkit-animation: Gradient 3s ease infinite;
+	-moz-animation: Gradient 3s ease infinite;
+	animation: Gradient 3s ease infinite;
 }
 
 @-webkit-keyframes Gradient {
@@ -1479,7 +1492,7 @@ button.scroll_down:before {
  .heading {
   font-family: 'Staatliches', cursive;
   font-family: 'Anton', sans-serif;
-  font-size: 10vw;
+  font-size: 9vw;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
@@ -1500,17 +1513,27 @@ button.scroll_down:before {
   width: 0px; /*remove scrollbar space*/
   background: transparent optional; /*just make scrollbar invisible */
 }
-div.event-card {
-  margin: auto;
-  width: 55vw;
-  height: 55vw;
+@media screen and (max-width: 900px){
+  div.event-card{
+    margin: 4vw 0vw 3vw 40vw;
+  }
+
+
+}
+.event-card {
+  float: left;
+  margin: 3vw 0vw 3vw 6vw;
+  width: 26vw;
+  height: 26vw;
   border-radius: 234vw;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
+
+
 div.event-card .thumb {
-  height: 55vw;
-  width: 55vw;
+  height: 26vw;
+  width: 26vw;
   background: url("../img/amit_trivedi.jpg") no-repeat center;
   background-size: 100%;
 
@@ -1518,7 +1541,7 @@ div.event-card .thumb {
 div.event-card .infos {
   background-color: #FCE601;
   width: auto;
-  height: 55vw;
+  height: 26vw;
   position: relative;
   padding: 14px 24px;
   transition: 0.4s 0.15s cubic-bezier(0.17, 0.67, 0.5, 1.03);
@@ -1527,10 +1550,10 @@ div.event-card .infos .title {
   text-align: -webkit-center;
   position: relative;
   margin: 7vw 0 10px 0;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: #152536;
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 2rem;
+  font-size: 4vw;
   text-transform: uppercase;
   text-shadow: 0 0 0px #32577f;
 }
@@ -1577,9 +1600,13 @@ div.event-card .infos .details {
   transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
 }
 div.event-card:hover .infos {
-  -webkit-transform: translateY(-55vw);
-          transform: translateY(-55vw);
+  -webkit-transform: translateY(-26vw);
+          transform: translateY(-26vw);
 }
 div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-card:hover .infos .details {
   opacity: 1;
+}
+
+.div-shift{
+  display: none;
 }
