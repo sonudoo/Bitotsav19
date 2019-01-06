@@ -224,7 +224,7 @@ router.post('/getParticipantById', (req, res) => {
     if (req.body.id == undefined) {
         return res.sendStatus(403);
     }
-    db.saps.find({ id: req.body.id }, function (error, result) {
+    db.participants.find({ id: req.body.id }, function (error, result) {
         if (error) {
             res.send(JSON.stringify({
                 success: false,

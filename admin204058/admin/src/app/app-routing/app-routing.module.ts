@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { EventComponent } from '../event/event.component';
 import { SAPComponent } from '../sap/sap.component';
 import { LoginComponent } from '../login/login.component';
+import { ParticipantComponent } from '../participant/participant.component';
+import { ParticipantDetailsComponent } from '../participant-details/participant-details.component';
 const routes: Routes = [
     {
         path: '',
@@ -15,6 +17,14 @@ const routes: Routes = [
     {
         path: 'sap',
         component: SAPComponent
+    },
+    {
+        path: 'participants',
+        component: ParticipantComponent
+    },
+    {
+        path: 'participant/:id',
+        component: ParticipantDetailsComponent
     }
 ];
 
