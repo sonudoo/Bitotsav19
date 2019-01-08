@@ -6,6 +6,8 @@ import { LoginComponent } from '../login/login.component';
 import { ParticipantComponent } from '../participant/participant.component';
 import { ParticipantDetailsComponent } from '../participant-details/participant-details.component';
 import { TeamListComponent } from '../participant-list/team-list.component';
+import { SMSComponent } from '../sms/sms.component';
+import { ResultAnnouncementComponent } from '../result-announcement/result-announcement.component';
 const routes: Routes = [
     {
         path: '',
@@ -30,6 +32,14 @@ const routes: Routes = [
     {
         path: 'teams',
         component: TeamListComponent
+    },
+    {
+        path: 'sms',
+        component: SMSComponent
+    },
+    {
+        path: 'result',
+        component: ResultAnnouncementComponent
     }
 ];
 

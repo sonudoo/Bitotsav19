@@ -1,4 +1,4 @@
-<form #participantSearchForm="ngForm" (submit)="onSubmit(participantSearchForm)">
+<form #participantSearchForm="ngForm">
   <div class="form-group radio-inline">
     <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="name" checked (change)="search()">Search by Name</label>
   </div>

@@ -1,0 +1,40 @@
+<form #resultAnnouncement="ngForm" (submit)="onSubmit(resultAnnouncement)">
+  <div class="form-group">
+    <label for="eventId">Event Id</label>
+    <select class="form-control" id="eventId" #eventId="ngModel" name="eventId" [(ngModel)]="currentEventId"
+      [class.is-invalid]="eventId.invalid && eventId.touched" required (change)="onChange(eventId.value)">
+      <option *ngFor="let event of events" value="{{event.eventId}}">{{event.eventId}} - {{event.eventName}}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventId.valid || eventId.untouched">Event Id is required.</small>
+  </div>
+  
+
+  <div class="form-group">
+    <label for="eventPosition1">Position 1</label>
+    <select class="form-control" id="eventPosition1" #eventPosition1="ngModel" name="eventPosition1" [(ngModel)]="currentEventPosition1"
+      [class.is-invalid]="eventPosition1.invalid && eventPosition1.touched" required>
+      <option *ngFor="let team of teams" value="{{team}}">{{team}}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventPosition1.valid || eventPosition1.untouched">Position 1 is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventPosition2">Position 2</label>
+    <select class="form-control" id="eventPosition2" #eventPosition2="ngModel" name="eventPosition2" [(ngModel)]="currentEventPosition2"
+      [class.is-invalid]="eventPosition2.invalid && eventPosition2.touched" required>
+      <option *ngFor="let team of teams" value="{{team}}">{{team}}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventPosition2.valid || eventPosition2.untouched">Position 2 is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventPosition3">Position 3</label>
+    <select class="form-control" id="eventPosition3" #eventPosition3="ngModel" name="eventPosition3" [(ngModel)]="currentEventPosition3"
+      [class.is-invalid]="eventPosition3.invalid && eventPosition3.touched" required>
+      <option *ngFor="let team of teams" value="{{team}}">{{team}}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventPosition3.valid || eventPosition3.untouched">Position 3 is required.</small>
+  </div>
+  <button type="submit" [disabled]="resultAnnouncement.form.invalid || disable()" class="btn btn-primary">Submit</button>
+
+</form>

@@ -16,6 +16,8 @@ import { StorageServiceModule } from 'angular-webstorage-service';
 import { ParticipantComponent } from './participant/participant.component';
 import { ParticipantDetailsComponent } from './participant-details/participant-details.component';
 import { TeamListComponent } from './participant-list/team-list.component';
+import { SMSComponent } from './sms/sms.component';
+import { ResultAnnouncementComponent } from './result-announcement/result-announcement.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { TeamListComponent } from './participant-list/team-list.component';
     LoginComponent,
     ParticipantComponent,
     ParticipantDetailsComponent,
-    TeamListComponent
+    TeamListComponent,
+    SMSComponent,
+    ResultAnnouncementComponent
   ],
   imports: [
     BrowserModule,

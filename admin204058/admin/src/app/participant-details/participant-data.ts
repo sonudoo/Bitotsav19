@@ -1,6 +1,6 @@
 interface EventList {
     eventId: Number;
-    isLeader: Boolean;
+    teamLeader: String;
 }
 
 export interface ParticipantData {
