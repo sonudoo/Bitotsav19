@@ -118,7 +118,7 @@ router.post('/verify', (req, res) => {
         return res.send(JSON.stringify(result));
     }
     else {
-        db.sap.find({ id: req.body.id, verified: false, otp: Number(req.body.otp) }, function (error, result) {
+        db.saps.find({ id: req.body.id, verified: false, otp: Number(req.body.otp) }, function (error, result) {
             if (error) {
                 return res.send(JSON.stringify({
                     success: false,
