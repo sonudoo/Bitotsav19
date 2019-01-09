@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require("mongoose");
 const db = require('../setup').db;
 const jwt = require('jsonwebtoken');
 const secretKey = require('../setup').secretKey;
 const adminPassword = "10204";
 const request = require('request');
 const router = express.Router();
+const participants = require("../models/participants.js");
 
 router.post('/login', (req, res) => {
     if (req.body.username === "admin" && req.body.password === adminPassword) {
