@@ -94,6 +94,165 @@ router.post('/saveparticipant', (req, res) => {
             });
         }
     });
+const bcrypt = require("bcryptjs");
+
+router.post('/register',(req,res) => {
+    participants
+        .find({email: req.body.email})
+        .then((user) => {
+            if(user && user.length>=1 && user[0].otpVerified == true && user[0].id !== "-1"){
+                res.status(200).send(JSON.stringify({
+                    success: false,
+                    msg: "The email id is already registered"
+                }));
+            }
+            else{
+                let phoneOtpsent = Math.floor(100000 + Math.random() * 900000);
+                let emailOtpsent = Math.floor(100000 + Math.random() * 900000);
+
+                //sending email otp
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'webmaster@bitotsav.in',
+                        pass: 'Bitotsav2018!@'
+                    }
+                });
+
+                var mailOptions = {
+                    from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                    to: req.body.email,
+                    subject: 'Email Verification',
+                    text: '',
+                    html: `
+                <h2 align="center">Bitotsav</h2>
+                <p>
+                Hi,<br><br>
+                Your Email OTP is ${emailOtpsent}.<br><br>
+                Regards,<br>
+                Web Team,<br>
+                Bitotsav '19</p>`
+                };
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        return res.send(JSON.stringify({
+                            success: false,
+                            msg: `Error sending OTP. Please try again later`
+                        }));
+                    } else {
+                        console.log('Email sent: ' + info.response);
+
+                        //sending phone otp
+                        let otpUrl = `http://sms.digimiles.in/bulksms/bulksms?username=di78-pantheon&password=digimile&type=0&dlr=1&destination=${req.body.phno}&source=BITSAV&message=Your Bitotsav'19 registration OTP is: ${phoneOtpsent}`;
+                        request(otpUrl, (error, response, body) => {
+                            if (error) {
+                                console.error(`Error: error sending OTP ${error}`);
+                                return res.send(JSON.stringify({
+                                    success: false,
+                                    msg: `Error sending OTP. Please try again later`,
+                                }));
+                            } else {
+                                console.log('Phone OTP sent');
+                                participants
+                                    .find({email : req.body.email})
+                                    .then((participant) => {
+                                        if(participant == null && participant.length<1){
+                                            //new participant
+                                            bcrypt.hash(req.body.password, 10, (err, hash) =>{
+                                                if(err){
+                                                    console.log(err);
+                                                    res.status(500).send(JSON.stringify({
+                                                        success: false
+                                                    }));
+                                                }
+                                                else{
+                                                    const newParticipant = new participants({
+                                                            _id: mongoose.Types.ObjectId(),
+                                                            name: req.body.name,
+                                                            email: req.body.email,
+                                                            password: hash,
+                                                            phno: req.body.phno,
+                                                            emailOtp: emailOtpsent,
+                                                            phoneOtp: phoneOtpsent
+                                                        });
+                                                    newParticipant
+                                                        .save()
+                                                        .then((result) => {
+                                                            console.log(result);
+                                                            res.status(200).send(JSON.stringify({
+                                                                success: true,
+                                                                msg: "OTP sent successfully"
+                                                            }));
+                                                        })
+                                                        .catch((err) => {
+                                                            console.log(err);
+                                                            res.status(500).send(JSON.stringify({
+                                                                success: false
+                                                            }));
+                                                        });
+                                                }
+                                            });
+                                        }
+                                        else{
+                                            //participant tried registering before but got an error while doing it
+                                            bcrypt.hash(req.body.password, 10, (err, hash) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    res.status(500).send(JSON.stringify({
+                                                        success: false
+                                                    }));
+                                                } else {
+                                                    participants
+                                                        .update({
+                                                                email: participant[0].email
+                                                            }, {
+                                                                $set: {
+                                                                    name: req.body.name,
+                                                                    email: req.body.email,
+                                                                    password: hash,
+                                                                    phno: req.body.phno,
+                                                                    emailOtp: emailOtpsent,
+                                                                    phoneOtp: phoneOtpsent
+                                                                }
+                                                        })
+                                                        .then((result) => {
+                                                            console.log("OTP updated successfully!!");
+                                                            res.status(200).send(JSON.stringify({
+                                                                success: true,
+                                                                msg: "OTP sent successfully"
+                                                            }));
+                                                        })
+                                                        .catch((err) => {
+                                                            console.log(err);
+                                                            res.status(500).send(JSON.stringify({
+                                                                success: false
+                                                            }));
+                                                        });
+                                                    }
+                                            });
+
+                                        }
+                                    })
+                                    .catch((err) => {
+                                       console.log(err);
+                                       res.status(500).send(JSON.stringify({
+                                           success: false
+                                       }));
+                                   });
+                            }
+                        });
+                    }
+                });
+            }
+        })
+        .catch((err) => {
+           console.log(err);
+           res.status(500).send(JSON.stringify({
+               success: false
+           }));
+       });
 });
 
 router.post('/login', (req, res) => {
