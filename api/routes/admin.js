@@ -9,6 +9,92 @@ const adminPassword = "10204";
 const request = require('request');
 const router = express.Router();
 const participants = require("../models/participants.js");
+const counters = require("../models/counters.js");
+
+router.post('/verifyOTP', (req, res) => {
+    db.participants.find({ email: req.body.email }, function(error, result) {
+        if(result && result.length>=1){
+            if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "Both Phone OTP and E-mail OTP are incorrect!!"
+                }));
+            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "Incorrect Phone OTP!!"
+                }));
+            } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "Incorrect Email OTP!!"
+                }));
+            } else {
+                db.participants.update({ email: req.body.email }, { $set: { otpVerified: true } }, function (error, result) {
+                    if (error) {
+                        res.send(JSON.stringify({
+                            success: false,
+                            error: "An unknown error occured"
+                        }));
+                    }
+                    else {
+                        return res.send(JSON.stringify({
+                            success: true
+                        }));
+                    }
+                });
+            }
+        } else {
+            res.send(JSON.stringify({
+                success: false
+            }));
+        }
+    });
+});
+
+router.post('/saveparticipant', (req, res) => {
+    db.counters.find({}, (error, result) => {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        } else {
+            const updatedUserInfo = {
+                id: "BT18/" + result[0].counter,
+                gender : req.body.gender,
+                college: req.body.college,
+                rollno: req.body.rollno,
+                source: req.body.source,
+                year: req.body.year
+            }
+            db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
+                if (error) {
+                    res.send(JSON.stringify({
+                        success: false,
+                        error: "An unknown error occured"
+                    }));
+                }
+                else {
+                    db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
+                        if (error) {
+                            res.send(JSON.stringify({
+                                success: false,
+                                error: "An unknown error occured"
+                            }));
+                        }
+                        else {
+                            return res.send(JSON.stringify({
+                                success: true,
+                                message: result
+                            }));
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
 
 router.post('/login', (req, res) => {
     if (req.body.username === "admin" && req.body.password === adminPassword) {
