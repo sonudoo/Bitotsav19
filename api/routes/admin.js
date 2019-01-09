@@ -10,134 +10,9 @@ const request = require('request');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 
-router.post('/verifyOTP', (req, res) => {
-    db.participants
-    .find({ email: req.body.email }, function(error, result) {
-        if(error){
-            console.log(err);
-            return res.status(500).send(JSON.stringify({
-                success: false
-            }));
-        }
-        if(result && result.length>=1){
-            if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
-                res.send(JSON.stringify({
-                    success: false,
-                    msg: "Both Phone OTP and E-mail OTP are incorrect!!"
-                }));
-            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
-                res.send(JSON.stringify({
-                    success: false,
-                    msg: "Incorrect Phone OTP!!"
-                }));
-            } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
-                res.send(JSON.stringify({
-                    success: false,
-                    msg: "Incorrect Email OTP!!"
-                }));
-            } else {
-                db.participants.update({ email: req.body.email }, { $set: { otpVerified: true } }, function (error, result) {
-                    if (error) {
-                        res.status(500).send(JSON.stringify({
-                            success: false,
-                            msg: "An unknown error occured"
-                        }));
-                    }
-                    else {
-                        return res.status(200).send(JSON.stringify({
-                            success: true
-                        }));
-                    }
-                });
-            }
-        } else {
-            res.status(400).send(JSON.stringify({
-                status: "fail",
-                msg: "Payload modified. User Not found."
-            }));
-        }
-    });
-});
-
-router.post('/saveparticipant', (req, res) => {
-    db.counters.find({}, (error, result) => {
-        if (error) {
-            res.send(JSON.stringify({
-                success: false,
-                msg: "An unknown error occured"
-            }));
-        } else {
-            const updatedUserInfo = {
-                id: "BT18/" + result[0].counter,
-                gender : req.body.gender,
-                college: req.body.college,
-                rollno: req.body.rollno,
-                source: req.body.source,
-                year: req.body.year
-            }
-            db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
-                if (error) {
-                    res.send(JSON.stringify({
-                        success: false,
-                        msg: "An unknown error occured"
-                    }));
-                }
-                else {
-                    db.participants.findOneAndUpdate({ email: req.body.email }, { $set: updatedUserInfo },{ new: true }, function (error, updatedDoc) {
-                        if (error) {
-                            res.send(JSON.stringify({
-                                success: false,
-                                msg: "An unknown error occured"
-                            }));
-                        }
-                        else {
-                            //sending confirmation email
-                            var transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                auth: {
-                                    user: 'webmaster@bitotsav.in',
-                                    pass: 'Bitotsav2018!@'
-                                }
-                            });
-
-                            var mailOptions = {
-                                from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                                to: req.body.email,
-                                subject: "Bitotsav'19 Registration",
-                                text: '',
-                                html: `
-                                <h2 align="center">Bitotsav</h2>
-                                <p>
-                                Hi,<br><br>
-                                You have successfully registered in Bitotsav 2019.<br>
-                                Your Bitotsav ID is ${updatedDoc.id}.<br><br>
-                                Regards,<br>
-                                Web Team,<br>
-                                Bitotsav '19</p>`
-                            };
-                            transporter.sendMail(mailOptions, function (error, info) {
-                                if (error) {
-                                    console.log(error);
-                                    return res.send(JSON.stringify({
-                                        success: false,
-                                        msg: `Error sending OTP. Please try again later`
-                                    }));
-                                } else {
-                                    console.log('Confirmation Email sent: ' + info.response);
-                                    return res.status(200).send(JSON.stringify({
-                                        success: true,
-                                        msg: "User registered successfully"
-                                    }));
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
-
+/**
+ * Stage 1 of Registration
+ */
 router.post('/register',(req,res) => {
     db.participants
     .find({email: req.body.email},function(error,user){
@@ -307,93 +182,99 @@ router.post('/register',(req,res) => {
     });
 });
 
-router.post('/participantLogin', (req, res) =>{
-    db.participants
-    .find({email: req.body.email}, function(error, user) => {
-        if(user == null && user.length<1){
-            res.status(200).send(JSON.stringify({
-                success: false,
-                msg: "No such participant"
-            }));
-        }
-        else if(user[0].otpVerified == false || user[0].id == "-1"){
-            res.status(200).send(JSON.stringify({
-                success: false,
-                msg: 'You have not been successfully registered.'
-            }));
-        }
-        else{
-            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-                if(err) {
-                    return res.status(500).send(JSON.stringify({
-                        success: false,
-                        msg: "An unknown error occurred."
-                    }));
-                } else{
-                    if (result) {
-                        return res.status(200).send(JSON.stringify({
-                            success: true,
-                            token: jwt.sign({
-                                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
-                                data: {
-                                    email: user[0].email,
-                                    password: user[0].password,
-                                    key: secretKey
-                                }
-                            }, secretKey)
-                        }));
-                    } else {
-                        return res.status(200).send(JSON.stringify({
+/**
+ * Stage 2 of Registration
+ */
+router.post('/verifyOTP', (req, res) => {
+    db.participants.find({ email: req.body.email }, function(error, result) {
+        if(result && result.length>=1){
+            if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "Both Phone OTP and E-mail OTP are incorrect!!"
+                }));
+            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "Incorrect Phone OTP!!"
+                }));
+            } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "Incorrect Email OTP!!"
+                }));
+            } else {
+                db.participants.update({ email: req.body.email }, { $set: { otpVerified: true } }, function (error, result) {
+                    if (error) {
+                        res.send(JSON.stringify({
                             success: false,
-                            msg: 'Wrong Password.'
+                            error: "An unknown error occured"
                         }));
                     }
+                    else {
+                        return res.send(JSON.stringify({
+                            success: true
+                        }));
+                    }
+                });
+            }
+        } else {
+            res.send(JSON.stringify({
+                success: false
+            }));
+        }
+    });
+});
+
+/**
+ * Stage 3 of Registration
+ */
+router.post('/saveparticipant', (req, res) => {
+    db.counters.find({}, (error, result) => {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        } else {
+            const updatedUserInfo = {
+                id: "BT18/" + result[0].counter,
+                gender : req.body.gender,
+                college: req.body.college,
+                rollno: req.body.rollno,
+                source: req.body.source,
+                year: req.body.year
+            }
+            db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
+                if (error) {
+                    res.send(JSON.stringify({
+                        success: false,
+                        error: "An unknown error occured"
+                    }));
+                }
+                else {
+                    db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
+                        if (error) {
+                            res.send(JSON.stringify({
+                                success: false,
+                                error: "An unknown error occured"
+                            }));
+                        }
+                        else {
+                            return res.send(JSON.stringify({
+                                success: true,
+                                message: result
+                            }));
+                        }
+                    });
                 }
             });
         }
     });
 });
-const checkAuth = function (req, res, next) {
-    const token = req.headers.token.split(' ')[1];
-    if (token == undefined) {
-        return res.status(403).send(JSON.stringify({
-            success: false,
-            msg: "Authentication Failed.Please Log In."
-        }));;
-    }
-    else {
-        jwt.verify(token, secretKey, function (error, data) {
-            if (error) {
-                return res.status(500).send(JSON.stringify({
-                    success: false,
-                    msg: "An unknown error occurred."
-                }));
-            }
-            else {
-                req.userData = data;
-                next();
-            }
-        });
-    }
-}
 
-router.get('/dashboard', checkAuth, (req, res) => {
-    db.participants
-    .find({email: req.userData.email}, function(error, user){
-        if(user == null && user.length<1){
-            res.status(200).send(JSON.stringify({
-                success: false,
-                msg: "No such participant present"
-            }));
-        }
-        else{
-            res.status(200).send(JSON.stringify({
-                success: true,
-                data: user[0]
-            }));
-        }
-    });
-});
+
+
 router.post('/login', (req, res) => {
     if (req.body.username === "admin" && req.body.password === adminPassword) {
         return res.send(JSON.stringify({
