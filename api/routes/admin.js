@@ -10,6 +10,99 @@ const request = require('request');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 
+router.post('/verifyOTP', (req, res) => {
+    db.participants
+    .find({ email: req.body.email }, function(error, result) {
+        if(error){
+            console.log(err);
+            return res.status(500).send(JSON.stringify({
+                success: false
+            }));
+        }
+        if(result && result.length>=1){
+            if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    msg: "Both Phone OTP and E-mail OTP are incorrect!!"
+                }));
+            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    msg: "Incorrect Phone OTP!!"
+                }));
+            } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
+                res.send(JSON.stringify({
+                    success: false,
+                    msg: "Incorrect Email OTP!!"
+                }));
+            } else {
+                db.participants.update({ email: req.body.email }, { $set: { otpVerified: true } }, function (error, result) {
+                    if (error) {
+                        res.status(500).send(JSON.stringify({
+                            success: false,
+                            msg: "An unknown error occured"
+                        }));
+                    }
+                    else {
+                        return res.status(200).send(JSON.stringify({
+                            success: true
+                        }));
+                    }
+                });
+            }
+        } else {
+            res.status(400).send(JSON.stringify({
+                    status: "fail",
+                    msg: "Payload modified. User Not found."
+                }));
+        }
+    });
+});
+
+router.post('/saveparticipant', (req, res) => {
+    db.counters.find({}, (error, result) => {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                msg: "An unknown error occured"
+            }));
+        } else {
+            const updatedUserInfo = {
+                id: "BT18/" + result[0].counter,
+                gender : req.body.gender,
+                college: req.body.college,
+                rollno: req.body.rollno,
+                source: req.body.source,
+                year: req.body.year
+            }
+            db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
+                if (error) {
+                    res.send(JSON.stringify({
+                        success: false,
+                        msg: "An unknown error occured"
+                    }));
+                }
+                else {
+                    db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
+                        if (error) {
+                            res.send(JSON.stringify({
+                                success: false,
+                                msg: "An unknown error occured"
+                            }));
+                        }
+                        else {
+                            return res.status(200).send(JSON.stringify({
+                                success: true,
+                                msg: "User registered successfully"
+                            }));
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
 router.post('/register',(req,res) => {
     db.participants
     .find({email: req.body.email},function(error,user){
