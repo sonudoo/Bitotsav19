@@ -93,12 +93,27 @@ router.post('/register',(req,res) => {
                                         }
                                         else{
                                             const newParticipant = {
+                                                id:"-1",
                                                 name: req.body.name,
                                                 email: req.body.email,
-                                                password: hash,
                                                 phno: req.body.phno,
+                                                gender: "",
+                                                college: "",
+                                                rollno: "",
+                                                source: "",
+                                                year: 0,
+                                                password: hash,
+                                                events:[],
+                                                payment:{
+                                                    day1: false,
+                                                    day2: false,
+                                                    day3: false,
+                                                    day4: false
+                                                },
                                                 emailOtp: emailOtpsent,
-                                                phoneOtp: phoneOtpsent
+                                                phoneOtp: phoneOtpsent,
+                                                otpVerified: false,
+                                                verified:false
                                             };
                                             db.participants
                                             .insert(newParticipant, function (error, result) {
