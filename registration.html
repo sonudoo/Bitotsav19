@@ -405,23 +405,28 @@
   <form action="/">
   <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-envelope"></i></span></span>
-      <input type="text" class="form-control" name="name" id="reg-email" placeholder="Email" required/>
+      <input type="text" class="form-control" id="reg-email" placeholder="Email" required/>
+      <span class="error" id="email_error"></span>
    </div>
    <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-user"></i></span></span>
-      <input class="form-control" type="text" name="name" id="reg-name" placeholder="Name" required/>
+      <input class="form-control" type="text" id="reg-name" placeholder="Name" required/>
+      <span class="error" id="name_error"></span>
    </div>
    <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-phone"></i></span></span>
-      <input class="form-control" type="text" name="name" id="reg-phone" placeholder="Phone" required/>
+      <input class="form-control" type="text" id="reg-phone" placeholder="Phone" required/>
+      <span class="error" id="phone_error"></span>
    </div>
    <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-shield"></i></span></span>
-      <input class="form-control" type="text" name="name" id="reg-password" placeholder="Password" required/>
+      <input class="form-control" type="text" id="reg-password" placeholder="Password" required/>
+      <span class="error" id="password_error"></span>
    </div>
    <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-shield"></i></span></span>
-      <input class="form-control" type="text" name="name" id="reg-cpassword" placeholder="Confirm Password" required/>
+      <input class="form-control" type="text" id="reg-cpassword" placeholder="Confirm Password" required/>
+      <span class="error" id="cpassword_error"></span>
    </div>
 
   <center>
@@ -435,7 +440,7 @@
   </form>
 </div>
 
-<div class="page-two">
+<div class="page-two" style ="display: none" >
     <h1 style="font-size:32px;">OTP Verification</h1>
     <br>
 
@@ -446,6 +451,7 @@
               <div class="input-group otp-field spacing">
                   <span class="input-group-addon"><span class="input-group-text">Phone OTP</span></span>
                   <input type="text" class="form-control" id="reg-phone-otp" required/>
+                  <span class="error" id="phone_otp_error"></span>
                </div>
            </div>
              
@@ -453,7 +459,8 @@
              <div class="col-md-6">
                 <div class="input-group otp-field spacing">
                     <span class="input-group-addon"><span class="input-group-text">Email OTP</span></span>
-                    <input type="text" class="form-control" id="reg-phone-otp" required/>
+                    <input type="text" class="form-control" id="reg-email-otp" required/>
+                    <span class="error" id="email_otp_error"></span>
                  </div>
              </div>
    
@@ -461,7 +468,7 @@
       
      <center><button id="reg-two" class="btn btn-success" >Verify & Next</button></center>
 </div>
-<div class="page-three">
+<div class="page-three" style="display:none">
     <h1 style="font-size:32px;">Details</h1>
 
     <br>
@@ -472,6 +479,7 @@
         <div class="input-group box spacing" >
             <span class="input-group-addon box-child-label"><span class="input-group-text">Name</span></span>
             <input type="text" style="flex:2;" class=" form-control " id="reg-name-3" placeholder="John Doe" required/>
+            
          </div>
    
          
@@ -492,35 +500,35 @@
               <option>Male</option>
               <option>Female</option>
             </select>
+
           </div>
-       
-          
-          <div class="input-group box spacing">
-              <span class="input-group-addon box-child-label"><span class="input-group-text">Phone Number</span></span>
-              <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-phone-3" placeholder="+91 837 363 8494" required/>
-           </div>
  
           <div class="input-group box spacing">
               <span class="input-group-addon box-child-label"><span class="input-group-text ">College</span></span>
-              <select style="flex:2;" class="form-control box-child-field" id="reg-college">
+              <!-- <select style="flex:2;" class="form-control box-child-field" id="reg-college">
                 <option>Birla Institute of Technology, Mesra</option>
                 <option>Others</option>
-              </select>
+              </select> -->
+              <input type="text" id="ajax" list="json-datalist" placeholder="Enter your College Name">
+              <datalist id="json-datalist"></datalist>
             </div>
 
          <div class="input-group box spacing">
             <span class="input-group-addon box-child-label"><span class="input-group-text">Roll Number</span></span>
             <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-roll" required/>
+            <span class="error" id="roll_error"></span>
          </div>
 
          <div class="input-group box spacing">
             <span class="input-group-addon box-child-label"><span class="input-group-text">Source</span></span>
             <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-source" required/>
+            <span class="error" id="source_error"></span>
          </div>
 
          <div class="input-group box spacing">
             <span class="input-group-addon box-child-label"><span class="input-group-text">Year</span></span>
             <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-year" required/>
+            <span class="error" id="year_error"></span>
          </div>
 
          
@@ -848,6 +856,7 @@
   <script src="contactform/contactform.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
   <script src="js/custom.js"></script>
+  <script src="js/registration.js"></script>
 </body>
 
 </html>

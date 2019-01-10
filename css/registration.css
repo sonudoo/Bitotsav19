@@ -53,28 +53,7 @@ html{
 .page-two {
   margin: 20px auto;
   width: 50vw; 
-  height: 25vw; 
-  -webkit-border-radius: 8px/7px; 
-  -moz-border-radius: 8px/7px; 
-  border-radius: 8px/7px; 
-  background-color: #ebebeb; 
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  border: solid 1px #cbc9c9;
-}
-@media screen and (max-width: 767px){
-  .page-two{
-    height: 300px;
-  }
-  .page-three{
-    height: 800px;
-  }
-}
-.page-three{
-  margin: 20px auto;
-  width: 50vw; 
-  height: 73vw; 
+  height: 250px; 
   -webkit-border-radius: 8px/7px; 
   -moz-border-radius: 8px/7px; 
   border-radius: 8px/7px; 
@@ -85,6 +64,41 @@ html{
   border: solid 1px #cbc9c9;
 }
 
+.page-three{
+  margin: 20px auto;
+  width: 50vw; 
+  height: 580px; 
+  -webkit-border-radius: 8px/7px; 
+  -moz-border-radius: 8px/7px; 
+  border-radius: 8px/7px; 
+  background-color: #ebebeb; 
+  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+  box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+  border: solid 1px #cbc9c9;
+}
+
+@media screen and (max-width: 767px){
+  .page-two{
+    height: 300px;
+   
+  }
+  .page-three{
+    height: 800px;
+  
+  }
+}
+@media screen and (max-width : 650px){
+  .page-one{
+    width: 85vw;
+  }
+  .page-two{
+    width: 85vw;
+  }
+  .page-three{
+    width: 85vw;
+  }
+}
 
 input[type=radio] {
   visibility: hidden;
