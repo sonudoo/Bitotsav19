@@ -67,7 +67,7 @@ html{
 .page-three{
   margin: 20px auto;
   width: 50vw; 
-  height: 580px; 
+  height: 400px; 
   -webkit-border-radius: 8px/7px; 
   -moz-border-radius: 8px/7px; 
   border-radius: 8px/7px; 
@@ -246,4 +246,9 @@ a.button:hover {
 .iconimg{
   margin: 5px 0;
 }
+.error {
+	color: #ff0000;
+	font-size: 0.90em;
+}
+
 

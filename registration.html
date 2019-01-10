@@ -26,7 +26,7 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body style="overflow: hidden; background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 138, 4)); background-size: cover;">
+<body style="height: 100%;overflow: hidden; background-image: linear-gradient(to right, rgb(251, 255, 0), rgb(255, 138, 4)); background-size: cover;">
   <!-- Page Content
     ================================================== -->
   <!-- Hero -->
@@ -420,12 +420,12 @@
    </div>
    <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-shield"></i></span></span>
-      <input class="form-control" type="text" id="reg-password" placeholder="Password" required/>
+      <input class="form-control" type="password" id="reg-password" placeholder="Password" required/>
       <span class="error" id="password_error"></span>
    </div>
    <div class="input-group spacing" >
       <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-shield"></i></span></span>
-      <input class="form-control" type="text" id="reg-cpassword" placeholder="Confirm Password" required/>
+      <input class="form-control" type="password" id="reg-cpassword" placeholder="Confirm Password" required/>
       <span class="error" id="cpassword_error"></span>
    </div>
 
@@ -476,23 +476,6 @@
     <form action="
     "></form>
     <form action="">
-        <div class="input-group box spacing" >
-            <span class="input-group-addon box-child-label"><span class="input-group-text">Name</span></span>
-            <input type="text" style="flex:2;" class=" form-control " id="reg-name-3" placeholder="John Doe" required/>
-            
-         </div>
-   
-         
-         <div class="input-group box spacing">
-            <span class="input-group-addon box-child-label"><span class="input-group-text">Email</span></span>
-            <input type="email" style="flex:2;" class="form-control box-child-field" id="reg-email-3" placeholder="abc@xyz@gmail.com" required/>
-         </div>
-
-                  <div class="input-group box spacing">
-            <span class="input-group-addon box-child-label"><span class="input-group-text">Phone Number</span></span>
-            <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-phone-3" placeholder="+91 837 363 8494" required/>
-         </div>
-
 
          <div class="input-group box spacing">
             <span class="input-group-addon box-child-label" ><span class="input-group-text">Gender</span></span>
@@ -509,9 +492,10 @@
                 <option>Birla Institute of Technology, Mesra</option>
                 <option>Others</option>
               </select> -->
-              <input type="text" id="ajax" list="json-datalist" placeholder="Enter your College Name">
+              <input  style="flex:2;" class="form-control box-child-field" type="text" id="ajax" list="json-datalist" placeholder="Enter your College Name">
               <datalist id="json-datalist"></datalist>
-            </div>
+              <span class="error" id="college_error"></span>
+          </div>
 
          <div class="input-group box spacing">
             <span class="input-group-addon box-child-label"><span class="input-group-text">Roll Number</span></span>
@@ -527,8 +511,13 @@
 
          <div class="input-group box spacing">
             <span class="input-group-addon box-child-label"><span class="input-group-text">Year</span></span>
-            <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-year" required/>
-            <span class="error" id="year_error"></span>
+            <select style="flex:2;" class="form-control box-child-field" id="reg-year">
+                <option>1st Year</option>
+                <option>2nd Year</option>
+                <option>3rd Year</option>
+                <option>4th Year</option>
+              </select>
+            
          </div>
 
          

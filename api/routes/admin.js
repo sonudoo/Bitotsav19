@@ -10,9 +10,7 @@ const request = require('request');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 
-/**
- * Stage 1 of Registration
- */
+// Stage 2 of Registration
 router.post('/verifyOTP', (req, res) => {
     db.participants
     .find({ email: req.body.email }, function(error, result) {
@@ -62,6 +60,7 @@ router.post('/verifyOTP', (req, res) => {
     });
 });
 
+// Stage 3 of Registration
 router.post('/saveparticipant', (req, res) => {
     db.counters.find({}, (error, result) => {
         if (error) {
@@ -94,10 +93,45 @@ router.post('/saveparticipant', (req, res) => {
                             }));
                         }
                         else {
-                            return res.status(200).send(JSON.stringify({
-                                success: true,
-                                msg: "User registered successfully"
-                            }));
+                            //sending confirmation email
+                            var transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'webmaster@bitotsav.in',
+                                    pass: 'Bitotsav2018!@'
+                                }
+                            });
+
+                            var mailOptions = {
+                                from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                                to: req.body.email,
+                                subject: "Bitotsav'19 Registration",
+                                text: '',
+                                html: `
+                                <h2 align="center">Bitotsav</h2>
+                                <p>
+                                Hi,<br><br>
+                                You have successfully registered in Bitotsav 2019.<br>
+                                Your Bitotsav ID is ${updatedUserInfo.id}.<br><br>
+                                Regards,<br>
+                                Web Team,<br>
+                                Bitotsav '19</p>`
+                            };
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                    return res.send(JSON.stringify({
+                                        success: false,
+                                        msg: `Error sending OTP. Please try again later`
+                                    }));
+                                } else {
+                                    console.log('Confirmation Email sent: ' + info.response);
+                                    return res.status(200).send(JSON.stringify({
+                                        success: true,
+                                        msg: "User registered successfully"
+                                    }));
+                                }
+                            });
                         }
                     });
                 }
@@ -106,6 +140,7 @@ router.post('/saveparticipant', (req, res) => {
     });
 });
 
+// Stage 1 of Registration
 router.post('/register',(req,res) => {
     db.participants
     .find({email: req.body.email},function(error,user){
@@ -275,31 +310,44 @@ router.post('/register',(req,res) => {
     });
 });
 
-/**
- * Stage 2 of Registration
- */
-router.post('/verifyOTP', (req, res) => {
-    db.participants.find({ email: req.body.email }, function(error, result) {
-        if(result && result.length>=1){
-            if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
-                res.send(JSON.stringify({
-                    success: false,
-                    error: "Both Phone OTP and E-mail OTP are incorrect!!"
-                }));
-            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
-                res.send(JSON.stringify({
-                    success: false,
-                    error: "Incorrect Phone OTP!!"
-                }));
-            } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
-                res.send(JSON.stringify({
-                    success: false,
-                    error: "Incorrect Email OTP!!"
-                }));
-            } else {
-                db.participants.update({ email: req.body.email }, { $set: { otpVerified: true } }, function (error, result) {
-                    if (error) {
-                        res.send(JSON.stringify({
+// Participant Login route
+router.post('/participantLogin', (req, res) =>{
+    db.participants
+    .find({email: req.body.email}, function(error, user) {
+        if(user.length<1){
+            res.status(200).send(JSON.stringify({
+                success: false,
+                msg: "No such participant"
+            }));
+        }
+        else if(user[0].otpVerified == false || user[0].id == "-1"){
+            res.status(200).send(JSON.stringify({
+                success: false,
+                msg: 'You have not been successfully registered.'
+            }));
+        }
+        else{
+            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+                if(err) {
+                    return res.status(500).send(JSON.stringify({
+                        success: false,
+                        msg: "An unknown error occurred."
+                    }));
+                } else{
+                    if (result) {
+                        return res.status(200).send(JSON.stringify({
+                            success: true,
+                            token: jwt.sign({
+                                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
+                                data: {
+                                    email: user[0].email,
+                                    password: user[0].password,
+                                    key: secretKey
+                                }
+                            }, secretKey)
+                        }));
+                    } else {
+                        return res.status(200).send(JSON.stringify({
                             success: false,
                             error: "An unknown error occured"
                         }));
@@ -319,15 +367,56 @@ router.post('/verifyOTP', (req, res) => {
     });
 });
 
-/**
- * Stage 3 of Registration
- */
-router.post('/saveparticipant', (req, res) => {
-    db.counters.find({}, (error, result) => {
-        if (error) {
-            res.send(JSON.stringify({
+// Participant Authentication
+const checkAuth = function (req, res, next) {
+    const token = req.headers.token.split(' ')[1];
+    if (token == undefined) {
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "Authentication Failed.Please Log In."
+        }));;
+    }
+    else {
+        jwt.verify(token, secretKey, function (error, data) {
+            if (error) {
+                return res.status(500).send(JSON.stringify({
+                    success: false,
+                    msg: "An unknown error occurred."
+                }));
+            }
+            else {
+                req.userData = data.data;
+                next();
+            }
+        });
+    }
+}
+
+// Participant profile route
+router.get('/dashboard', checkAuth, (req, res) => {
+    db.participants
+    .find({email: req.userData.email}, function(error, user){
+        if(user.length<1){
+            res.status(200).send(JSON.stringify({
                 success: false,
-                error: "An unknown error occured"
+                msg: "No such participant present"
+            }));
+        }
+        else{
+            res.status(200).send(JSON.stringify({
+                success: true,
+                data: {
+                    email: user[0].email,
+                    name: user[0].name,
+                    gender: user[0].gender,
+                    college: user[0].college,
+                    id: user[0].id,
+                    year: user[0].year,
+                    payment : user[0].payment,
+                    events: user[0].events,
+                    rollno: user[0].rollno,
+                    phno: user[0].phno
+                }
             }));
         } else {
             const updatedUserInfo = {
@@ -365,8 +454,6 @@ router.post('/saveparticipant', (req, res) => {
         }
     });
 });
-
-
 
 router.post('/login', (req, res) => {
     if (req.body.username === "admin" && req.body.password === adminPassword) {
