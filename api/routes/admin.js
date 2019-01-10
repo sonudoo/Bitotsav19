@@ -113,7 +113,10 @@ router.post('/saveparticipant', (req, res) => {
                                 <p>
                                 Hi,<br><br>
                                 You have successfully registered in Bitotsav 2019.<br>
-                                Your Bitotsav ID is ${updatedUserInfo.id}.<br><br>
+                                Your Bitotsav ID is ${updatedUserInfo.id}.<br>
+                                Login Details:<br>
+                                Email : ${req.body.email}<br>
+                                Password : ${req.body.password}<br><br>
                                 Regards,<br>
                                 Web Team,<br>
                                 Bitotsav '19</p>`

@@ -289,6 +289,7 @@ $(window).ready(function(){
         if(!college_error && !roll_error){
             var data = {
                 email: $("#reg-email").val().trim(),
+                password: $('#reg-password').val(),
                 gender:gender,
                 rollno:roll,
                 source:source,
