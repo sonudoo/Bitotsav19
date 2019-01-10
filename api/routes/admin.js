@@ -22,17 +22,17 @@ router.post('/verifyOTP', (req, res) => {
         }
         if(result && result.length>=1){
             if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
-                res.send(JSON.stringify({
+                res.status(200).send(JSON.stringify({
                     success: false,
                     msg: "Both Phone OTP and E-mail OTP are incorrect!!"
                 }));
             } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
-                res.send(JSON.stringify({
+                res.status(200).send(JSON.stringify({
                     success: false,
                     msg: "Incorrect Phone OTP!!"
                 }));
             } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
-                res.send(JSON.stringify({
+                res.status(200).send(JSON.stringify({
                     success: false,
                     msg: "Incorrect Email OTP!!"
                 }));
@@ -64,7 +64,7 @@ router.post('/verifyOTP', (req, res) => {
 router.post('/saveparticipant', (req, res) => {
     db.counters.find({}, (error, result) => {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(500).send(JSON.stringify({
                 success: false,
                 msg: "An unknown error occured"
             }));
@@ -79,7 +79,7 @@ router.post('/saveparticipant', (req, res) => {
             }
             db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
                 if (error) {
-                    res.send(JSON.stringify({
+                    res.status(500).send(JSON.stringify({
                         success: false,
                         msg: "An unknown error occured"
                     }));
@@ -87,7 +87,7 @@ router.post('/saveparticipant', (req, res) => {
                 else {
                     db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
                         if (error) {
-                            res.send(JSON.stringify({
+                            res.status(500).send(JSON.stringify({
                                 success: false,
                                 msg: "An unknown error occured"
                             }));
@@ -120,7 +120,7 @@ router.post('/saveparticipant', (req, res) => {
                             transporter.sendMail(mailOptions, function (error, info) {
                                 if (error) {
                                     console.log(error);
-                                    return res.send(JSON.stringify({
+                                    return res.status(500).send(JSON.stringify({
                                         success: false,
                                         msg: `Error sending OTP. Please try again later`
                                     }));
@@ -128,7 +128,7 @@ router.post('/saveparticipant', (req, res) => {
                                     console.log('Confirmation Email sent: ' + info.response);
                                     return res.status(200).send(JSON.stringify({
                                         success: true,
-                                        msg: "User registered successfully"
+                                        msg: "You are registered successfully"
                                     }));
                                 }
                             });
@@ -186,7 +186,7 @@ router.post('/register',(req,res) => {
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
-                    return res.send(JSON.stringify({
+                    return res.status(500).send(JSON.stringify({
                         success: false,
                         msg: `Error sending OTP. Please try again later`
                     }));
@@ -198,7 +198,7 @@ router.post('/register',(req,res) => {
                     request(otpUrl, (error, response, body) => {
                         if (error) {
                             console.error(`Error: error sending OTP ${error}`);
-                            return res.send(JSON.stringify({
+                            return res.status(500).send(JSON.stringify({
                                 success: false,
                                 msg: `Error sending OTP. Please try again later`,
                             }));
@@ -453,6 +453,11 @@ router.get('/dashboard', checkAuth, (req, res) => {
             });
         }
     });
+});
+
+//Event Registration
+router.post('/eventRegistration', checkAuth, (req, res) => {
+
 });
 
 router.post('/login', (req, res) => {
