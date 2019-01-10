@@ -398,136 +398,30 @@
       
 
 
-<div class="page-one">
-  <h1 style="font-size:32px;">Registration</h1>
+<div class="forgotpass-one">
+  <h1 style="font-size:32px;">Login</h1>
   <br>
 
   <form action="/">
   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-envelope"></i></span></span>
-      <input type="text" class="form-control" id="reg-email" placeholder="Email" required/>
-      <span class="error" id="email_error"></span>
+      <span class="input-group-addon"><span class="input-group-text">Email</span></span>
+      <input id="log-username" type="text" class="form-control"  placeholder="" required/>
+      <span class="error" id="username_error"></span>
+      
    </div>
    <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-user"></i></span></span>
-      <input class="form-control" type="text" id="reg-name" placeholder="Name" required/>
-      <span class="error" id="name_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-phone"></i></span></span>
-      <input class="form-control" type="text" id="reg-phone" placeholder="Phone" required/>
-      <span class="error" id="phone_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-shield"></i></span></span>
-      <input class="form-control" type="password" id="reg-password" placeholder="Password" required/>
-      <span class="error" id="password_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg icon-shield"></i></span></span>
-      <input class="form-control" type="password" id="reg-cpassword" placeholder="Confirm Password" required/>
-      <span class="error" id="cpassword_error"></span>
-   </div>
-
-  <center>
-    <div class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
-  </center>
-  
-
-   <center><button id="reg-one" class="btn btn-success" > Register</button></center>
+        <span class="input-group-addon"><span class="input-group-text">Password</span></span>
+        <input id="log-password" type="password" class="form-control"  placeholder="" required/>
+        <span class="error" id="password_error"></span>
+        
+     </div>
+    <center><button id="login" class="btn btn-success" >Login</button></center>
     
    
   </form>
 </div>
 
-<div class="page-two" style ="display: none" >
-    <h1 style="font-size:32px;">OTP Verification</h1>
-    <br>
 
-    <form action="/">
-
-         <div class="row">
-           <div class="col-md-6">
-              <div class="input-group otp-field spacing">
-                  <span class="input-group-addon"><span class="input-group-text">Phone OTP</span></span>
-                  <input type="text" class="form-control" id="reg-phone-otp" required/>
-                  <span class="error" id="phone_otp_error"></span>
-               </div>
-           </div>
-             
-
-             <div class="col-md-6">
-                <div class="input-group otp-field spacing">
-                    <span class="input-group-addon"><span class="input-group-text">Email OTP</span></span>
-                    <input type="text" class="form-control" id="reg-email-otp" required/>
-                    <span class="error" id="email_otp_error"></span>
-                 </div>
-             </div>
-   
-         </div>
-      
-     <center><button id="reg-two" class="btn btn-success" >Verify & Next</button></center>
-</div>
-<div class="page-three" style="display:none">
-    <h1 style="font-size:32px;">Details</h1>
-
-    <br>
-
-    <form action="
-    "></form>
-    <form action="">
-
-         <div class="input-group box spacing">
-            <span class="input-group-addon box-child-label" ><span class="input-group-text">Gender</span></span>
-            <select style="flex:2;" class="form-control box-child-field" id="reg-gender">
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-
-          </div>
- 
-          <div class="input-group box spacing">
-              <span class="input-group-addon box-child-label"><span class="input-group-text ">College</span></span>
-              <!-- <select style="flex:2;" class="form-control box-child-field" id="reg-college">
-                <option>Birla Institute of Technology, Mesra</option>
-                <option>Others</option>
-              </select> -->
-              <input  style="flex:2;" class="form-control box-child-field" type="text" id="reg-college" list="json-datalist" placeholder="Enter your College Name">
-              <datalist id="json-datalist"></datalist>
-              <span class="error" id="college_error"></span>
-          </div>
-
-         <div class="input-group box spacing">
-            <span class="input-group-addon box-child-label"><span class="input-group-text">Roll Number</span></span>
-            <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-roll" required/>
-            <span class="error" id="roll_error"></span>
-         </div>
-
-         <div class="input-group box spacing">
-            <span class="input-group-addon box-child-label"><span class="input-group-text">Source</span></span>
-            <input type="text" style="flex:2;" class="form-control box-child-field" id="reg-source" required/>
-            <span class="error" id="source_error"></span>
-         </div>
-
-         <div class="input-group box spacing">
-            <span class="input-group-addon box-child-label"><span class="input-group-text">Year</span></span>
-            <select style="flex:2;" class="form-control box-child-field" id="reg-year">
-                <option>1st Year</option>
-                <option>2nd Year</option>
-                <option>3rd Year</option>
-                <option>4th Year</option>
-              </select>
-            
-         </div>
-
-         
-         
-         <center><button id="reg-three" class="btn btn-success" >Submit</button></center>
-
-    </form>
-    
-
-</div> 
           
 
         </form>
@@ -845,7 +739,7 @@
   <script src="contactform/contactform.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
   <script src="js/custom.js"></script>
-  <script src="js/registration.js"></script>
+  
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-var requrl = "www.bitotsav.in";
+var requrl = "http://localhost:3000";
 
 //merge conflict
 
@@ -198,27 +198,33 @@ $(window).ready(function(){
         var email = $("#reg-email").val().trim();
         var name = $("#reg-name").val().trim();
         var phone = $("#reg-phone").val().trim();
-        var password = $("#reg-password").val().trim();
+        var password = $("#reg-password").val();
         
         if(!name_error && !email_error && !password_error && !phone_error){
             var data = {
                 "email":email,
                 "name":name,
-                "phone":phone,
+                "phno":phone,
                 "password":password
             }
 
             $.ajax({
                 type:'POST',
-                url:requrl + 'api/admin/register/',
+                url:requrl + "/api/admin/register/",
                 data:data,
-                success : function(){
-                    $(".page-one").fadeOut();
-                    setTimeout(function(){
-                        $(".page-two").fadeIn();
-                    },1000)
+                success : function(res){
+                    if(res.success === false){
+                        alert(res.msg);
+                        location.reload(true);
+                    }
+                    else{
+                        $(".page-one").fadeOut();
+                        setTimeout(function(){
+                            $(".page-two").fadeIn();
+                        },1000);
+                    }
                 },
-                error: function() {
+                error: function(err) {
                     alert("Error! Please try again.");
                     location.reload(true);
                 }
@@ -234,25 +240,32 @@ $(window).ready(function(){
         var email_otp_error = false;
         checkOtp();
         var data ={
+            "email": $("#reg-email").val().trim(),
             "phoneOtp":$("#reg-phone-otp").val().trim(),
-            "emailOtp":$("#reg-phone-otp").val().trim()
+            "emailOtp":$("#reg-email-otp").val().trim()
         }
 
         if(!phone_otp_error&&!email_otp_error){
             $.ajax({
                 type:'POST',
-                url:requrl + 'api/admin/verifyOTP',
+                url:requrl + "/api/admin/verifyOTP",
                 data:data,
-                success:function(){
-                    $(".page-two").fadeOut();
-                    setTimeout(function(){$(".page-three").fadeIn();},1000) 
-                   },
-                error: function(){
+                success:function(res){
+                    if(res.success === false){
+                        $("#reg-phone-otp").val("");
+                        $("#reg-email-otp").val("");
+                        alert(res.msg);
+                    }
+                    else{
+                        $(".page-two").fadeOut();
+                        setTimeout(function(){$(".page-three").fadeIn();},1000);
+                    } 
+                },
+                error: function(err){
                     alert("Error! Please try again.");
-                      location.reload(true);
-                }
-                
-            })
+                    location.reload(true);
+                } 
+            });
         }
     });
     $("#reg-three").click(function(e){
@@ -274,8 +287,9 @@ $(window).ready(function(){
         
         if(!college_error && !roll_error){
             var data = {
+                "email": $("#reg-email").val().trim(),
                 "gender":gender,
-                "roll":roll,
+                "rollno":roll,
                 "source":source,
                 "year":year,
                 "college":college
@@ -283,18 +297,21 @@ $(window).ready(function(){
 
             $.ajax({
                 type:'POST',
-                url:requrl + 'api/admin/saveparticipant',
+                url:requrl + "/api/admin/saveparticipant",
                 data:data,
-                success : function(){
-                    $(".page-one").fadeOut();
-                    setTimeout(function(){
-                        $(".page-two").fadeIn();
-                    },1000)
+                success : function(res){
+                    if(res.success === true){
+                        alert(res.msg);
+                        location.reload(true);
+                    }
+                    else{
+                        alert("Error!Please try again.");
+                    }
                 },
                 error: function() {
                     alert("Error! Please try again.");
                 }
-            })
+            });
         }
 
 
