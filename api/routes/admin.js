@@ -20,18 +20,18 @@ router.post('/verifyOTP', (req, res) => {
                 success: false
             }));
         }
-        if(result && result.length>=1){
-            if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+        if(result.length>=1){
+            if(result[0].emailOtp != req.body.emailOtp && result[0].phoneOtp != req.body.phoneOtp){
                 res.status(200).send(JSON.stringify({
                     success: false,
                     msg: "Both Phone OTP and E-mail OTP are incorrect!!"
                 }));
-            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp !== req.body.phoneOtp){
+            } else if(result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp != req.body.phoneOtp){
                 res.status(200).send(JSON.stringify({
                     success: false,
                     msg: "Incorrect Phone OTP!!"
                 }));
-            } else if(result[0].emailOtp !== req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
+            } else if(result[0].emailOtp != req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp){
                 res.status(200).send(JSON.stringify({
                     success: false,
                     msg: "Incorrect Email OTP!!"
@@ -45,6 +45,7 @@ router.post('/verifyOTP', (req, res) => {
                         }));
                     }
                     else {
+                        console.log('OTP verified.')
                         return res.status(200).send(JSON.stringify({
                             success: true
                         }));
@@ -212,7 +213,6 @@ router.post('/register',(req,res) => {
                                         success: false
                                     }));
                                 }
-                                console.log(participant);
                                 if(participant.length == 0){
                                     //new participant
                                     bcrypt.hash(req.body.password, 10, (err, hash) =>{

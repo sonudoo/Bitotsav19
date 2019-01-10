@@ -4,28 +4,28 @@ var requrl = "http://localhost:3000";
 
 //incoming changes
 var dataList = document.getElementById('json-datalist');
-    var input = document.getElementById('reg-college');
-    $.ajax({
-        type: 'GET',
-        url: "https://gist.githubusercontent.com/sachinkamath/69e4aa9ce42c9d65fba082b2390a410f/raw/0fbfe2cc4009907163afe8a9ab13cb90dd52e74c/college_list_master.txt",
-    }).done((data)=>{
-        data = data.substring(15, data.length-2);
-        const arr = data.split(',');
-        //console.log(arr);
-        arr.forEach(function(item) {
-            // Create a new <option> element.
-            item = item.trim();
-            item = item.substring(1, item.length-1);
-            var option = document.createElement('option');
-            // Set the value using the item in the JSON array.
-            option.value = item;
-            // Add the <option> element to the <datalist>.
-            dataList.appendChild(option);
-          });
-    }).fail((err) => {
-        alert('Some error occured.Please try again.');
-        location.reload(true);
+var input = document.getElementById('reg-college');
+$.ajax({
+    type: 'GET',
+    url: "https://gist.githubusercontent.com/sachinkamath/69e4aa9ce42c9d65fba082b2390a410f/raw/0fbfe2cc4009907163afe8a9ab13cb90dd52e74c/college_list_master.txt",
+}).done((data)=>{
+    data = data.substring(15, data.length-2);
+    const arr = data.split(',');
+    //console.log(arr);
+    arr.forEach(function(item) {
+        // Create a new <option> element.
+        item = item.trim();
+        item = item.substring(1, item.length-1);
+        var option = document.createElement('option');
+        // Set the value using the item in the JSON array.
+        option.value = item;
+        // Add the <option> element to the <datalist>.
+        dataList.appendChild(option);
     });
+}).fail((err) => {
+    alert('Some error occured.Please try again.');
+    location.reload(true);
+});
 
 $(window).ready(function(){
     $('#email_error').hide();
@@ -86,19 +86,19 @@ $(window).ready(function(){
         else {
             $('#name_error').html("Name field cannot be empty");
             $('#name_error').show();
-            name_error=true;	
+            name_error=true;
         }
     }
     function check_college() {
         var name = $('#reg-college').val();
-        
+
         if(name!=undefined) {
             $('#college_error').hide();
         }
         else {
             $('#college_error').html("College name cannot be empty");
             $('#college_error').show();
-            college_error=true;	
+            college_error=true;
         }
     }
     function check_roll() {
@@ -110,7 +110,7 @@ $(window).ready(function(){
         else {
             $('#roll_error').html("Roll number cannot be empty");
             $('#roll_error').show();
-            roll_error=true;	
+            roll_error=true;
         }
     }
 
@@ -175,7 +175,7 @@ $(window).ready(function(){
                 password_error=true;
             }
         }
-        
+
     }
 
 
@@ -187,11 +187,11 @@ $(window).ready(function(){
         //validation
         name_error = false;
         email_error=false;
-		password_error=false;
+        password_error=false;
         phone_error=false;
         check_name();
-		check_email();
-		check_password();
+        check_email();
+        check_password();
         check_phone();
 
         //data entered
@@ -199,7 +199,7 @@ $(window).ready(function(){
         var name = $("#reg-name").val().trim();
         var phone = $("#reg-phone").val().trim();
         var password = $("#reg-password").val();
-        
+
         if(!name_error && !email_error && !password_error && !phone_error){
             var data = {
                 "email":email,
@@ -213,6 +213,7 @@ $(window).ready(function(){
                 url:requrl + "/api/admin/register/",
                 data:data,
                 success : function(res){
+                    res = JSON.parse(res);
                     if(res.success === false){
                         alert(res.msg);
                         location.reload(true);
@@ -240,17 +241,17 @@ $(window).ready(function(){
         var email_otp_error = false;
         checkOtp();
         var data ={
-            "email": $("#reg-email").val().trim(),
-            "phoneOtp":$("#reg-phone-otp").val().trim(),
-            "emailOtp":$("#reg-email-otp").val().trim()
+            email: $("#reg-email").val().trim(),
+            phoneOtp:parseInt($("#reg-phone-otp").val().trim()),
+            emailOtp:parseInt($("#reg-email-otp").val().trim())
         }
-
         if(!phone_otp_error&&!email_otp_error){
             $.ajax({
                 type:'POST',
                 url:requrl + "/api/admin/verifyOTP",
                 data:data,
                 success:function(res){
+                    res = JSON.parse(res);
                     if(res.success === false){
                         $("#reg-phone-otp").val("");
                         $("#reg-email-otp").val("");
@@ -259,12 +260,12 @@ $(window).ready(function(){
                     else{
                         $(".page-two").fadeOut();
                         setTimeout(function(){$(".page-three").fadeIn();},1000);
-                    } 
+                    }
                 },
                 error: function(err){
                     alert("Error! Please try again.");
                     location.reload(true);
-                } 
+                }
             });
         }
     });
@@ -272,9 +273,9 @@ $(window).ready(function(){
         //api/admin/saveparticipant
         e.preventDefault();
         college_error=false;
-		roll_error=false;
+        roll_error=false;
         check_college();
-		check_roll();
+        check_roll();
 
 
 
@@ -284,15 +285,15 @@ $(window).ready(function(){
         var roll = $("#reg-roll").val().trim();
         var source = $("#reg-source").val().trim();
         var year = $("#reg-year").val().trim();
-        
+
         if(!college_error && !roll_error){
             var data = {
-                "email": $("#reg-email").val().trim(),
-                "gender":gender,
-                "rollno":roll,
-                "source":source,
-                "year":year,
-                "college":college
+                email: $("#reg-email").val().trim(),
+                gender:gender,
+                rollno:roll,
+                source:source,
+                year:year,
+                college:college
             }
 
             $.ajax({
@@ -300,6 +301,7 @@ $(window).ready(function(){
                 url:requrl + "/api/admin/saveparticipant",
                 data:data,
                 success : function(res){
+                    res = JSON.parse(res);
                     if(res.success === true){
                         alert(res.msg);
                         location.reload(true);

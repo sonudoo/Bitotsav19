@@ -1,4 +1,4 @@
-var requrl = "www.bitotsav.in";
+var requrl = "http://localhost:3000";
 $(window).ready(function(){
     $("#username-error").hide();
     $("#password-error").hide();
@@ -27,7 +27,7 @@ $(window).ready(function(){
     }
     function checkPassword(){
         var password = $("#log-password");
-        if(oassword!=''){
+        if(password!=''){
             $("password-error").hide();
         }
         else{
@@ -46,12 +46,13 @@ $(window).ready(function(){
          if(!username_error && !password_error){
              $.ajax({
                  type:'POST',
-                 url:requrl+  "/api/admin/participantLogin",
+                 url:requrl+ "/api/admin/participantLogin",
                  data: {
                      email : $("#log-username").val().trim(),
-                     password : $("#log-password").val()  
+                     password : $("#log-password").val()
                  }
              }).done(function(res){
+                res = JSON.parse(res);
                 if(res.success===true){
                     let token = "bearer "+res.token;
                     localStorage.setItem('token',token);
