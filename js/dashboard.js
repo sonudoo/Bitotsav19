@@ -1,21 +1,29 @@
 // GET request for Profile Page
+var requrl = "http://localhost:3000";
 $.ajax({
-    url: "/dashboard",
+    url: requrl+"/api/admin/dashboard",
     type: 'GET',
+    headers: {
+        token: localStorage.getItem('token')
+    },
     success: function(res) {
         // Considering res is an object
-
-        $("#age").text(res.age);
-        $("#username").text(res.username);
-        $("#email").text(res.email);
-        $("#bitotsavId").text(res.bitotsavID);
-        $("#phone").text(res.phone);
-        $("#college").text(res.college);
-        $("#rollno").text(res.rollno);
-        $("#year").text(res.year);
-
-        // If res.gender is male set img src="man.png" else img src="woman.png"
-        if(res.gender.equals("female")==true)
+        res = JSON.parse(res);
+        if(res.success===false) {
+            alert(res.msg);
+            return;
+        }
+        $("#username").text(res.data.name);
+        $("#age").text(res.data.age);
+        $("#username").text(res.data.username);
+        $("#email").text(res.data.email);
+        $("#bitotsavId").text(res.data.id);
+        $("#phone").text(res.data.phno);
+        $("#college").text(res.data.college);
+        $("#rollno").text(res.data.rollno);
+        $("#year").text(res.data.year);
+        var gender=res.data.gender.toLowerCase();
+        if(gender==="female")
             $("#gender").attr("src","img/woman.jpg");
     }
 });   
@@ -71,33 +79,39 @@ $("#sidebar a").on("click",function(){
 
 $("#passwordUpdate").submit(function(e) {
     e.preventDefault();
-    if(($('#old-password').val() === "")||($('#new-password').val() === "")||($('#confirm-new-password').val() === "")) 
+    var oldPassword=$('#old-password').val();
+    var newPassword=$('#new-password').val();
+    var confirmNewPassword=$('#confirm-new-password').val();
+    if((oldPassword === "")||(newPassword === "")||(confirmNewPassword === "")) 
     {
-        alert("Fields can't be empty!");
+        $("#error-message").text("*Fields can't be empty!");
         return false;
     }
-    if($('#old-password').val() === $('#new-password').val()) 
+    if (newPassword !== confirmNewPassword) 
     {
-        if ($('#new-password').val() !== $('#confirm-new-password').val()) 
-        {
-            alert("Password Mismatch");
-            return false;
+        $("#error-message").text("*Password Mismatch");
+        return false;
+    }
+    // Now we send Passwords for verification
+    $.ajax({
+        type: 'POST',
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        url: '/updatePassword',
+        data: {
+           oldPassword: oldPassword,
+           newPassword: newPassword
+        },
+        success: function () {
+            $("#error-message").text("*Password Updated Succesfully");
+            $("#error-message").css("color", "green");
+        },
+        fail: function(){
+            $("#error-message").text("*Internal Server Error");
+            $("#error-message").css("color", "orange");
         }
-        alert("Passwords Match");
-        // Now we send Passwords for verification
-        // action="/linkToresetPassword" method="POST"
-        // Yet to write
-        $.ajax({
-            type: 'post',
-            url: '/linktoResetPassword',
-            data: xyz,
-            success: function () {
-              alert('form was submitted');
-            }
-        });
-        return false;
-    }
-    alert("Password Mismatch 2");
+    });
     return false;
 });
 

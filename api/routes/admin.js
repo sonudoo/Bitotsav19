@@ -544,7 +544,7 @@ router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
                 }));
             }
             else{
-                for(int i=0;i<team[0].teamMembers.length;i++){
+                for(let i=0;i<team[0].teamMembers.length;i++){
                     const memberId = team[0].teamMembers[i];
                     db.participants
                     .update({
