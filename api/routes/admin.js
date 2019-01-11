@@ -527,105 +527,93 @@ router.post('/updatePassword', checkAuth, (req, res) => {
 
 // Event Registration
 router.post('/eventRegistration', checkAuth, (req, res) => {
-
-    /**
-     * Incoming data:
-     * leaderCollege, leaderID, leaderEmail,
-     * membersId, membersEmail, eventID
-     */
-
-    /**
-     * Check if all the members are from same college
-     * and all the members are not already registered
-     * in the same event
-     */
     const memberArr = req.body.members;
     let validatedMembers = 0;
     for(let j=0;j<memberArr.length;j++){
-        if(validatedMembers==memberArr.length){
-            db.participants.update({email: req.body.leaderEmail}, { 
-                $push : { 
-                    events :  {
-                        "eventId" : req.body.eventId,
-                        "teamLeader" : req.body.leaderId
-                    }
-                } 
-            }, (error, result) => {
+        db.participants.find({email : memberArr[j].memberEmail}, (error, result) => {
             if (error) {
                 res.status(500).send(JSON.stringify({
                     success: false,
-                    error: error
+                    msg: "Some Error Occured!!"
                 }));
             } else {
-                // update for all the members
-                let updatedMembers = 0;
-                for(let i=0;i<memberArr.length;i++){
-                    if(updatedMembers == memberArr.length){
-                        res.status(200).send(JSON.stringify({
-                            success: true,
-                            msg: "All members Added"
-                        }));
-                    } else {
-                        db.participants.update({ email : memberArr[i].memberEmail }, {
+                if(result.length<1){
+                    res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: `Email ${memberArr[j].memberEmail} has not registered.`
+                    }));
+                }
+                else if(result[0].id !== memberArr[j].memberId ){
+                    res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: "Incorrect Bitotsav ID"
+                    }));
+                } else if (result[0].college !== req.body.leaderCollege){
+                    res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: `Member ${memberArr[j].memberId} does not belong to the same college`
+                    }));
+                } else {
+                    for(let k=0;k<result[0].events.length;k++){
+                        if(result[0].events[k].eventId == req.body.eventId){
+                            res.status(200).send(JSON.stringify({
+                                success: false,
+                                msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
+                            }));
+                        }
+                    }
+                    validatedMembers = validatedMembers + 1;
+                    if(validatedMembers == memberArr.length){
+                        db.participants.update({email: req.body.leaderEmail}, {
                             $push : {
-                                events: {
+                                events :  {
                                     "eventId" : req.body.eventId,
                                     "teamLeader" : req.body.leaderId
                                 }
                             }
                         }, (error, result) => {
-                            if(error) {
+                            if (error) {
                                 res.status(500).send(JSON.stringify({
-                                    success: false,
-                                    error: error
+                                    success: false
                                 }));
                             } else {
-                                updatedMembers = updatedMembers + 1;
+                                console.log('Team Leader registered');
+                                // update for all the members
+                                let updatedMembers = 0;
+                                for(let i=0;i<memberArr.length;i++){
+                                    db.participants.update({ email : memberArr[i].memberEmail }, {
+                                        $push : {
+                                            events: {
+                                                "eventId" : req.body.eventId,
+                                                "teamLeader" : req.body.leaderId
+                                            }
+                                        }
+                                    }, (error, result) => {
+                                        if(error) {
+                                            res.status(500).send(JSON.stringify({
+                                                success: false,
+                                                error: error
+                                            }));
+                                        } else {
+                                            updatedMembers = updatedMembers + 1;
+                                            if(updatedMembers == memberArr.length){
+                                                res.status(200).send(JSON.stringify({
+                                                    success: true,
+                                                    msg: "Team Registered Successfully"
+                                                }));
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
                 }
             }
-        });    
-        } else {
-            db.participants.find({email : memberArr[j].memberEmail}, (error, result) => {
-                if (error) {
-                    res.status(500).send(JSON.stringify({
-                        success: false,
-                        msg: "Some Error Occured!!"
-                    }));
-                } else {
-                    if(result[0].id !== memberArr[j].memberId ){
-                        res.status(200).send(JSON.stringify({
-                            success: false,
-                            msg: "Bitotsav IDs do not match" 
-                        }));
-                    } else if (result[0].college !== req.body.leaderCollege){
-                        res.status(200).send(JSON.stringify({
-                            success: false,
-                            msg: `Member ${memberArr[j].memberId} does not belong to the same college`
-                        }));
-                    } else {
-                        let checkedEvents = 0;
-                        for(let k=0;k<result[0].events.length;k++){
-                            if(checkedEvents == result[0].events.length){
-                                validatedMembers = validatedMembers + 1;
-                            } else {
-                                if(result[0].events[k].eventId == req.body.eventID){
-                                    res.status(200).send(JSON.stringify({
-                                        success: false,
-                                        msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventID}`
-                                    }));
-                                } else {
-                                    checkedEvents = checkedEvents + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
         }
-    }    
+    });
+
+}
 });
 
 // Event De-Registration
