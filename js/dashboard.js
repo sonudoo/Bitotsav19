@@ -63,10 +63,10 @@ function prepareEventTable(id, events) {
                 var ans,optionButton;
                 if(events[i].teamLeader===id) {
                     ans="Yes";
-                    optionButton="<button class='btn btn-warning'>Deregister</button>"
+                    optionButton="<button id='"+ eventId +"' class='btn btn-warning'>Deregister</button>"
                 } else {
                     ans="No";
-                    optionButton="<button class='btn btn-warning disabled'>Deregister</button>"
+                    optionButton="<span class='btn btn-warning disabled'>Deregister</span>"
                 }
                 userEvents[i]={
                     eventId: eventId,
@@ -77,7 +77,7 @@ function prepareEventTable(id, events) {
                 mark[eventId-1]=1;
             }
             // Pagination
-            $('#events').pagination({
+            $('#event-table').pagination({
                 dataSource: userEvents,
                 pageSize: 5,
                 callback: function(data, pagination) {
@@ -135,8 +135,11 @@ function prepareEventTable(id, events) {
             });
 
             // Deregister Routes
-
-        }
+            $("#eventData button").on("click",function(){
+                var eventId=$(this)[0].id;
+                deregisterAjax(eventId);
+            });
+        }   
     });
 }
 
@@ -154,6 +157,29 @@ function template(data) {
     return ans;
 }
 
+function deregisterAjax(eventId) {
+    var userbitId2=userbitId.slice(5,10);
+    $.ajax({
+        type: 'GET',
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        url: requrl+'/api/admin/eventDeregistration/'+eventId+'/'+userbitId2,
+        success: function (res) {
+            res = JSON.parse(res);
+            if(res.success===false) {
+                alert(res.msg);
+                return false;
+            }
+            alert(res.msg);
+            location.reload(true);
+        },
+        error: function(res){
+            res = JSON.parse(res);
+            alert(res.msg);
+        }
+    });
+}
 
 $('#sidebarCollapse').on('click', function () {
     $('#sidebar').toggleClass('active');

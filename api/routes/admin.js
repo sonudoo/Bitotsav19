@@ -593,7 +593,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                         db.participants.update({email: req.body.leaderEmail}, {
                             $push : {
                                 events :  {
-                                    "eventId" : req.body.eventId,
+                                    "eventId" : parseInt(req.body.eventId),
                                     "teamLeader" : req.body.leaderId
                                 }
                             }
@@ -643,8 +643,9 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
 
 // Event De-Registration
 router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
-    let bitotsavID = req.params.bitId;
-    let eventID = req.params.eventId;
+    console.log(req.params);
+    let bitotsavID = "BT18/"+req.params.bitId;
+    let eventID = parseInt(req.params.eventId);
     let countMembers = 0;
     db.participants
     .update({
