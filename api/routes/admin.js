@@ -505,33 +505,37 @@ router.post('/updatePassword', checkAuth, (req, res) => {
         if(error){
             console.log(err);
             res.status(500).send(JSON.stringify({
-                success: false
+                success: false,
+                msg: "Bad Request"
             }));
         }
-        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, res) => {
+        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, resul) => {
             if(err){
                 console.log(err);
                 return res.status(500).send(JSON.stringify({
-                    success: false
+                    success: false,
+                    msg: "Bad Request"
                 }));
             }
-            if(res){
+            if(resul){
                 bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
                     if(err){
                         console.log(err);
                         res.status(500).send(JSON.stringify({
-                            success: false
+                            success: false,
+                            msg: "Server error"
                         }));
                     }
                     else{
                         db.participants
-                        .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
+                        .update({ email: req.userData.email }, { $set: { password: hash } }, function (error, result) {
                             if (error) {
                                 return res.status(500).send(JSON.stringify({
                                     success: false,
                                     msg: "An unknown error occurred."
                                 }));
                             }
+                            console.log(result);
                             res.status(200).send(JSON.stringify({
                                 success: true,
                                 msg: "Password Updated Successfully!!"
@@ -635,10 +639,8 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                     }
                 }
             }
-        }
-    });
-
-}
+        });
+    }
 });
 
 // Event De-Registration

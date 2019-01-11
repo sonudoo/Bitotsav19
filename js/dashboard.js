@@ -85,11 +85,13 @@ $("#passwordUpdate").submit(function(e) {
     if((oldPassword === "")||(newPassword === "")||(confirmNewPassword === "")) 
     {
         $("#error-message").text("*Fields can't be empty!");
+        $("#error-message").css("color", "red");
         return false;
     }
     if (newPassword !== confirmNewPassword) 
     {
         $("#error-message").text("*Password Mismatch");
+        $("#error-message").css("color", "red");
         return false;
     }
     // Now we send Passwords for verification
@@ -98,18 +100,24 @@ $("#passwordUpdate").submit(function(e) {
         headers: {
             token: localStorage.getItem('token')
         },
-        url: '/updatePassword',
+        url: requrl+'/api/admin/updatePassword',
         data: {
            oldPassword: oldPassword,
            newPassword: newPassword
         },
-        success: function () {
-            $("#error-message").text("*Password Updated Succesfully");
+        success: function (res) {
+            res = JSON.parse(res);
+            if(res.success===false) {
+                $("#error-message").text(res.msg);
+                $("#error-message").css("color", "red");
+                return false;
+            }
+            $("#error-message").text(res.msg);
             $("#error-message").css("color", "green");
         },
-        fail: function(){
-            $("#error-message").text("*Internal Server Error");
-            $("#error-message").css("color", "orange");
+        error: function(res){
+            $("#error-message").text(res.msg);
+            $("#error-message").css("color", "red");
         }
     });
     return false;
