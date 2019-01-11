@@ -506,52 +506,83 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
 router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
     let bitotsavID = req.params.bitId;
     let eventID = req.params.eventId;
+    let countMembers = 0;
     db.participants
-        .find({
-            email: req.userData.email,
-            events: {
-                $elemMatch:{
-                    eventId: eventID,
-                    teamLeader: bitotsavID
-                }
+    .update({
+        email: req.userData.email,
+        events: {
+            $elemMatch:{
+                eventId: eventID,
+                teamLeader: bitotsavID
             }
-        }, function(error, user){
-            if(error){
+        }
+    }, {
+        $pull: { events: { eventId: eventID } }
+    }, function(error, result){
+        if(error){
+            console.log(err);
+            res.status(500).send(JSON.stringify({
+                success: false
+            }));
+        }
+        console.log('Team Leader De-Registered');
+        db.teams
+        .find({
+            eventId: eventID,
+            teamLeaderId: bitotsavID
+        }, function(err, team){
+            if(err){
                 console.log(err);
                 res.status(500).send(JSON.stringify({
                     success: false
                 }));
             }
-            if(user.length<1){
+            if(team.length<1){
                 res.status(200).send(JSON.stringify({
                     success: false,
-                    msg: "You are not registered in this event."
+                    msg: "You are not registered in this event or you are not the Team Leader."
                 }));
             }
             else{
-                db.teams
-                    .find({
-                        eventId: eventID,
-                        teamLeaderId: bitotsavID
-                    }, function(error, team){
+                for(int i=0;i<team[0].teamMembers.length;i++){
+                    const memberId = team[0].teamMembers[i];
+                    db.participants
+                    .update({
+                        id: memberId
+                    }, {
+                        $pull: { events: { eventId: eventID } }
+                    }, function(error, result){
                         if(error){
                             console.log(err);
-                            res.status(500).send(JSON.stringify({
+                            return res.status(500).send(JSON.stringify({
                                 success: false
                             }));
                         }
-                        if(team.length<1){
-                            res.status(200).send(JSON.stringify({
-                                success: false,
-                                msg: "You are not registered in this event or you are not the Team Leader."
-                            }));
-                        }
-                        else{
-                            
+                        countMembers = countMembers + 1;
+                        if(countMembers == team[0].teamMembers.length){
+                            console.log('Team members De-Registered');
+                            db.teams
+                            .remove({
+                                eventId: eventID,
+                                teamLeaderId: bitotsavID
+                            }, function(err, result){
+                                if(err){
+                                    console.log(err);
+                                    return res.status(500).send(JSON.stringify({
+                                        success: false
+                                    }));
+                                }
+                                res.status(200).send(JSON.stringify({
+                                    success: true,
+                                    msg: 'Team De-Registered successfully'
+                                }));
+                            });
                         }
                     });
+                }
             }
         });
+    });
 });
 
 router.post('/login', (req, res) => {
