@@ -382,6 +382,34 @@ router.post('/participantLogin', (req, res) =>{
     });
 });
 
+//Get Events for registration
+router.get('/getEvents', (req, res) => {
+    db.events
+    .find({
+        eventStatus: "Scheduled"
+    }, function(error, result){
+        if (error) {
+            return res.status(500).send(JSON.stringify({
+                success: false,
+                msg: "An unknown error occurred."
+            }));
+        }
+        let data = [];
+        for(let i=0;i<result.length;i++){
+            data.append({
+                eventId: result[i].eventId,
+                eventName: result[i].eventName,
+                mini: result[i].eventMinimumMembers,
+                maxx: result[i].eventMaximumMembers
+            });
+        }
+        res.status(200).send(JSON.stringify({
+            success: true,
+            data: data
+        }));
+    });
+});
+
 // Participant Authentication
 const checkAuth = function (req, res, next) {
     const token = req.headers.token.split(' ')[1];
