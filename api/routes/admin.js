@@ -552,7 +552,8 @@ router.post('/updatePassword', checkAuth, (req, res) => {
 
 // Event Registration
 router.post('/eventRegistration', checkAuth, (req, res) => {
-    const memberArr = req.body.members;
+    
+    const memberArr = JSON.parse(req.body.members);
     let validatedMembers = 0;
     for(let j=0;j<memberArr.length;j++){
         db.participants.find({email : memberArr[j].memberEmail}, (error, result) => {
@@ -635,10 +636,9 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                         });
                     }
                 }
-
-    });
-
-}
+            }
+        });
+    }
 });
 
 // Event De-Registration

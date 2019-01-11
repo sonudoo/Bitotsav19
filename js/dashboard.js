@@ -173,27 +173,28 @@ $("#memberInfo").submit(function(e) {
     var memberSize=$("#js-dropdown2").val();
     var members=[];
     for(var i=0;i<memberSize;i++) {
-        members[i]={
+        members.push({
             memberEmail: $("#email"+i).val(),
             memberId: $("#bitotsavId"+i).val()
-        };
+        });
     }
     var leaderId=userbitId;
     var leaderEmail=userbitEmail;
     var leaderCollege=userbitCollege;
+    var memberData = {
+        members: JSON.stringify(members),
+        eventId: eventId,
+        leaderId: leaderId,
+        leaderEmail: leaderEmail,
+        leaderCollege: leaderCollege
+    };
     $.ajax({
         type: 'POST',
         headers: {
             token: localStorage.getItem('token')
         },
         url: requrl+'/api/admin/eventRegistration',
-        data: {
-            members: members,
-            eventId: eventId,
-            leaderId: leaderId,
-            leaderEmail: leaderEmail,
-            leaderCollege: leaderCollege
-        },
+        data: memberData,
         success: function (res) {
             res = JSON.parse(res);
             if(res.success===false) {
