@@ -396,12 +396,12 @@ router.get('/getEvents', (req, res) => {
         }
         let data = [];
         for(let i=0;i<result.length;i++){
-            data.append({
+            data[i]={
                 eventId: result[i].eventId,
                 eventName: result[i].eventName,
                 mini: result[i].eventMinimumMembers,
                 maxx: result[i].eventMaximumMembers
-            });
+            };
         }
         res.status(200).send(JSON.stringify({
             success: true,
@@ -505,37 +505,33 @@ router.post('/updatePassword', checkAuth, (req, res) => {
         if(error){
             console.log(err);
             res.status(500).send(JSON.stringify({
-                success: false,
-                msg: "Bad Request"
+                success: false
             }));
         }
-        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, resul) => {
+        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, res) => {
             if(err){
                 console.log(err);
                 return res.status(500).send(JSON.stringify({
-                    success: false,
-                    msg: "Bad Request"
+                    success: false
                 }));
             }
-            if(resul){
+            if(res){
                 bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
                     if(err){
                         console.log(err);
                         res.status(500).send(JSON.stringify({
-                            success: false,
-                            msg: "Server error"
+                            success: false
                         }));
                     }
                     else{
                         db.participants
-                        .update({ email: req.userData.email }, { $set: { password: hash } }, function (error, result) {
+                        .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
                             if (error) {
                                 return res.status(500).send(JSON.stringify({
                                     success: false,
                                     msg: "An unknown error occurred."
                                 }));
                             }
-                            console.log(result);
                             res.status(200).send(JSON.stringify({
                                 success: true,
                                 msg: "Password Updated Successfully!!"
@@ -603,7 +599,8 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                         }, (error, result) => {
                             if (error) {
                                 res.status(500).send(JSON.stringify({
-                                    success: false
+                                    success: false,
+                                    msg: "Some error occurred"
                                 }));
                             } else {
                                 console.log('Team Leader registered');
@@ -621,7 +618,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                                         if(error) {
                                             res.status(500).send(JSON.stringify({
                                                 success: false,
-                                                error: error
+                                                msg: "Some error occurred"
                                             }));
                                         } else {
                                             updatedMembers = updatedMembers + 1;
@@ -638,9 +635,10 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                         });
                     }
                 }
-            }
-        });
-    }
+
+    });
+
+}
 });
 
 // Event De-Registration

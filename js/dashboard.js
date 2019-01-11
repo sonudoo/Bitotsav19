@@ -1,5 +1,6 @@
 // GET request for Profile Page
 var requrl = "http://localhost:3000";
+var userbitId,userbitCollege,userbitEmail;
 $.ajax({
     url: requrl+"/api/admin/dashboard",
     type: 'GET',
@@ -7,12 +8,14 @@ $.ajax({
         token: localStorage.getItem('token')
     },
     success: function(res) {
-        // Considering res is an object
         res = JSON.parse(res);
+
+        // Event id team leader
         if(res.success===false) {
             alert(res.msg);
             return;
         }
+        console.log(res.data);
         $("#username").text(res.data.name);
         $("#age").text(res.data.age);
         $("#username").text(res.data.username);
@@ -23,35 +26,119 @@ $.ajax({
         $("#rollno").text(res.data.rollno);
         $("#year").text(res.data.year);
         var gender=res.data.gender.toLowerCase();
-        if(gender==="female")
+        if(gender==="female") {
             $("#gender").attr("src","img/woman.jpg");
+        }
+        userbitId=res.data.id;
+        userbitCollege=res.data.college;
+        userbitEmail=res.data.email;
+        prepareEventTable(res.data.id,res.data.events);
     }
 });   
 
 // GET request for Events Page
-$.ajax({
-    url: "/getAllData",
-    type: 'GET',
-    success: function(res) {
-        // Considering res an array of objects
-
-
-        // Pagination
-        $('#events').pagination({
-            dataSource: res,
-            pageSize: 5,
-            callback: function(data, pagination) {
-                var html = template(data);
-                $("#eventData").html(html);
+function prepareEventTable(id, events) {
+    $.ajax({
+        url: requrl+"/api/admin/getEvents",
+        type: 'GET',
+        success: function(res) {
+            res = JSON.parse(res);
+            if(res.success===false) {
+                alert(res.msg);
+                return;
             }
-        });
-        // register and unregister routes 
+            function compare(a, b) {
+                return a.eventId-b.eventId;
+            }
+            res.data.sort(compare);
 
+            console.log(res.data);
 
-        // Dropdown Menu for Large number of events
+            var userEvents=[],n=events.length,n2=res.data.length,mark=[];
+            for(var i=0;i<n2;i++) {
+                mark[i]=0;
+            }
+            for(var i=0;i<n;i++) {
+                var eventId=events[i].eventId;
+                var ans,optionButton;
+                if(events[i].teamLeader===id) {
+                    ans="Yes";
+                    optionButton="<button class='btn btn-warning'>Deregister</button>"
+                } else {
+                    ans="No";
+                    optionButton="<button class='btn btn-warning disabled'>Deregister</button>"
+                }
+                userEvents[i]={
+                    eventId: eventId,
+                    eventName: res.data[eventId-1].eventName,
+                    leader: ans,
+                    options: optionButton
+                };
+                mark[eventId-1]=1;
+            }
+            // Pagination
+            $('#events').pagination({
+                dataSource: userEvents,
+                pageSize: 5,
+                callback: function(data, pagination) {
+                    var html = template(data);
+                    $("#eventData").html(html);
+                }
+            });
+            // register routes
+            var visited=false;
+            for(var i=0;i<n2;i++) {
+                if(mark[i]===0) {
+                    $("#js-dropdown").append(`<option value=${res.data[i].eventId}>${res.data[i].eventName}</option>`);
+                    if(visited==false) {
+                        for(var j=res.data[i].mini;j<=res.data[i].maxx;j++) {
+                            $("#js-dropdown2").append(`<option value=${j}>${j}</option>`);
+                        }
+                    }
+                    visited=true;
+                }
+            }
+            $('#js-dropdown').select2();
+            $('#js-dropdown2').select2();
+            $("#memberInfo").html("");
+            var members=$("#js-dropdown2").val();
+            for(var i=0;i<members;i++) {
+                $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
+            }
+            $("#memberInfo").append("<br><input type='submit' class='btn btn-primary' name='registerUsers' value='Register' id='regsiterUsers'>");
 
-    }
-});
+            $('#js-dropdown').on('change', function() {
+                $("#js-dropdown2").html("");
+                $("#memberInfo").html("");
+                var mini=res.data[$(this).val()-1].mini;
+                var maxx=res.data[$(this).val()-1].maxx;
+                console.log(mini,maxx);
+                for(var i=mini;i<=maxx;i++) {
+                    $("#js-dropdown2").append(`<option value=${i}>${i}</option>`);
+                }
+                $("#memberInfo").html("");
+                var members=$("#js-dropdown2").val();
+                for(var i=0;i<members;i++) {
+                    $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
+                }
+                $("#memberInfo").append("<br><input type='submit' class='btn btn-primary' name='registerUsers' value='Register' id='regsiterUsers'>");
+            });
+
+            $("#js-dropdown2").on("change",function(){
+                $("#memberInfo").html("");
+                var eventId=$("#js-dropdown").val();
+                var members=$("#js-dropdown2").val();
+                for(var i=0;i<members;i++) {
+                    $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
+                }
+                $("#memberInfo").append("<br><input type='submit' class='btn btn-primary' name='registerUsers' value='Register' id='regsiterUsers'>");
+            });
+
+            // Deregister Routes
+
+        }
+    });
+}
 
 function template(data) {
     var ans="<tr><th>Event ID</th><th>Event Name</th><th>Team Leader</th><th>Options</th></tr>";
@@ -60,8 +147,8 @@ function template(data) {
         ans+="<tr>";
         ans+="<td>"+data[i].eventId+"</td>";
         ans+="<td>"+data[i].eventName+"</td>";
-        ans+="<td>"+"Leader"+"</td>"
-        ans+="<td>"+"options"+"</td>";
+        ans+="<td>"+data[i].leader+"</td>"
+        ans+="<td>"+data[i].options+"</td>";
         ans+="</tr>";
     }
     return ans;
@@ -75,6 +162,54 @@ $('#sidebarCollapse').on('click', function () {
 
 $("#sidebar a").on("click",function(){
     $(this).tab('show');
+});
+
+$("#memberInfo").submit(function(e) {
+    e.preventDefault();
+    // Validation
+
+    // Request
+    var eventId=$("#js-dropdown").val();
+    var memberSize=$("#js-dropdown2").val();
+    var members=[];
+    for(var i=0;i<memberSize;i++) {
+        members[i]={
+            memberEmail: $("#email"+i).val(),
+            memberId: $("#bitotsavId"+i).val()
+        };
+    }
+    var leaderId=userbitId;
+    var leaderEmail=userbitEmail;
+    var leaderCollege=userbitCollege;
+    $.ajax({
+        type: 'POST',
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        url: requrl+'/api/admin/eventRegistration',
+        data: {
+            members: members,
+            eventId: eventId,
+            leaderId: leaderId,
+            leaderEmail: leaderEmail,
+            leaderCollege: leaderCollege
+        },
+        success: function (res) {
+            res = JSON.parse(res);
+            if(res.success===false) {
+                alert(res.msg);
+                return false;
+            }
+            alert(res.msg);
+            location.reload(true);
+        },
+        error: function(res){
+            res = JSON.parse(res);
+            alert(res.msg);
+        }
+    });
+
+    return false;
 });
 
 $("#passwordUpdate").submit(function(e) {
@@ -116,30 +251,10 @@ $("#passwordUpdate").submit(function(e) {
             $("#error-message").css("color", "green");
         },
         error: function(res){
+            res = JSON.parse(res);
             $("#error-message").text(res.msg);
             $("#error-message").css("color", "red");
         }
     });
     return false;
 });
-
-// Dropdown
-
-$('#js-dropdown').select2();
-$('#js-dropdown2').select2();
-$('#js-dropdown').on('change', function() {
-    // Change minimum and maximum members list
-    console.log($('#js-dropdown2').val());
-});
-
-// Write Users
-
-$("#writeUsers").on("click",function(){
-    var eventName=$("#js-dropdown").val();
-    var membersNum=$("#js-dropdown2").val();
-    $("#members-list").text(membersNum+" member will come here for event "+eventName);
-
-});
-
-
-
