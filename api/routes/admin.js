@@ -20,33 +20,6 @@ router.get('/getCollegeList', (req, res) => {
     }));
 });
 
-// Update Participant Password
-router.post('/updatePassword', (req, res) => {
-    bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
-        if(err){
-            console.log(err);
-            res.status(500).send(JSON.stringify({
-                success: false
-            }));
-        }
-        else{
-            db.participants
-            .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
-                if (error) {
-                    return res.status(500).send(JSON.stringify({
-                        success: false,
-                        msg: "An unknown error occurred."
-                    }));
-                }
-                res.status(200).send(JSON.stringify({
-                    success: true,
-                    msg: "Password Updated Successfully!!"
-                }));
-            });
-        }
-    });
-});
-
 // Stage 2 of Registration
 router.post('/verifyOTP', (req, res) => {
     db.participants
@@ -191,7 +164,7 @@ router.post('/register',(req,res) => {
                 success: false
             }));
         }
-        if(user && user.length>=1 && user[0].otpVerified == true && user[0].id !== "-1"){
+        if(user.length>=1 && user[0].otpVerified == true && user[0].id !== "-1"){
             res.status(200).send(JSON.stringify({
                 success: false,
                 msg: "The email id is already registered"
@@ -229,7 +202,7 @@ router.post('/register',(req,res) => {
                     console.log(error);
                     return res.status(500).send(JSON.stringify({
                         success: false,
-                        msg: `Error sending OTP. Please try again later`
+                        msg: `Error sending Email. Please try again later`
                     }));
                 } else {
                     console.log('Email sent: ' + info.response);
@@ -497,9 +470,88 @@ router.get('/dashboard', checkAuth, (req, res) => {
     });
 });
 
+// Update Participant Password
+router.post('/updatePassword', checkAuth, (req, res) => {
+    bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
+        if(err){
+            console.log(err);
+            res.status(500).send(JSON.stringify({
+                success: false
+            }));
+        }
+        else{
+            db.participants
+            .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
+                if (error) {
+                    return res.status(500).send(JSON.stringify({
+                        success: false,
+                        msg: "An unknown error occurred."
+                    }));
+                }
+                res.status(200).send(JSON.stringify({
+                    success: true,
+                    msg: "Password Updated Successfully!!"
+                }));
+            });
+        }
+    });
+});
+
 //Event Registration
 router.post('/eventRegistration', checkAuth, (req, res) => {
 
+});
+
+//Event De-Registration
+router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
+    let bitotsavID = req.params.bitId;
+    let eventID = req.params.eventId;
+    db.participants
+        .find({
+            email: req.userData.email,
+            events: {
+                $elemMatch:{
+                    eventId: eventID,
+                    teamLeader: bitotsavID
+                }
+            }
+        }, function(error, user){
+            if(error){
+                console.log(err);
+                res.status(500).send(JSON.stringify({
+                    success: false
+                }));
+            }
+            if(user.length<1){
+                res.status(200).send(JSON.stringify({
+                    success: false,
+                    msg: "You are not registered in this event."
+                }));
+            }
+            else{
+                db.teams
+                    .find({
+                        eventId: eventID,
+                        teamLeaderId: bitotsavID
+                    }, function(error, team){
+                        if(error){
+                            console.log(err);
+                            res.status(500).send(JSON.stringify({
+                                success: false
+                            }));
+                        }
+                        if(team.length<1){
+                            res.status(200).send(JSON.stringify({
+                                success: false,
+                                msg: "You are not registered in this event or you are not the Team Leader."
+                            }));
+                        }
+                        else{
+                            
+                        }
+                    });
+            }
+        });
 });
 
 router.post('/login', (req, res) => {
@@ -507,7 +559,7 @@ router.post('/login', (req, res) => {
         return res.send(JSON.stringify({
             success: true,
             token: jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7),
+                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
                 data: {
                     username: "admin",
                     password: adminPassword,
