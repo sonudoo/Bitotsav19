@@ -500,28 +500,53 @@ router.get('/dashboard', checkAuth, (req, res) => {
 
 // Update Participant Password
 router.post('/updatePassword', checkAuth, (req, res) => {
-    bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
-        if(err){
+    db.participants
+    .find({email: req.userData.email}, function(error, result){
+        if(error){
             console.log(err);
             res.status(500).send(JSON.stringify({
                 success: false
             }));
         }
-        else{
-            db.participants
-            .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
-                if (error) {
-                    return res.status(500).send(JSON.stringify({
-                        success: false,
-                        msg: "An unknown error occurred."
-                    }));
-                }
-                res.status(200).send(JSON.stringify({
-                    success: true,
-                    msg: "Password Updated Successfully!!"
+        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, res) => {
+            if(err){
+                console.log(err);
+                return res.status(500).send(JSON.stringify({
+                    success: false
                 }));
-            });
-        }
+            }
+            if(res){
+                bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
+                    if(err){
+                        console.log(err);
+                        res.status(500).send(JSON.stringify({
+                            success: false
+                        }));
+                    }
+                    else{
+                        db.participants
+                        .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
+                            if (error) {
+                                return res.status(500).send(JSON.stringify({
+                                    success: false,
+                                    msg: "An unknown error occurred."
+                                }));
+                            }
+                            res.status(200).send(JSON.stringify({
+                                success: true,
+                                msg: "Password Updated Successfully!!"
+                            }));
+                        });
+                    }
+                });
+            }
+            else{
+                return res.status(200).send(JSON.stringify({
+                    success: false,
+                    msg: 'Wrong Password.'
+                }));
+            }
+        });
     });
 });
 
