@@ -56,8 +56,8 @@ $(window).ready(function(){
                 if(res.success===true){
                     let token = "bearer "+res.token;
                     localStorage.setItem('token',token);
-                    console.log("Login successful! Navigating to dashboard...")
-                    //window.location.href = 'dashboard.html';
+                    // console.log("Login successful! Navigating to dashboard...")
+                    window.location.href = 'dashboard.html';
                 }
                 else{
                     alert(res.msg);

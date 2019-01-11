@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard</title>
+
+    <!-- Favicon -->
+    <link href="favicon.ico" rel="icon">
+
+    <link href="lib/bootstrap/css/bootstrap3.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#profile">Profile</a>
+                </li>
+                <li>
+                    <a href="#settings">Settings</a>
+                </li>
+                <li>
+                    <a href="#events">Events</a>
+                </li>
+                <li>
+                    <a href="#payment">Payment</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="navbar-btn">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <div class="tab-content">
+                <div id="profile" class="tab-pane fade in active">
+                    <div class="box">
+                        <img id="gender" src="img/man.png" alt="Profile Pic">
+                        <span style="font-size: 3em; margin-left: 10px; color: black" id="username">Username</span>
+                    </div>
+                    <p>Age: <span id="age">20</span></p>
+                    <p>Email: <span id="email">xyz@gmail.com</span></p>
+                    <p>Bitotsav ID: <span id="bitotsavId">BIT123</span></p>
+                    <p>Phone: <span id="phone">9999999999</span></p>
+                    <p>College: <span id="college">XYZ college</span></p>
+                    <p>Roll Number: <span id="rollno">BE123123</span></p>
+                    <p>Year: <span id="year">2018</span></p>
+                </div>
+                <div id="settings" class="tab-pane fade">
+                    <form id="passwordUpdate">
+                        <h3>Login Information</h3>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-12"> 
+                            <label for="old-password">Old Password</label><br>
+                            <input type="password" name="old-password" id="old-password" maxlength="50" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-12"> 
+                            <label for="new-password">New Password </label><br>
+                            <input type="password" name="new-password" id="new-password" maxlength="50" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-12"> 
+                            <label for="confirm-new-password">Confirm New Password </label><br>
+                            <input type="password" name="confirm-new-password" id="confirm-new-password" maxlength="50" required>
+                            </div>
+                        </div>
+                        <br>
+                        <input type="submit" class="btn btn-primary" name="resetPassword" value="Reset" id="passwordSave">
+                    </form>
+                </div>
+                <div id="events" class="tab-pane fade">
+                    <div style="overflow-x:auto;">
+                        <table id="eventData">
+                            <tr>
+                                <th>Event ID</th>
+                                <th>Event Name</th>
+                                <th>Team Leader</th>
+                                <th>Options</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="event-dropdown">
+                        <label for="js-dropdown">Event Name</label>
+                        <select id="js-dropdown" style="width: 50%">
+                            <optgroup label="Alaskan/Hawaiian Time Zone">
+                                <option value="AK">Alaska</option>
+                                <option value="HI">Hawaii</option>
+                            </optgroup>
+                            <optgroup label="Pacific Time Zone">
+                                <option value="CA">California</option>
+                                <option value="NV">Nevada</option>
+                                <option value="OR">Oregon</option>
+                                <option value="WA">Washington</option>
+                            </optgroup>
+                            <optgroup label="Mountain Time Zone">
+                                <option value="AZ">Arizona</option>
+                                <option value="CO">Colorado</option>
+                                <option value="ID">Idaho</option>
+                                <option value="MT">Montana</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="UT">Utah</option>
+                                <option value="WY">Wyoming</option>
+                            </optgroup>
+                            <optgroup label="Central Time Zone">
+                                <option value="AL">Alabama</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IA">Iowa</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MO">Missouri</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TX">Texas</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="WI">Wisconsin</option>
+                            </optgroup>
+                            <optgroup label="Eastern Time Zone">
+                                <option value="CT">Connecticut</option>
+                                <option value="DE">Delaware</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="IN">Indiana</option>
+                                <option value="ME">Maine</option>
+                                <option value="MD">Maryland</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MI">Michigan</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NY">New York</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="OH">Ohio</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="VT">Vermont</option>
+                                <option value="VA">Virginia</option>
+                                <option value="WV">West Virginia</option>
+                            </optgroup>
+                        </select>
+                        
+                        <label for="js-dropdown2">Members</label>
+                        <select id="js-dropdown2" style="width: 10%">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button id="writeUsers" class="btn btn-info">Enter</button>
+                    </div>
+                    <div id="members-list">
+                        
+                    </div>
+                </div>
+                <div id="payment" class="tab-pane fade">
+                    <h3>Payment Page</h3>
+                    <p>Lorem ipsum dolor sit amet, nam dolorem conclusionemque at, sit an debitis sententiae. Eam sumo sale noluisse id.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="lib/pagination/pagination.min.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
