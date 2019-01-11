@@ -7,15 +7,17 @@ var dataList = document.getElementById('json-datalist');
 var input = document.getElementById('reg-college');
 $.ajax({
     type: 'GET',
-    url: "https://gist.githubusercontent.com/sachinkamath/69e4aa9ce42c9d65fba082b2390a410f/raw/0fbfe2cc4009907163afe8a9ab13cb90dd52e74c/college_list_master.txt",
+    url: requrl + '/api/admin/getCollegeList',
 }).done((data)=>{
-    data = data.substring(15, data.length-2);
-    const arr = data.split(',');
+    //data = data.substring(15, data.length-2);
+    //const arr = data.split(',');
+    data = JSON.parse(data);
+    const arr = data.collegeList.colleges;
     //console.log(arr);
     arr.forEach(function(item) {
         // Create a new <option> element.
         item = item.trim();
-        item = item.substring(1, item.length-1);
+        //item = item.substring(1, item.length-1);
         var option = document.createElement('option');
         // Set the value using the item in the JSON array.
         option.value = item;

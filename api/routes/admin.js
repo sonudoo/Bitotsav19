@@ -9,6 +9,43 @@ const nodemailer = require('nodemailer');
 const request = require('request');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const collegeList = require("../collegeList.json");
+
+
+// Get the College List
+router.get('/getCollegeList', (req, res) => {
+    res.status(200).send(JSON.stringify({
+        success: true,
+        collegeList: collegeList
+    }));
+});
+
+// Update Participant Password
+router.post('/updatePassword', (req, res) => {
+    bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
+        if(err){
+            console.log(err);
+            res.status(500).send(JSON.stringify({
+                success: false
+            }));
+        }
+        else{
+            db.participants
+            .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
+                if (error) {
+                    return res.status(500).send(JSON.stringify({
+                        success: false,
+                        msg: "An unknown error occurred."
+                    }));
+                }
+                res.status(200).send(JSON.stringify({
+                    success: true,
+                    msg: "Password Updated Successfully!!"
+                }));
+            });
+        }
+    });
+});
 
 // Stage 2 of Registration
 router.post('/verifyOTP', (req, res) => {
@@ -126,7 +163,7 @@ router.post('/saveparticipant', (req, res) => {
                                     console.log(error);
                                     return res.status(500).send(JSON.stringify({
                                         success: false,
-                                        msg: `Error sending OTP. Please try again later`
+                                        msg: `Error sending Conformation Email. Please try again later`
                                     }));
                                 } else {
                                     console.log('Confirmation Email sent: ' + info.response);
@@ -312,6 +349,8 @@ router.post('/register',(req,res) => {
         }
     });
 });
+
+
 
 // Participant Login route
 router.post('/participantLogin', (req, res) =>{
