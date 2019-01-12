@@ -13,7 +13,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700|Roboto:400,900" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
 
   <!-- Bootstrap CSS File -->
   <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -403,43 +403,30 @@
   <br>
 
   <form action="/">
-  <div class="row">
-    <div class="input-group spacing box" >
-      <span class="input-group-addon"><span class="box-child-label inp-grp-txt">Email</span></span>
-      <input type="text" class=" input-form box-child-field form-control" id="reg-email" placeholder="Email" required/>
-      
+  <div class="input-group spacing" >
+      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-envelope"></i></span></span>
+      <input type="text" class="form-control" id="reg-email" placeholder="Email" required/>
+      <span class="error" id="email_error"></span>
    </div>
-
-  </div>
-  <div class="row">
-    <span class="error" id="email_error"></span>
+   <div class="input-group spacing" >
+      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-user"></i></span></span>
+      <input class="form-control" type="text" id="reg-name" placeholder="Name" required/>
+      <span class="error" id="name_error"></span>
    </div>
-   <div class="row">
-    <div class="input-group box spacing" >
-      <span class="input-group-addon"><span class="box-child-label inp-grp-txt">Name</i></span></span>
-      <input class="input-form box-child-field form-control" type="text" id="reg-name" placeholder="Name" required/>
-      
+   <div class="input-group spacing" >
+      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-phone"></i></span></span>
+      <input class="form-control" type="text" id="reg-phone" placeholder="Phone" required/>
+      <span class="error" id="phone_error"></span>
    </div>
+   <div class="input-group spacing" >
+      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-key"></i></span></span>
+      <input class="form-control" type="password" id="reg-password" placeholder="Password" required/>
+      <span class="error" id="password_error"></span>
    </div>
-   <div class="row">
-    <span class="error" id="name_error"></span>
-   </div>
-   <div class="row">
-    <div class="input-group box spacing" >
-      <span class="input-group-addon"><span class="inp-grp-txt box-child-label">Phone</span></span>
-      <input class="input-form form-control box-child-field" type="text" id="reg-phone" placeholder="Phone" required/>
-      
-   </div>
-   
-   </div>
-   <div class="row">
-    <span class="error" id="phone_error"></span>
-   </div>
-  <div class="row">
-    <div class="input-group box spacing" >
-      <span class="input-group-addon"><span class="inp-grp-txt box-child-label">Password</i></span></span>
-      <input class="input-form form-control box-child-field" type="password" id="reg-password" placeholder="Password" required/>
-      
+   <div class="input-group spacing" >
+      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-key"></i></span></span>
+      <input class="form-control" type="password" id="reg-cpassword" placeholder="Confirm Password" required/>
+      <span class="error" id="cpassword_error"></span>
    </div>
    <div class="row">
     <span class="error" id="password_error"></span>
@@ -456,10 +443,8 @@
    </div>
   </div>
 
-  <center>
-    <div class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
-  </center>
-
+    <div  class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
+  
 
    <center><button id="reg-one" class="btn btn-success" > Register</button></center>
 

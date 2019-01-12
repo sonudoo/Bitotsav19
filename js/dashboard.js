@@ -15,8 +15,7 @@ $.ajax({
             alert(res.msg);
             return;
         }
-        console.log(res.data);
-        $("#username").text(res.data.name);
+        $("#username").text(res.data.name.toUpperCase());
         $("#age").text(res.data.age);
         $("#username").text(res.data.username);
         $("#email").text(res.data.email);
@@ -51,9 +50,6 @@ function prepareEventTable(id, events) {
                 return a.eventId-b.eventId;
             }
             res.data.sort(compare);
-
-            console.log(res.data);
-
             var userEvents=[],n=events.length,n2=res.data.length,mark=[];
             for(var i=0;i<n2;i++) {
                 mark[i]=0;
@@ -105,14 +101,14 @@ function prepareEventTable(id, events) {
             for(var i=0;i<members;i++) {
                 $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
             }
-            $("#memberInfo").append("<br><input type='submit' class='btn btn-primary' name='registerUsers' value='Register' id='regsiterUsers'>");
+            $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
+            $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
 
             $('#js-dropdown').on('change', function() {
                 $("#js-dropdown2").html("");
                 $("#memberInfo").html("");
                 var mini=res.data[$(this).val()-1].mini;
                 var maxx=res.data[$(this).val()-1].maxx;
-                console.log(mini,maxx);
                 for(var i=mini;i<=maxx;i++) {
                     $("#js-dropdown2").append(`<option value=${i}>${i}</option>`);
                 }
@@ -121,7 +117,8 @@ function prepareEventTable(id, events) {
                 for(var i=0;i<members;i++) {
                     $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
                 }
-                $("#memberInfo").append("<br><input type='submit' class='btn btn-primary' name='registerUsers' value='Register' id='regsiterUsers'>");
+                $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
+                $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
             });
 
             $("#js-dropdown2").on("change",function(){
@@ -131,7 +128,8 @@ function prepareEventTable(id, events) {
                 for(var i=0;i<members;i++) {
                     $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
                 }
-                $("#memberInfo").append("<br><input type='submit' class='btn btn-primary' name='registerUsers' value='Register' id='regsiterUsers'>");
+                $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
+                $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
             });
 
             // Deregister Routes
@@ -193,6 +191,36 @@ $("#sidebar a").on("click",function(){
 $("#memberInfo").submit(function(e) {
     e.preventDefault();
     // Validation
+    var emails=[],bitIds=[];
+    var memberSize=$("#js-dropdown2").val();
+    for(var i=0;i<memberSize;i++) {
+        emails[i]=$("#email"+i).val().trim();
+        bitIds[i]=$("#bitotsavId"+i).val().trim();
+    }
+    for(var i=0;i<memberSize;i++) {
+        if(emails[i]==="")
+        {
+            var fieldNum=i+1;
+            $("#error-message2").text("*Email field "+fieldNum+" is empty!");
+            $("#error-message2").css("color", "red");
+            return false;
+        }
+        if(bitIds[i]==="")
+        {
+            var fieldNum=i+1;
+            $("#error-message2").text("*Bitotsav ID field "+fieldNum+" is empty!");
+            $("#error-message2").css("color", "red");
+            return false;
+        }
+    }
+    for(var i=0;i<memberSize;i++) {
+        if(check_email(emails[i])===false) {
+            var fieldNum=i+1;
+            $("#error-message2").text("*Email "+fieldNum+" is incorrect!");
+            $("#error-message2").css("color", "red");
+            return false;
+        }
+    }
 
     // Request
     var eventId=$("#js-dropdown").val();
@@ -200,8 +228,8 @@ $("#memberInfo").submit(function(e) {
     var members=[];
     for(var i=0;i<memberSize;i++) {
         members.push({
-            memberEmail: $("#email"+i).val(),
-            memberId: $("#bitotsavId"+i).val()
+            memberEmail: emails[i],
+            memberId: bitIds[i]
         });
     }
     var leaderId=userbitId;
@@ -224,7 +252,8 @@ $("#memberInfo").submit(function(e) {
         success: function (res) {
             res = JSON.parse(res);
             if(res.success===false) {
-                alert(res.msg);
+                $("#error-message2").text("*"+res.msg);
+                $("#error-message2").css("color", "red");
                 return false;
             }
             alert(res.msg);
@@ -232,12 +261,23 @@ $("#memberInfo").submit(function(e) {
         },
         error: function(res){
             res = JSON.parse(res);
-            alert(res.msg);
+            $("#error-message2").text("*"+res.msg);
+            $("#error-message2").css("color", "red");
+            return false;
         }
     });
-
     return false;
 });
+
+function check_email(email) {
+    var pattern = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})$/;
+    if(pattern.test(email)&&email!='') {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 $("#passwordUpdate").submit(function(e) {
     e.preventDefault();
@@ -270,16 +310,16 @@ $("#passwordUpdate").submit(function(e) {
         success: function (res) {
             res = JSON.parse(res);
             if(res.success===false) {
-                $("#error-message").text(res.msg);
+                $("#error-message").text("*"+res.msg);
                 $("#error-message").css("color", "red");
                 return false;
             }
-            $("#error-message").text(res.msg);
+            $("#error-message").text("*"+res.msg);
             $("#error-message").css("color", "green");
         },
         error: function(res){
             res = JSON.parse(res);
-            $("#error-message").text(res.msg);
+            $("#error-message").text("*"+res.msg);
             $("#error-message").css("color", "red");
         }
     });

@@ -1412,7 +1412,10 @@ button.scroll_down:before {
 /* -------------------------------------------------------------------------
    end Scroll Down Button
  * ------------------------------------------------------------------------- */
-.disable-scroll{
+
+
+  /* Event page starts here */
+ .disable-scroll{
   margin: 0; height: 100%; overflow: hidden;
 }
 .events-background{
@@ -1432,14 +1435,16 @@ button.scroll_down:before {
     }
 }*/
 
+
 .events-cover-background{
   opacity: 0.4;
   overflow-y: scroll;
   overflow-x: hidden;
   position: absolute;
   z-index:2;
+  height: -webkit-fill-available;
   min-width: 100%;
-  min-height: 95%;
+
 	background: linear-gradient(-45deg, rgb(238, 119, 82,1), rgb(231, 60, 126,1),
   rgb(35, 166, 213,1), rgb(35, 213, 171,1));
 	background-size: 400% 400%;
@@ -1492,7 +1497,7 @@ button.scroll_down:before {
  .heading {
   font-family: 'Staatliches', cursive;
   font-family: 'Anton', sans-serif;
-  font-size: 9vw;
+  font-size: 8vw;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
@@ -1522,9 +1527,9 @@ button.scroll_down:before {
 }
 .event-card {
   float: left;
-  margin: 3vw 0vw 3vw 6vw;
-  width: 26vw;
-  height: 26vw;
+  margin: 1vw 0vw 3vw 6vw;
+  width: 12vw;
+  height: 12vw;
   border-radius: 234vw;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   overflow: hidden;
@@ -1532,16 +1537,16 @@ button.scroll_down:before {
 
 
 div.event-card .thumb {
-  height: 26vw;
-  width: 26vw;
+  height: inherit;
+  width: inherit;
   background: url("../img/amit_trivedi.jpg") no-repeat center;
   background-size: 100%;
 
 }
 div.event-card .infos {
   background-color: #FCE601;
-  width: auto;
-  height: 26vw;
+  width: inherit;
+  height: inherit;
   position: relative;
   padding: 14px 24px;
   transition: 0.4s 0.15s cubic-bezier(0.17, 0.67, 0.5, 1.03);
@@ -1549,11 +1554,10 @@ div.event-card .infos {
 div.event-card .infos .title {
   text-align: -webkit-center;
   position: relative;
-  margin: 7vw 0 10px 0;
-  letter-spacing: 2px;
+  margin: 3vw 0vw 0 -1vw;
   color: #152536;
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 4vw;
+  font-size: 1.5vw;
   text-transform: uppercase;
   text-shadow: 0 0 0px #32577f;
 }
@@ -1600,12 +1604,31 @@ div.event-card .infos .details {
   transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
 }
 div.event-card:hover .infos {
-  -webkit-transform: translateY(-26vw);
-          transform: translateY(-26vw);
+  -webkit-transform: translateY(-12vw);
+          transform: translateY(-12vw);
 }
 div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-card:hover .infos .details {
   opacity: 1;
 }
+#back{
+  z-index: 100;
+  margin: 1.5vw;
+  display: none;
+  background-size: 100%;
+  width: 3vw;
+  position: absolute;
+  height: 3vw;
+  background-image: url(../img/back-icon.png);
+}
+
+.modal{
+  min-height:55vw;
+  max-height:55vw;
+  margin-top: 15vw;
+  overflow-y: hidden;
+}
+
+/* event page ends here */
 
 .div-shift{
   display: none;

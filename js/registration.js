@@ -203,6 +203,7 @@ $(window).ready(function(){
         var password = $("#reg-password").val();
 
         if(!name_error && !email_error && !password_error && !phone_error){
+            console.log("sadasd");
             var data = {
                 "email":email,
                 "name":name,

@@ -60,7 +60,10 @@ $(window).ready(function(){
                 }
                 else{
                     alert(res.msg);
-                    location.reload(true);
+                    if(res.msg == "You are not registered yet."){
+                        window.location.href = 'registration.html';
+                    }
+                    else location.reload(true);
                 }
              })
              .fail(function(err){

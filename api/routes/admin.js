@@ -12,6 +12,26 @@ const bcrypt = require("bcryptjs");
 const collegeList = require("../collegeList.json");
 
 
+
+//Routes for the events page
+
+router.post("/getEventByCategory",(req,res) => {
+    //console.log(req.body)
+    db.events.find({eventCategory:req.body.category},{eventFacultyAdvisor:0,eventRequirements:0,eventStatus:0},function(err,Eventsdb){
+        if(err){
+            console.log(err);
+            // return res.status(500).send(JSON.stringify({
+            //     success: false
+            // }));
+        }
+        else {
+            //console.log(db);
+            return res.send(Eventsdb);
+        }
+    })
+});
+
+
 // Get the College List
 router.get('/getCollegeList', (req, res) => {
     res.status(200).send(JSON.stringify({
@@ -332,7 +352,7 @@ router.post('/participantLogin', (req, res) =>{
         if(user.length<1){
             res.status(200).send(JSON.stringify({
                 success: false,
-                msg: "No such participant"
+                msg: "You are not registered yet."
             }));
         }
         else if(user[0].otpVerified == false || user[0].id == "-1"){
@@ -552,7 +572,7 @@ router.post('/updatePassword', checkAuth, (req, res) => {
 
 // Event Registration
 router.post('/eventRegistration', checkAuth, (req, res) => {
-    
+
     const memberArr = JSON.parse(req.body.members);
     let validatedMembers = 0;
     for(let j=0;j<memberArr.length;j++){
@@ -582,7 +602,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                 } else {
                     for(let k=0;k<result[0].events.length;k++){
                         if(result[0].events[k].eventId == req.body.eventId){
-                            res.status(200).send(JSON.stringify({
+                            return res.status(200).send(JSON.stringify({
                                 success: false,
                                 msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
                             }));
@@ -611,7 +631,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                                     db.participants.update({ email : memberArr[i].memberEmail }, {
                                         $push : {
                                             events: {
-                                                "eventId" : req.body.eventId,
+                                                "eventId" : parseInt(req.body.eventId),
                                                 "teamLeader" : req.body.leaderId
                                             }
                                         }
@@ -624,10 +644,26 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                                         } else {
                                             updatedMembers = updatedMembers + 1;
                                             if(updatedMembers == memberArr.length){
-                                                res.status(200).send(JSON.stringify({
-                                                    success: true,
-                                                    msg: "Team Registered Successfully"
-                                                }));
+                                                const teamM = memberArr.map(member => member.memberId);
+                                                const newTeam = {
+                                                    eventId: parseInt(req.body.eventId),
+                                                    teamLeaderId: req.body.leaderId,
+                                                    teamMembers: teamM
+                                                }
+                                                db.teams
+                                                .insert(newTeam, function (error, result) {
+                                                    if (error) {
+                                                        return res.status(500).send(JSON.stringify({
+                                                            success: false,
+                                                            msg: "An unknown error occurred."
+                                                        }));
+                                                    }
+                                                    console.log(result);
+                                                    res.status(200).send(JSON.stringify({
+                                                        success: true,
+                                                        msg: "Team Registered Successfully"
+                                                    }));
+                                                });
                                             }
                                         }
                                     });
@@ -643,7 +679,6 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
 
 // Event De-Registration
 router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
-    console.log(req.params);
     let bitotsavID = "BT18/"+req.params.bitId;
     let eventID = parseInt(req.params.eventId);
     let countMembers = 0;
