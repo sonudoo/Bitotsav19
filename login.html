@@ -398,23 +398,27 @@
 
 
 
-<div class="forgotpass-one">
+<div class="login">
   <h1 style="font-size:32px;">Login</h1>
   <br>
 
   <form action="/">
-  <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text">Email</span></span>
-      <input id="log-username" type="text" class="form-control"  placeholder="" required/>
-      <span class="error" id="username_error"></span>
+ <div class="row"> <div class="input-group spacing" >
+  <span class="input-group-addon"><span class="inp-grp-txt">Email</span></span>
+  <input id="log-username" type="text" class="input-form form-control"  placeholder="" required/>
+  
+
+</div>
+</div>
+<div class="row"><span class="error" id="username_error"></span></div>
+   <div class="row">
+    <div class="input-group spacing" >
+      <span class="input-group-addon"><span class="inp-grp-txt">Password</span></span>
+      <input id="log-password" type="password" class=" input-form form-control"  placeholder="" required/>
+      <span class="error" id="password_error"></span>
 
    </div>
-   <div class="input-group spacing" >
-        <span class="input-group-addon"><span class="input-group-text">Password</span></span>
-        <input id="log-password" type="password" class="form-control"  placeholder="" required/>
-        <span class="error" id="password_error"></span>
-
-     </div>
+   </div>
     <center><button id="login" class="btn btn-success" >Login</button></center>
 
 

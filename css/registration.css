@@ -44,39 +44,39 @@ html{
   -webkit-border-radius: 8px/7px; 
   -moz-border-radius: 8px/7px; 
   border-radius: 8px/7px; 
-  background-color: #ebebeb; 
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+  /* background-color: #ebebeb;  */
+  /* -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
   box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  border: solid 1px #cbc9c9;
+  border: solid 1px #cbc9c9; */
 }
 .page-two {
   margin: 20px auto;
   width: 50vw; 
   height: 250px; 
-  -webkit-border-radius: 8px/7px; 
+  /* -webkit-border-radius: 8px/7px; 
   -moz-border-radius: 8px/7px; 
   border-radius: 8px/7px; 
   background-color: #ebebeb; 
   -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
   box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  border: solid 1px #cbc9c9;
+  border: solid 1px #cbc9c9; */
 }
 
 .page-three{
   margin: 20px auto;
   width: 50vw; 
   height: 400px; 
-  -webkit-border-radius: 8px/7px; 
+  /* -webkit-border-radius: 8px/7px; 
   -moz-border-radius: 8px/7px; 
   border-radius: 8px/7px; 
   background-color: #ebebeb; 
   -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
   box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  border: solid 1px #cbc9c9;
-}
+  border: solid 1px #cbc9c9;*/
+} 
 
 
 
@@ -166,11 +166,11 @@ input[type=text],input[type=password]{
   -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
   -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px; 
   border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
-  background-color: #fff; 
+  /* background-color: #fff;  */
   -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
   box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
-  border: solid 1px #cbc9c9;
+  /* border: solid 1px #cbc9c9; */
   margin-left: -5px; 
   padding-left: 10px;
 }
@@ -254,38 +254,46 @@ a.button:hover {
 	font-size: 0.90em;
 }
 
-.forgotpass-one{
+.login{
   margin: 20px auto;
   width: 50vw; 
   height: 250px; 
-  -webkit-border-radius: 8px/7px; 
-  -moz-border-radius: 8px/7px; 
-  border-radius: 8px/7px; 
-  background-color: #ebebeb; 
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-  border: solid 1px #cbc9c9;
+
 
 }
+
+.inp-grp-txt{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: .375rem .75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+  /* background-color: #e9ecef; */
+  /* border: 1px solid #ced4da; */
+  border-radius: .25rem;
+}
+.input-form{
+  background:transparent;border: none;
+  border-bottom: 1px solid rgb(251, 255, 0);
+}
+.input-form::click{
+  background:transparent;border: none;
+  
+}
 @media screen and (max-width:650px){
-  .forgotpass-one{
+  .login{
     width: 85vw;
   }
 }
-.forgotpass-two{
-margin: 20px auto;
-width: 50vw; 
-height: 250px; 
--webkit-border-radius: 8px/7px; 
--moz-border-radius: 8px/7px; 
-border-radius: 8px/7px; 
-background-color: #ebebeb; 
--webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
--moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-border: solid 1px #cbc9c9;
 
-}
 
 
