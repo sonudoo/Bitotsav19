@@ -948,7 +948,7 @@ body {
   /* makes sure it stays on top */
 }
 
-        
+
 html, #status {
   width: 100%;
   height: 100%;
@@ -1280,7 +1280,7 @@ transform: scale(0.55);
 
 .icons{
   color: rgb(230, 110, 13);
-  
+
 }
 
 /* The sidebar menu */
@@ -1410,7 +1410,7 @@ button.scroll_down:before {
 }
 
 /* -------------------------------------------------------------------------
-   end Scroll Down Button 
+   end Scroll Down Button
  * ------------------------------------------------------------------------- */
 .disable-scroll{
   margin: 0; height: 100%; overflow: hidden;
@@ -1609,4 +1609,9 @@ div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-
 
 .div-shift{
   display: none;
+}
+@media only screen and (max-width: 500px) {
+  .sidenav{
+      display: none;
+  }
 }
