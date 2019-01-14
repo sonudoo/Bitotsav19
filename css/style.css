@@ -1492,6 +1492,8 @@ button.scroll_down:before {
   .event-content{
     position:relative;
     z-index:4;
+    max-height: -webkit-fill-available;
+    overflow: scroll;
   }
 
  .heading {
@@ -1518,14 +1520,25 @@ button.scroll_down:before {
   width: 0px; /*remove scrollbar space*/
   background: transparent optional; /*just make scrollbar invisible */
 }
-@media screen and (max-width: 900px){
+@media screen and (max-width: 576px){
+  
+  /* div.event-card-group{
+   
+    max-height: 100%;
+  } */
   div.event-card{
-    margin: 4vw 0vw 3vw 40vw;
+    cursor: pointer;
+    margin: 4vw 0vw 3vw 34vw;
+    height: 30vw;
+    width : 30vw;
   }
-
+  div.event-card .infos .title {
+    font-size: 4.5vw;
+  }
 
 }
 .event-card {
+  cursor: pointer;
   float: left;
   margin: 1vw 0vw 3vw 6vw;
   width: 12vw;
@@ -1562,54 +1575,88 @@ div.event-card .infos .title {
   text-shadow: 0 0 0px #32577f;
 }
 
-div.event-card .infos .date, div.event-card .infos .seats {
-  text-align: -webkit-center;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  font-size: 1rem;
-  color: rgba(21, 37, 54, 0.7);
-  font-family: "Grotesque", sans-serif;
-}
-div.event-card .infos .seats {
-  text-align: -webkit-center;
-  display: inline-block;
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
-}
-div.event-card .infos .txt {
-  text-align: -webkit-center;
-  font-family: "Merriweather", sans-serif;
-  line-height: 2;
-  font-size: 1rem;
-  color: rgba(21, 37, 54, 0.7);
-  opacity: 0;
-  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
-}
-div.event-card .infos .details {
-  text-align: -webkit-center;
-
-
-  margin: 10px 0;
-  padding: 20px 24px;
-  letter-spacing: 1px;
-  color: #4e958b;
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: .95rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  opacity: 0;
-  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
-}
 div.event-card:hover .infos {
-  -webkit-transform: translateY(-12vw);
-          transform: translateY(-12vw);
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
 }
 div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-card:hover .infos .details {
   opacity: 1;
 }
+
+/* -------------------------------------------------------------------------
+   begin Scroll Down Button
+ * ------------------------------------------------------------------------- */
+ button.scroll_down {
+   z-index: 10;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 30px;
+  bottom: 60px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+
+  outline: none;
+}
+button.scroll_down:before {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: scroll_down_btn-animation 2s infinite;
+  animation: scroll_down_btn-animation 2s infinite;
+  box-sizing: border-box;
+}
+
+@keyframes scroll_down_btn-animation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes scroll_down_btn-animation {
+  0% {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translate(0, 20px);
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   end Scroll Down Button 
+ * ------------------------------------------------------------------------- */
+
 #back{
   z-index: 100;
   margin: 1.5vw;
@@ -1618,6 +1665,7 @@ div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-
   width: 3vw;
   position: absolute;
   height: 3vw;
+  cursor: pointer;
   background-image: url(../img/back-icon.png);
 }
 

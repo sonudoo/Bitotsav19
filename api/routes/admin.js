@@ -31,6 +31,19 @@ router.post("/getEventByCategory",(req,res) => {
     })
 });
 
+router.post("/getEventById", (req, res) => {
+    db.events.find({eventId: parseInt(req.body.eventId)}, function(error, result){
+        if(error){
+            res.send(JSON.stringify({
+                success: false
+            }));
+        }
+        else{
+            return res.send(JSON.stringify(result));
+        }
+    })
+})
+
 
 // Get the College List
 router.get('/getCollegeList', (req, res) => {

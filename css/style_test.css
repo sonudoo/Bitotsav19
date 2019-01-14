@@ -1,6 +1,7 @@
 html, body {
     position: relative;
     margin: 0;
+    width: 100%;
   }
   #image {
     width: 1400px;
@@ -16,3 +17,547 @@ html, body {
     background-image: url('../img/asia-political-map.jpg');
   }
   
+
+  
+#container {
+  max-width: 1024px;
+  margin: auto;
+}
+
+#monitor {
+	background: #000; 
+	position: relative;
+	border-top: 3px solid #888; 
+	margin: 5%;
+	padding: 2% 2% 4% 2%; 
+	border-radius: 10px; 
+	border-bottom-left-radius: 50% 2%; 
+	border-bottom-right-radius: 50% 2%; 
+	transition: margin-right 1s;
+}
+
+#monitor:after {
+	content: '';
+	display: block;
+	position: absolute;
+	bottom: 3%;
+	left: 36%;
+	height: .5%; 
+	width: 28%;
+	background: #ddd; 
+	border-radius: 50%; 
+	box-shadow: 0 0 3px 0 white; 
+}
+
+#monitorscreen {
+	position: relative;
+  background-color: #777;
+	background-size: cover; 
+	background-position: top center;
+	height: 0; 
+	padding-bottom: 56.25%; 
+	position: relative;
+	overflow: hidden;
+}
+
+
+@media all and (min-width: 960px) {
+	#monitor {
+		-webkit-animation: tvflicker .2s infinite alternate; 
+		-moz-animation:    tvflicker .5s infinite alternate; 
+		-o-animation:      tvflicker .5s infinite alternate; 
+		animation:         tvflicker .5s infinite alternate; 
+	}
+
+	@-webkit-keyframes tvflicker {
+	  0%   { box-shadow: 0 0 100px 0 rgba(200,235,255,0.4); }
+	  100% { box-shadow: 0 0 95px 0 rgba(200,230,255,0.45); }
+	}
+	@-moz-keyframes tvflicker {
+	  0%   { box-shadow: 0 0 100px 0 rgba(225,235,255,0.4); }
+	  100% { box-shadow: 0 0 60px 0 rgba(200,220,255,0.6); }
+	}
+	@-o-keyframes tvflicker {
+	  0%   { box-shadow: 0 0 100px 0 rgba(225,235,255,0.4); }
+	  100% { box-shadow: 0 0 60px 0 rgba(200,220,255,0.6); }
+	}
+	@keyframes tvflicker {
+	  0%   { box-shadow: 0 0 100px 0 rgba(225,235,255,0.4); }
+	  100% { box-shadow: 0 0 60px 0 rgba(200,220,255,0.6); }
+	}
+}
+
+.icon {
+  color: #ffffff;
+  margin-bottom: 50px;
+  padding: 10px;
+}
+
+.icon:hover {
+  size: 120%;
+  background-color: #ffffff;
+  color: #000;
+  border: 1px solid #FFF;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.box {
+  background-color: rgba(0,0,0,0.8);
+  padding: 10vh;
+  border: 1px #FFF solid;
+  border-radius: 5px;
+  box-shadow: #FFF;
+  max-height: 60vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.box > p {
+  color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-align: justify;
+}
+
+.box > li {
+  color: white;color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  text-align: justify;
+}
+.box > h3 {
+  color: #ddd;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+	border: 2px solid #555555;
+}
+
+.next{
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 11;
+}
+
+.previous{
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  z-index: 11;
+}
+
+.event-item{
+  color: lightyellow;
+  padding: 50px;
+}
+
+.event-item > p{
+  padding: 10px;
+}
+
+.event-item:hover {
+  color: #fff;
+  cursor: pointer;
+  transform: scale(1.5);
+}
+
+
+/*Events Page */
+.wrapper {
+  background: -webkit-linear-gradient(right, #c56f82, #497ccb);
+  background: linear-gradient(270deg, #c56f82, #497ccb);
+  height: 100vh;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/* -------------------------------------------------------------------------
+   begin Scroll Down Button
+ * ------------------------------------------------------------------------- */
+button.scroll_down {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 30px;
+  bottom: 60px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+}
+button.scroll_down:before {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: scroll_down_btn-animation 2s infinite;
+  animation: scroll_down_btn-animation 2s infinite;
+  box-sizing: border-box;
+}
+
+@keyframes scroll_down_btn-animation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes scroll_down_btn-animation {
+  0% {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translate(0, 20px);
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   end Scroll Down Button
+ * ------------------------------------------------------------------------- */
+
+
+  /* Event page starts here */
+ .disable-scroll{
+  margin: 0; height: 100%; overflow: hidden;
+}
+.events-background{
+  position: relative;
+  height:-webkit-fill-available;
+  background-image:url('../img/events-background.jpg');
+  background-size:cover;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  opacity:1;
+  margin: 0;
+  z-index: 2;
+}
+/*@media screen and (max-width: 444px){
+    .events-background {
+        background-position-x: -30vw;
+    }
+}*/
+
+
+.events-cover-background{
+  opacity: 0.4;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  z-index:2;
+  height: -webkit-fill-available;
+  min-width: 100%;
+
+	background: linear-gradient(-45deg, rgb(238, 119, 82,1), rgb(231, 60, 126,1),
+  rgb(35, 166, 213,1), rgb(35, 213, 171,1));
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 3s ease infinite;
+	-moz-animation: Gradient 3s ease infinite;
+	animation: Gradient 3s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+  .event-content{
+    position:relative;
+    z-index:4;
+    max-height: -webkit-fill-available;
+    overflow: scroll;
+  }
+
+ .heading {
+  font-family: 'Staatliches', cursive;
+  font-family: 'Anton', sans-serif;
+  font-size: 8vw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgb(228, 228, 228);
+  transition: font-size 0.3s;
+}
+.heading::first-letter {
+  color: #ff0000;
+}
+.event-card-group{
+
+  position: relative;
+  overflow: scroll;
+}
+::-webkit-scrollbar {
+  width: 0px; /*remove scrollbar space*/
+  background: transparent optional; /*just make scrollbar invisible */
+}
+@media screen and (max-width: 576px){
+  
+  /* div.event-card-group{
+   
+    max-height: 100%;
+  } */
+  div.event-card{
+    cursor: pointer;
+    margin: 4vw 0vw 3vw 34vw;
+    height: 30vw;
+    width : 30vw;
+  }
+  div.event-card .infos .title {
+    font-size: 4.5vw;
+  }
+
+}
+.event-card {
+  cursor: pointer;
+  float: left;
+  margin: 1vw 0vw 3vw 6vw;
+  width: 12vw;
+  height: 12vw;
+  border-radius: 234vw;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+
+div.event-card .thumb {
+  height: inherit;
+  width: inherit;
+  background: url("../img/amit_trivedi.jpg") no-repeat center;
+  background-size: 100%;
+
+}
+div.event-card .infos {
+  background-color: #FCE601;
+  width: inherit;
+  height: inherit;
+  position: relative;
+  padding: 14px 24px;
+  transition: 0.4s 0.15s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+}
+div.event-card .infos .title {
+  text-align: -webkit-center;
+  position: relative;
+  margin: 3vw 0vw 0 -1vw;
+  color: #152536;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.5vw;
+  text-transform: uppercase;
+  text-shadow: 0 0 0px #32577f;
+}
+
+div.event-card:hover .infos {
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+}
+div.event-card:hover .infos .seats, div.event-card:hover .infos .txt, div.event-card:hover .infos .details {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------------------
+   begin Scroll Down Button
+ * ------------------------------------------------------------------------- */
+ button.scroll_down {
+   z-index: 10;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 30px;
+  bottom: 60px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+
+  outline: none;
+}
+button.scroll_down:before {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: scroll_down_btn-animation 2s infinite;
+  animation: scroll_down_btn-animation 2s infinite;
+  box-sizing: border-box;
+}
+
+@keyframes scroll_down_btn-animation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes scroll_down_btn-animation {
+  0% {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translate(0, 20px);
+    transform: translate(0, 20px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   end Scroll Down Button 
+ * ------------------------------------------------------------------------- */
+
+#back{
+  z-index: 100;
+  margin: 1.5vw;
+  display: none;
+  background-size: 100%;
+  width: 3vw;
+  position: absolute;
+  height: 3vw;
+  cursor: pointer;
+  background-image: url(../img/back-icon.png);
+}
+
+.modal{
+  min-height:55vw;
+  max-height:55vw;
+  margin-top: 15vw;
+  overflow-y: hidden;
+}
+
+/* event page ends here */
+
+.div-shift{
+  display: none;
+}
+@media only screen and (max-width: 500px) {
+  .sidenav{
+      display: none;
+  }
+}
+
+
+body,
+html{
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
