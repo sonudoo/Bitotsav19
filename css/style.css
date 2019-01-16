@@ -1686,3 +1686,14 @@ button.scroll_down:before {
       display: none;
   }
 }
+.sponsor-img{
+  width: 22vw;
+  margin: 33px;
+}
+@media screen and (max-width: 767px){
+
+.sponsor-img{
+  width: 52vw;
+}
+  
+}
