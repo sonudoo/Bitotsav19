@@ -1,8 +1,8 @@
 // GET request for Profile Page
-var requrl = "http://localhost:3000";
+var requrl = "https://bitotsav.in";
 var userbitId,userbitCollege,userbitEmail;
 $.ajax({
-    url: requrl+"/api/admin/dashboard",
+    url: requrl+"/api/participants/dashboard",
     type: 'GET',
     headers: {
         token: localStorage.getItem('token')
@@ -15,8 +15,8 @@ $.ajax({
             alert(res.msg);
             return;
         }
+        console.log(res);
         $("#username").text(res.data.name.toUpperCase());
-        $("#age").text(res.data.age);
         $("#username").text(res.data.username);
         $("#email").text(res.data.email);
         $("#bitotsavId").text(res.data.id);
@@ -26,19 +26,44 @@ $.ajax({
         $("#year").text(res.data.year);
         var gender=res.data.gender.toLowerCase();
         if(gender==="female") {
-            $("#gender").attr("src","img/woman.jpg");
+            $("#gender").attr("src","img/woman.png");
         }
         userbitId=res.data.id;
         userbitCollege=res.data.college;
         userbitEmail=res.data.email;
         prepareEventTable(res.data.id,res.data.events);
+    },
+    error: function(res){
+        res = JSON.parse(res);
+        alert(res.msg);
     }
-});   
+});
+
+// Championship registration
+$('#team-reg').on('click',function(e){
+    e.preventDefault();
+    $.ajax({
+        url: requrl + "/api/participants/championship",
+        type: 'POST',
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        success: function(res) {
+            res = JSON.parse(res);
+            alert(res.msg);
+            location.reload(true);
+        },
+        error: function(res){
+            res = JSON.parse(res);
+            alert(res.msg);
+        }
+    });
+});
 
 // GET request for Events Page
 function prepareEventTable(id, events) {
     $.ajax({
-        url: requrl+"/api/admin/getEvents",
+        url: requrl+"/api/participants/getEvents",
         type: 'GET',
         success: function(res) {
             res = JSON.parse(res);
@@ -137,7 +162,11 @@ function prepareEventTable(id, events) {
                 var eventId=$(this)[0].id;
                 deregisterAjax(eventId);
             });
-        }   
+        },
+        error: function(res){
+            res = JSON.parse(res);
+            alert(res.msg);
+        }
     });
 }
 
@@ -162,7 +191,7 @@ function deregisterAjax(eventId) {
         headers: {
             token: localStorage.getItem('token')
         },
-        url: requrl+'/api/admin/eventDeregistration/'+eventId+'/'+userbitId2,
+        url: requrl+'/api/participants/eventDeregistration/'+eventId+'/'+userbitId2,
         success: function (res) {
             res = JSON.parse(res);
             if(res.success===false) {
@@ -247,7 +276,7 @@ $("#memberInfo").submit(function(e) {
         headers: {
             token: localStorage.getItem('token')
         },
-        url: requrl+'/api/admin/eventRegistration',
+        url: requrl+'/api/participants/eventRegistration',
         data: memberData,
         success: function (res) {
             res = JSON.parse(res);
@@ -284,13 +313,13 @@ $("#passwordUpdate").submit(function(e) {
     var oldPassword=$('#old-password').val();
     var newPassword=$('#new-password').val();
     var confirmNewPassword=$('#confirm-new-password').val();
-    if((oldPassword === "")||(newPassword === "")||(confirmNewPassword === "")) 
+    if((oldPassword === "")||(newPassword === "")||(confirmNewPassword === ""))
     {
         $("#error-message").text("*Fields can't be empty!");
         $("#error-message").css("color", "red");
         return false;
     }
-    if (newPassword !== confirmNewPassword) 
+    if (newPassword !== confirmNewPassword)
     {
         $("#error-message").text("*Password Mismatch");
         $("#error-message").css("color", "red");
@@ -302,7 +331,7 @@ $("#passwordUpdate").submit(function(e) {
         headers: {
             token: localStorage.getItem('token')
         },
-        url: requrl+'/api/admin/updatePassword',
+        url: requrl+'/api/participants/updatePassword',
         data: {
            oldPassword: oldPassword,
            newPassword: newPassword

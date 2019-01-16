@@ -14,12 +14,12 @@ for (let i = 0; i < 10; i++) {
 }
 for (let i = 0; i < order.length; i++) {
     $("#image").attr("data-" + i * 4000, "background-position: -" + countriesX[order[i]] + "px -" + countriesY[order[i]] + "px;");
-    $("#plane").attr("data-" + i * 4000, "height: 25%; width: 25%;");
-    $("#plane").attr("data-" + (i * 4000 + 2000), "height: 100%; width: 100%;");
+    $("#plane").attr("data-" + i * 4000, "height: 10%; width: 10%;");
+    $("#plane").attr("data-" + (i * 4000 + 2000), "height: 25%; width: 25%;");
 }
 let currentCountry = 0;
 let lastScroll = 0;
-let offset = -45;
+let offset = 0;
 $(window).scroll(function (event) {
     var scroll = $(window).scrollTop();
     if (scroll > lastScroll) {
@@ -83,14 +83,15 @@ const requrl = "https://bitotsav.in";
 function showEvents(){
     $("#event-category").hide(500);
     $("#event-home").show(500);
-    $("#event-back").hide();
+    $("#event-back").hide(500);
+    $("#event-details").hide(500);
 }
 
 function showEventDetails(eventId){
     $("#event-category").hide(500);
     $.ajax({
         type: 'POST',
-        url: requrl + '/api/admin/getEventById',
+        url: requrl + '/api/events/getEventById',
         data: {
             "eventId": eventId
         }
@@ -135,7 +136,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Music"
             }
@@ -168,7 +169,7 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
 
@@ -179,7 +180,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Dance"
             }
@@ -212,7 +213,7 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
 
@@ -225,7 +226,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Dramatics"
             }
@@ -258,7 +259,7 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
 
@@ -269,7 +270,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Speaking Arts"
             }
@@ -314,7 +315,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Digital Arts"
             }
@@ -347,7 +348,7 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
 
@@ -359,7 +360,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Fine Arts"
             }
@@ -392,7 +393,7 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
 
@@ -404,7 +405,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Fashion"
             }
@@ -437,9 +438,54 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
+
+    $("#literaryarts").click(function (e) {
+        e.preventDefault();
+        $("#event-home").hide(500);
+        $("#event-category").show(500);
+        $("#event-back").show(500);
+        $.ajax({
+            type: 'POST',
+            url: requrl + '/api/events/getEventByCategory',
+            data: {
+                "category": "Literary Arts"
+            }
+        })
+            .done((result) => {
+                if (result.success === 'fail') {
+                    location.reload(true);
+                }
+                else {
+                    let tmp = `
+                    <div class="row text-center">
+                    <div class="col-md-12">
+                        <h3 style="color: #FFF; ">Literary Arts</h3>
+                    </div><div class="col-md-1"></div>
+                `;
+                    for (var i = 0; i < result.length; i++) {
+                        tmp += `
+                        <div class="col-md-2">
+                        <div class="event-item text-center">
+                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                            <p>${result[i].eventName}</p>
+                        </div>
+                    </div>
+                        `;
+                    }
+                    tmp += `</div>`;
+                    $("#event-category").html(tmp);
+                }
+            })
+
+            .fail((err) => {
+                alert('Some error occured.Please try again.');
+                location.reload(true);
+            });
+    })
+
 
 
     $("#journalism").click(function (e) {
@@ -449,7 +495,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Journalism"
             }
@@ -482,7 +528,7 @@ $(document).ready(function () {
 
             .fail((err) => {
                 alert('Some error occured.Please try again.');
-                window.location.href = 'event.html';
+                location.reload(true);
             });
     })
 
@@ -494,7 +540,7 @@ $(document).ready(function () {
         $("#event-back").show(500);
         $.ajax({
             type: 'POST',
-            url: requrl + '/api/admin/getEventByCategory',
+            url: requrl + '/api/events/getEventByCategory',
             data: {
                 "category": "Informals"
             }

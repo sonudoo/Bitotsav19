@@ -1,4 +1,4 @@
-var requrl = "http://localhost:3000";
+var requrl = "https://bitotsav.in";
 
 //merge conflict
 
@@ -7,7 +7,7 @@ var dataList = document.getElementById('json-datalist');
 var input = document.getElementById('reg-college');
 $.ajax({
     type: 'GET',
-    url: requrl + '/api/admin/getCollegeList',
+    url: requrl + '/api/participants/getCollegeList',
 }).done((data)=>{
     //data = data.substring(15, data.length-2);
     //const arr = data.split(',');
@@ -213,7 +213,7 @@ $(window).ready(function(){
 
             $.ajax({
                 type:'POST',
-                url:requrl + "/api/admin/register/",
+                url:requrl + "/api/participants/register/",
                 data:data,
                 success : function(res){
                     res = JSON.parse(res);
@@ -251,7 +251,7 @@ $(window).ready(function(){
         if(!phone_otp_error&&!email_otp_error){
             $.ajax({
                 type:'POST',
-                url:requrl + "/api/admin/verifyOTP",
+                url:requrl + "/api/participants/verifyOTP",
                 data:data,
                 success:function(res){
                     res = JSON.parse(res);
@@ -302,7 +302,7 @@ $(window).ready(function(){
 
             $.ajax({
                 type:'POST',
-                url:requrl + "/api/admin/saveparticipant",
+                url:requrl + "/api/participants/saveparticipant",
                 data:data,
                 success : function(res){
                     res = JSON.parse(res);

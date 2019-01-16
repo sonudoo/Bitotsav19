@@ -1,4 +1,4 @@
-var requrl = "http://localhost:3000";
+var requrl = "https://bitotsav.in";
 $(window).ready(function(){
     $("#username-error").hide();
     $("#password-error").hide();
@@ -46,7 +46,7 @@ $(window).ready(function(){
          if(!username_error && !password_error){
              $.ajax({
                  type:'POST',
-                 url:requrl+ "/api/admin/participantLogin",
+                 url:requrl+ "/api/participants/participantLogin",
                  data: {
                      email : $("#log-username").val().trim(),
                      password : $("#log-password").val()
