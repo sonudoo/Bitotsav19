@@ -68,6 +68,7 @@ export class UpdateEventComponent implements OnInit {
     if(this.storage.get('token') != undefined){
       this.getEventByIdService.getEventById({ token: this.storage.get('token'), eventId: this.currentEventId }).subscribe(
         data => {
+          data = data[0];
           this.updateEventData = {
             eventName: data.eventName,
             eventVenue: data.eventVenue,
