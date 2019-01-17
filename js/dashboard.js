@@ -25,6 +25,8 @@ $.ajax({
         $("#college").text(res.data.college);
         $("#rollno").text(res.data.rollno);
         $("#year").text(res.data.year);
+        $("#emailT1").val(res.data.email);
+        $("#bitotsavIdT1").val(res.data.id);
         var gender=res.data.gender.toLowerCase();
         if(gender==="female") {
             $("#gender").attr("src","img/woman.png");
@@ -41,13 +43,65 @@ $.ajax({
 });
 
 // Championship registration
-$('#team-registration').on('click',function(e){
+$('#team-registration').submit(function(e){
     e.preventDefault();
+    var tName=$("#teamName").val().trim();
+    if(tName==="")
+    {
+        $("#error-message3").text("*Team Name Field is empty!");
+        $("#error-message3").css("color", "red");
+        return false;
+    }
+    var emails=[],bitIds=[];
+    for(var i=2;i<9;i++) {
+        emails.push($("#emailT"+i).val().trim());
+        bitIds.push($("#bitotsavIdT"+i).val().trim());
+    }
+    for(var i=0;i<7;i++) {
+        if(emails[i]==="")
+        {
+            var fieldNum=i+2;
+            $("#error-message3").text("*Email field "+fieldNum+" is empty!");
+            $("#error-message3").css("color", "red");
+            return false;
+        }
+        if(bitIds[i]==="")
+        {
+            var fieldNum=i+2;
+            $("#error-message3").text("*Bitotsav ID field "+fieldNum+" is empty!");
+            $("#error-message3").css("color", "red");
+            return false;
+        }
+    }
+    for(var i=0;i<7;i++) {
+        if(check_email(emails[i])===false) {
+            var fieldNum=i+2;
+            $("#error-message3").text("*Email "+fieldNum+" is incorrect!");
+            $("#error-message3").css("color", "red");
+            return false;
+        }
+    }
+    var members=[];
+    members.push({
+        memberEmail: userbitEmail,
+        memberId: userbitId
+    });
+    for(var i=0;i<7;i++) {
+        members.push({
+            memberEmail: emails[i],
+            memberId: bitIds[i]
+        });
+    }
     $.ajax({
         url: requrl + "/api/participants/championship",
         type: 'POST',
         headers: {
             token: localStorage.getItem('token')
+        },
+        data: {
+            teamMembers: members,
+            teamLeader: userbitId,
+            teamName: tName
         },
         success: function(res) {
             res = JSON.parse(res);
