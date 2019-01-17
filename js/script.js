@@ -156,7 +156,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -200,7 +200,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -246,8 +246,8 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
-                            <p>${result[i].eventName}</p>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
+                        <p>${result[i].eventName}</p>
                         </div>
                     </div>
                         `;
@@ -290,7 +290,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -335,7 +335,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -380,7 +380,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -425,7 +425,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -469,7 +469,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -515,7 +515,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -560,7 +560,7 @@ $(document).ready(function () {
                         tmp += `
                         <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})"></i>
+                        <img class="img img-fluid" src="img/event${result[i].eventId}.png" style="border-radius: 100%;" id="event-${result[i].eventId}" onclick="showEventDetails(${result[i].eventId})">
                             <p>${result[i].eventName}</p>
                         </div>
                     </div>
@@ -582,3 +582,80 @@ $(document).ready(function () {
 
 $("#event-back").hide();
 $("#event-details").hide();
+
+
+var div1 = document.getElementById('div1');
+var ul1 = document.getElementById('ul1');
+var li = document.getElementsByTagName('li');
+var img = div1.getElementsByTagName('img');
+var imgHead = document.getElementById('imgHead');
+var background = document.getElementById('background');
+var albumImg = document.getElementById('albumImg');
+var before = document.getElementById('before');
+var after = document.getElementById('after');
+var speed = 1;
+ul1.innerHTML = ul1.innerHTML + ul1.innerHTML; 
+ul1.style.width = li[0].offsetWidth * li.length + 192 + 'px'; //
+function move(){
+   if(-ul1.offsetLeft > ul1.offsetWidth/2){  
+      ul1.style.left = 0; 
+   }
+   if(ul1.offsetLeft > 0){ 
+      ul1.style.left = -ul1.offsetWidth/2 + 'px';  
+   }
+   ul1.style.left = ul1.offsetLeft + speed + 'px';
+}
+function moveClickLeft(){
+   if(ul1.offsetLeft%136 != 0){ 
+      ul1.style.left = ul1.offsetLeft - ul1.offsetLeft%136 - 136 + 'px';
+      
+   }
+   else{
+
+      if(-ul1.offsetLeft >= ul1.offsetWidth/2){ 
+         ul1.style.left = 0; 
+      }
+
+      ul1.style.left = ul1.offsetLeft + speed + 'px';
+   }
+}     
+
+function moveClickRight(){
+   if(ul1.offsetLeft%136 != 0){ 
+      ul1.style.left = ul1.offsetLeft - ul1.offsetLeft%136 + 'px';
+   }else{
+      if(ul1.offsetLeft >= 0){ 
+         ul1.style.left = -ul1.offsetWidth/2 + 'px';  
+      }
+      ul1.style.left = ul1.offsetLeft + speed + 'px';     
+   }
+}
+//*/
+var timer = setInterval( move, 30 );
+
+div1.onmouseover = function(){
+   clearInterval(timer);  
+}
+div1.onmouseout = function(){
+   timer = setInterval( move, 30 );
+   speed = 1;
+}
+before.onclick = function(){
+   speed = -68;
+   timer = setTimeout( moveClickLeft, 1 );
+}
+after.onclick = function(){
+   speed = 68;
+   timer = setTimeout( moveClickRight, 1 );
+}
+
+for(i=0 ; i<img.length ; i++){
+   img[i].onclick = function(){
+      //background.src = this.src;
+      albumImg.src = this.src;
+      albumImg.className = "none";
+      setTimeout(function(){
+         albumImg.className = 'fadeIn'
+      },1);
+   }
+}
