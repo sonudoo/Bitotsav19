@@ -41,7 +41,7 @@ $.ajax({
 });
 
 // Championship registration
-$('#team-reg').on('click',function(e){
+$('#team-registration').on('click',function(e){
     e.preventDefault();
     $.ajax({
         url: requrl + "/api/participants/championship",
