@@ -80,6 +80,7 @@ router.post('/saveparticipant', (req, res) => {
                 msg: "An unknown error occured"
             }));
         } else {
+            const bitId = "BT19/" + result[0].counter;
             const updatedUserInfo = {
                 id: "BT19/" + result[0].counter,
                 gender : req.body.gender,
@@ -142,7 +143,8 @@ router.post('/saveparticipant', (req, res) => {
                                     console.log('Confirmation Email sent: ' + info.response);
                                     return res.status(200).send(JSON.stringify({
                                         success: true,
-                                        msg: "You are registered successfully"
+                                        msg: "You are registered successfully",
+                                        data: bitId
                                     }));
                                 }
                             });
@@ -156,164 +158,179 @@ router.post('/saveparticipant', (req, res) => {
 
 // Stage 1 of Registration
 router.post('/register',(req,res) => {
-    db.participants
-    .find({email: req.body.email},function(error,user){
-        if(error){
-            console.log(err);
-            return res.status(500).send(JSON.stringify({
-                success: false
-            }));
-        }
-        if(user.length>=1 && user[0].otpVerified == true && user[0].id !== "-1"){
-            res.status(200).send(JSON.stringify({
+    var recaptcha_url = "https://www.google.com/recaptcha/api/siteverify?";
+    recaptcha_url += "secret=" + "6LcW6YEUAAAAAGeeSe5bs4TJKaoItsig6vPTHoNm" + "&";
+    recaptcha_url += "response=" + req.body["g-recaptcha-response"] + "&";
+    recaptcha_url += "remoteip=" + req.connection.remoteAddress;
+    request(recaptcha_url, function (error, resp, body) {
+        body = JSON.parse(body);
+        if (body.success !== undefined && !body.success) {
+            return res.status(200).send(JSON.stringify({
                 success: false,
-                msg: "The email id is already registered"
+                msg: "Captcha validation failed"
             }));
         }
-        else{
-            let phoneOtpsent = Math.floor(100000 + Math.random() * 900000);
-            let emailOtpsent = Math.floor(100000 + Math.random() * 900000);
-
-            //sending email otp
-            var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'webmaster@bitotsav.in',
-                    pass: 'Bitotsav2018!@'
-                }
-            });
-
-            var mailOptions = {
-                from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                to: req.body.email,
-                subject: 'Email Verification',
-                text: '',
-                html: `
-                <h2 align="center">Bitotsav</h2>
-                <p>
-                Hi,<br><br>
-                Your Email OTP is ${emailOtpsent}.<br><br>
-                Regards,<br>
-                Web Team,<br>
-                Bitotsav '19</p>`
-            };
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
+        else {
+            db.participants
+            .find({email: req.body.email},function(error,user){
+                if(error){
+                    console.log(err);
                     return res.status(500).send(JSON.stringify({
-                        success: false,
-                        msg: `Error sending Email. Please try again later`
+                        success: false
                     }));
-                } else {
-                    console.log('Email sent: ' + info.response);
+                }
+                if(user.length>=1 && user[0].otpVerified == true && user[0].id !== "-1"){
+                    res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: "The email id is already registered"
+                    }));
+                }
+                else{
+                    let phoneOtpsent = Math.floor(100000 + Math.random() * 900000);
+                    let emailOtpsent = Math.floor(100000 + Math.random() * 900000);
 
-                    //sending phone otp
-                    let otpUrl = `http://sms.digimiles.in/bulksms/bulksms?username=di78-pantheon&password=digimile&type=0&dlr=1&destination=${req.body.phno}&source=BITSAV&message=Your Bitotsav'19 registration OTP is: ${phoneOtpsent}`;
-                    request(otpUrl, (error, response, body) => {
+                    //sending email otp
+                    var transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'webmaster@bitotsav.in',
+                            pass: 'Bitotsav2018!@'
+                        }
+                    });
+
+                    var mailOptions = {
+                        from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                        to: req.body.email,
+                        subject: 'Email Verification',
+                        text: '',
+                        html: `
+                        <h2 align="center">Bitotsav</h2>
+                        <p>
+                        Hi,<br><br>
+                        Your Email OTP is ${emailOtpsent}.<br><br>
+                        Regards,<br>
+                        Web Team,<br>
+                        Bitotsav '19</p>`
+                    };
+                    transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {
-                            console.error(`Error: error sending OTP ${error}`);
+                            console.log(error);
                             return res.status(500).send(JSON.stringify({
                                 success: false,
-                                msg: `Error sending OTP. Please try again later`,
+                                msg: `Error sending Email. Please try again later`
                             }));
                         } else {
-                            console.log('Phone OTP sent');
-                            db.participants
-                            .find({email : req.body.email},function(error,participant){
-                                if(error){
-                                    console.log(err);
+                            console.log('Email sent: ' + info.response);
+
+                            //sending phone otp
+                            let otpUrl = `http://sms.digimiles.in/bulksms/bulksms?username=di78-pantheon&password=digimile&type=0&dlr=1&destination=${req.body.phno}&source=BITSAV&message=Your Bitotsav'19 registration OTP is: ${phoneOtpsent}`;
+                            request(otpUrl, (error, response, body) => {
+                                if (error) {
+                                    console.error(`Error: error sending OTP ${error}`);
                                     return res.status(500).send(JSON.stringify({
-                                        success: false
+                                        success: false,
+                                        msg: `Error sending OTP. Please try again later`,
                                     }));
-                                }
-                                if(participant.length == 0){
-                                    //new participant
-                                    bcrypt.hash(req.body.password, 10, (err, hash) =>{
-                                        if(err){
+                                } else {
+                                    console.log('Phone OTP sent');
+                                    db.participants
+                                    .find({email : req.body.email},function(error,participant){
+                                        if(error){
                                             console.log(err);
-                                            res.status(500).send(JSON.stringify({
+                                            return res.status(500).send(JSON.stringify({
                                                 success: false
                                             }));
+                                        }
+                                        if(participant.length == 0){
+                                            //new participant
+                                            bcrypt.hash(req.body.password, 10, (err, hash) =>{
+                                                if(err){
+                                                    console.log(err);
+                                                    res.status(500).send(JSON.stringify({
+                                                        success: false
+                                                    }));
+                                                }
+                                                else{
+                                                    const newParticipant = {
+                                                        id:"-1",
+                                                        name: req.body.name,
+                                                        email: req.body.email,
+                                                        phno: req.body.phno,
+                                                        gender: "",
+                                                        college: "",
+                                                        rollno: "",
+                                                        source: "",
+                                                        year: 0,
+                                                        password: hash,
+                                                        teamName: "-1",
+                                                        events:[],
+                                                        payment:{
+                                                            day1: false,
+                                                            day2: false,
+                                                            day3: false,
+                                                            day4: false
+                                                        },
+                                                        emailOtp: emailOtpsent,
+                                                        phoneOtp: phoneOtpsent,
+                                                        otpVerified: false,
+                                                        verified:false
+                                                    };
+                                                    db.participants
+                                                    .insert(newParticipant, function (error, result) {
+                                                        if (error) {
+                                                            return res.status(500).send(JSON.stringify({
+                                                                success: false,
+                                                                msg: "An unknown error occurred."
+                                                            }));
+                                                        }
+                                                        console.log(result);
+                                                        res.status(200).send(JSON.stringify({
+                                                            success: true,
+                                                            msg: "OTP sent successfully"
+                                                        }));
+                                                    });
+                                                }
+                                            });
                                         }
                                         else{
-                                            const newParticipant = {
-                                                id:"-1",
-                                                name: req.body.name,
-                                                email: req.body.email,
-                                                phno: req.body.phno,
-                                                gender: "",
-                                                college: "",
-                                                rollno: "",
-                                                source: "",
-                                                year: 0,
-                                                password: hash,
-                                                teamName: "-1",
-                                                events:[],
-                                                payment:{
-                                                    day1: false,
-                                                    day2: false,
-                                                    day3: false,
-                                                    day4: false
-                                                },
-                                                emailOtp: emailOtpsent,
-                                                phoneOtp: phoneOtpsent,
-                                                otpVerified: false,
-                                                verified:false
-                                            };
-                                            db.participants
-                                            .insert(newParticipant, function (error, result) {
-                                                if (error) {
-                                                    return res.status(500).send(JSON.stringify({
-                                                        success: false,
-                                                        msg: "An unknown error occurred."
+                                            //participant tried registering before but got an error while doing it
+                                            bcrypt.hash(req.body.password, 10, (err, hash) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    res.status(500).send(JSON.stringify({
+                                                        success: false
                                                     }));
+                                                } else {
+                                                    db.participants
+                                                    .update({
+                                                        email: participant[0].email
+                                                    }, {
+                                                        $set: {
+                                                            name: req.body.name,
+                                                            email: req.body.email,
+                                                            password: hash,
+                                                            phno: req.body.phno,
+                                                            emailOtp: emailOtpsent,
+                                                            phoneOtp: phoneOtpsent
+                                                        }
+                                                    }, function (error, result) {
+                                                        if (error) {
+                                                            return res.status(500).send(JSON.stringify({
+                                                                success: false,
+                                                                msg: "An unknown error occurred."
+                                                            }));
+                                                        }
+                                                        console.log(result);
+                                                        res.status(200).send(JSON.stringify({
+                                                            success: true,
+                                                            msg: "OTP sent successfully"
+                                                        }));
+                                                    });
                                                 }
-                                                console.log(result);
-                                                res.status(200).send(JSON.stringify({
-                                                    success: true,
-                                                    msg: "OTP sent successfully"
-                                                }));
                                             });
-                                        }
-                                    });
-                                }
-                                else{
-                                    //participant tried registering before but got an error while doing it
-                                    bcrypt.hash(req.body.password, 10, (err, hash) => {
-                                        if (err) {
-                                            console.log(err);
-                                            res.status(500).send(JSON.stringify({
-                                                success: false
-                                            }));
-                                        } else {
-                                            db.participants
-                                            .update({
-                                                email: participant[0].email
-                                            }, {
-                                                $set: {
-                                                    name: req.body.name,
-                                                    email: req.body.email,
-                                                    password: hash,
-                                                    phno: req.body.phno,
-                                                    emailOtp: emailOtpsent,
-                                                    phoneOtp: phoneOtpsent
-                                                }
-                                            }, function (error, result) {
-                                                if (error) {
-                                                    return res.status(500).send(JSON.stringify({
-                                                        success: false,
-                                                        msg: "An unknown error occurred."
-                                                    }));
-                                                }
-                                                console.log(result);
-                                                res.status(200).send(JSON.stringify({
-                                                    success: true,
-                                                    msg: "OTP sent successfully"
-                                                }));
-                                            });
-                                        }
-                                    });
 
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -760,42 +777,42 @@ router.post('/championship', checkAuth, (req, res) => {
                         .update({email: teamM[j]},{
                             $set: {
                                 teamName: req.body.teamName
-                                }
-                            },function(error, result){
-                                if(error){
-                                    console.log(err);
-                                    return res.status(500).send(JSON.stringify({
-                                        success: false
-                                    }));
-                                }
-                                memberUpdated = memberUpdated + 1;
-                                if(memberUpdated == teamM.length){
-                                    const newTeam = {
-                                        teamName: req.body.teamName,
-                                        teamLeader: req.body.teamLeader,
-                                        teamMembers: memberArr,
-                                        teamPoints: 0
-                                    };
-                                    db.championship
-                                    .insert(newTeam, function (error, result) {
-                                        if (error) {
-                                            return res.status(500).send(JSON.stringify({
-                                                success: false,
-                                                msg: "An unknown error occurred."
-                                            }));
-                                        }
-                                        console.log(result);
-                                        res.status(200).send(JSON.stringify({
-                                            success: true,
-                                            msg: "Team Registered for Bitotsav Championship!"
+                            }
+                        },function(error, result){
+                            if(error){
+                                console.log(err);
+                                return res.status(500).send(JSON.stringify({
+                                    success: false
+                                }));
+                            }
+                            memberUpdated = memberUpdated + 1;
+                            if(memberUpdated == teamM.length){
+                                const newTeam = {
+                                    teamName: req.body.teamName,
+                                    teamLeader: req.body.teamLeader,
+                                    teamMembers: memberArr,
+                                    teamPoints: 0
+                                };
+                                db.championship
+                                .insert(newTeam, function (error, result) {
+                                    if (error) {
+                                        return res.status(500).send(JSON.stringify({
+                                            success: false,
+                                            msg: "An unknown error occurred."
                                         }));
-                                    });
-                                }
-                            });
-                        }
+                                    }
+                                    console.log(result);
+                                    res.status(200).send(JSON.stringify({
+                                        success: true,
+                                        msg: "Team Registered for Bitotsav Championship!"
+                                    }));
+                                });
+                            }
+                        });
                     }
-                });
-            }
-        });
+                }
+            });
+        }
     });
-    module.exports = router;
+});
+module.exports = router;

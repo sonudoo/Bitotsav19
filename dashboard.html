@@ -82,33 +82,33 @@
                     </table>
                 </div>
                 <div id="settings" class="tab-pane fade">
-                    <form id="passwordUpdate">
-                        <h3>Login Information</h3>
-                        <br/>
-                        <div class="row">
-                            <div class="col-xs-12">
-                            <label for="old-password">Old Password</label><br>
-                            <input type="password" name="old-password" id="old-password" maxlength="50" required>
+                    <div class="wrap-login100">
+                        <h3 style="margin-bottom: 30px">Login Information</h3>
+                        <form id="passwordUpdate" class="login100-form validate-form">
+                            <div class="wrap-input100">
+                                <input id="old-password" required class="input100" type="password" name="old-password">
+                                <span class="focus-input100" data-placeholder="Old Password"></span>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-12">
-                            <label for="new-password">New Password </label><br>
-                            <input type="password" name="new-password" id="new-password" maxlength="50" required>
+                            <div class="wrap-input100">
+                                <input id="new-password" required class="input100" type="password" name="new-password">
+                                <span class="focus-input100" data-placeholder="New Password"></span>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-12">
-                            <label for="confirm-new-password">Confirm New Password </label><br>
-                            <input type="password" name="confirm-new-password" id="confirm-new-password" maxlength="50" required>
+                            <div class="wrap-input100">
+                                <input id="confirm-new-password" required class="input100" type="password" name="confirm-new-password">
+                                <span class="focus-input100" data-placeholder="Confirm New Password"></span>
                             </div>
-                        </div>
-                        <br>
-                        <p style="line-height: 1em; font-size: 1em;" id="error-message"></p>
-                        <input type="submit" class="btn btn-primary" name="resetPassword" value="Reset" id="passwordSave">
-                    </form>
+                            <br>
+                            <p style="line-height: 1em; font-size: 1em;" id="error-message"></p>
+                            <div class="container-login100-form-btn">
+                                <div class="wrap-login100-form-btn">
+                                    <div class="login100-form-bgbtn"></div>
+                                    <button id="passwordSave" name="resetPassword" type="submit" class="login100-form-btn">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div id="events" class="tab-pane fade">
                     <div id="event-table" style="overflow-x:auto;">

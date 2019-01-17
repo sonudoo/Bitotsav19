@@ -14,7 +14,7 @@ html, body {
     background-size: 150% auto;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url('../img/asia-political-map.jpg');
+    background-image: url('../img/asiamap.png');
   }
   
 
@@ -1055,4 +1055,51 @@ to {
   100% {
     opacity: 1;
   }
+}
+
+
+/* Planes */
+#two_planes {
+  animation: rotating 4s linear infinite; 
+  transform-origin: 50% 50%;
+  transform-style: preserve-3D;
+  display: block;
+  max-width:60%;
+  max-height:60%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  /*top: 10%;*/
+  transform: translateY(-50%);
+}
+
+@-webkit-keyframes rotating {
+  from{
+      -webkit-transform: rotate(0deg);
+  }
+  to{
+      -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes rotating {
+  from{
+      -webkit-transform: rotate(0deg);
+  }
+  to{
+      -webkit-transform: rotate(360deg);
+  }
+}
+
+/* Style the mother earth */
+
+#mother_earth {
+  display: block;
+  max-width:60%;
+  max-height: 60%;
+  width: auto;
+  height: auto; 
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
 }

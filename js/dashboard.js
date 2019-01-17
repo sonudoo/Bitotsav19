@@ -13,7 +13,7 @@ $.ajax({
         // Event id team leader
         if(res.success===false) {
             alert(res.msg);
-            window.location.href = "login.html";
+            window.location.href = "registration.html";
             return;
         }
         console.log(res);
@@ -38,6 +38,7 @@ $.ajax({
     },
     error: function(){
         alert("Error! Please login");
+        window.location.href="registration.html";
         return;
     }
 });
@@ -98,6 +99,8 @@ $('#team-info').submit(function(e){
         $("#error-message3").css("color", "red");
         return false;
     }
+    $("#error-message3").text("Registering.........");
+    $("#error-message3").css("color", "orange");
     $.ajax({
         url: requrl + "/api/participants/championship",
         type: 'POST',
@@ -111,13 +114,19 @@ $('#team-info').submit(function(e){
         },
         success: function(res) {
             res = JSON.parse(res);
-            alert(res.msg);
-            location.reload(true);
+            $("#error-message3").text("*Team Registered Successfully!");
+            $("#error-message3").css("color","green");
+            setTimeout(function(){
+                location.reload(true);
+            },1000);
+            return false;
         },
         error: function(){
-            alert("Error! Please try again.");
+            $("#error-message3").text("*Error! Please try again.");
+            $("#error-message3").css("color","red");
         }
     });
+    return false;
 });
 
 // GET request for Events Page
@@ -348,6 +357,8 @@ $("#memberInfo").submit(function(e) {
         leaderEmail: leaderEmail,
         leaderCollege: leaderCollege
     };
+    $("#error-message2").text("Registering...............");
+    $("#error-message2").css("color", "orange");
     $.ajax({
         type: 'POST',
         headers: {
@@ -362,11 +373,15 @@ $("#memberInfo").submit(function(e) {
                 $("#error-message2").css("color", "red");
                 return false;
             }
-            alert(res.msg);
-            location.reload(true);
+            $("#error-message2").text("Event registered successfully!");
+            $("#error-message2").css("color","green");
+            setTimeout(function(){
+                location.reload(true);
+            },1000);
         },
         error: function(){
-            alert("Error! Please try again.");
+            $("#error-message2").text("Error! Please try again.");
+            $("#error-message2").css("color","red");
         }
     });
     return false;
@@ -399,6 +414,9 @@ $("#passwordUpdate").submit(function(e) {
         $("#error-message").css("color", "red");
         return false;
     }
+    $("#error-message").text("Updating..........");
+    $("#error-message").css("color", "orange");
+
     // Now we send Passwords for verification
     $.ajax({
         type: 'POST',
@@ -419,8 +437,13 @@ $("#passwordUpdate").submit(function(e) {
             }
             $("#error-message").text("*"+res.msg);
             $("#error-message").css("color", "green");
+            setTimeout(function(){
+                localStorage.setItem('token',"");
+                window.location.href = "registration.html";
+            },1000);
         },
         error: function(){
+            $("#error-message").text("");
             alert("Error! Please try again.")
         }
     });

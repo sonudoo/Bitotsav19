@@ -1,16 +1,31 @@
+/**
+ * To revolve the planes around the earth together
+ */
+var earth = $("#mother_earth");
+$( window ).resize(function() {
+    $("#two_planes").css("top", earth.position().top);
+});
+/**
+ * End of Code to keep planes and earth together
+ */
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+if (isMobile) {
+  alert('Please use Desktop View to see the contents.');
+}
+document.body.addEventListener('touchstart', function(e){ 
+    e.preventDefault();
+    e.stopPropagation();
+})
 $(document).ready(function () {
     var s = skrollr.init();
+    $("#two_planes").css("top", earth.position().top);
 });
-let countries = ["None", "India", "China", "Russia"]
-let countriesX = [0, 550, 800, 650];
-let countriesY = [0, 700, 500, 200];
-let order = [0];
-for (let i = 0; i < 10; i++) {
-    let r = order[order.length - 1];
-    while (r == order[order.length - 1] || r == 0) {
-        r = parseInt(Math.random() * 100000) % countries.length;
-    }
-    order.push(r);
+let countries = ["None", "One", "Two", "Three", "Four", "Five", "Six"]
+let countriesX = [0, 550, 800, 650, 550, 800, 650];
+let countriesY = [0, 700, 500, 200, 800, 700, 500];
+let order = [];
+for (let i = 0; i < 6; i++) {
+    order.push(i);
 }
 for (let i = 0; i < order.length; i++) {
     $("#image").attr("data-" + i * 4000, "background-position: -" + countriesX[order[i]] + "px -" + countriesY[order[i]] + "px;");
@@ -587,7 +602,7 @@ $("#event-details").hide();
 var div1 = document.getElementById('div1');
 var ul1 = document.getElementById('ul1');
 var li = document.getElementsByTagName('li');
-var img = div1.getElementsByTagName('img');
+var img = document.getElementsByTagName('img');
 var imgHead = document.getElementById('imgHead');
 var background = document.getElementById('background');
 var albumImg = document.getElementById('albumImg');
@@ -659,3 +674,8 @@ for(i=0 ; i<img.length ; i++){
       },1);
    }
 }
+
+
+
+
+

@@ -1,27 +1,16 @@
 var requrl = "https://bitotsav.in";
-
-//merge conflict
-
-//incoming changes
 var dataList = document.getElementById('json-datalist');
 var input = document.getElementById('reg-college');
 $.ajax({
     type: 'GET',
     url: requrl + '/api/participants/getCollegeList',
 }).done((data)=>{
-    //data = data.substring(15, data.length-2);
-    //const arr = data.split(',');
     data = JSON.parse(data);
     const arr = data.collegeList.colleges;
-    //console.log(arr);
     arr.forEach(function(item) {
-        // Create a new <option> element.
         item = item.trim();
-        //item = item.substring(1, item.length-1);
         var option = document.createElement('option');
-        // Set the value using the item in the JSON array.
         option.value = item;
-        // Add the <option> element to the <datalist>.
         dataList.appendChild(option);
     });
 }).fail((err) => {
@@ -47,37 +36,8 @@ $(window).ready(function(){
     var email_otp_error = false;
     var college_error = false;
     var roll_error=false;
-
-    $("#reg-name").focusout(function(){
-        check_name();
-    });
-
-    $("#reg-email").focusout(function(){
-        check_email();
-    });
-
-    $("#reg-phone").focusout(function(){
-        check_phone();
-    });
-
-    $("#reg-cpassword").focusout(function(){
-        check_password();
-    });
-    $("#reg-password").focusout(function(){
-        check_password();
-    });
-    $("#reg-email-otp").focusout(function(){
-        checkOtp();
-    });
-    $("#reg-phone-otp").focusout(function(){
-        checkOtp();
-    });
-    $("#reg-college").focusout(function(){
-        check_college();
-    });
-    $("#reg-roll").focusout(function(){
-        check_roll();
-    })
+    var cpassword_error = false;
+    var password_less = false;
 
     function check_name() {
         var name = $('#reg-name').val();
@@ -116,11 +76,8 @@ $(window).ready(function(){
         }
     }
 
-
-
-    function checkOtp(){
+    function checkPhoneOtp(){
         var phone = $("#reg-phone-otp").val().trim();
-        var email = $("#reg-email-otp").val().trim();
         if(phone!=''){
             $("#phone_otp_error").hide();
         }
@@ -129,6 +86,10 @@ $(window).ready(function(){
             $("#phone_otp_error").show();
             phone_otp_error = true;
         }
+    }
+
+    function checkEmailOtp(){
+        var email = $("#reg-email-otp").val().trim();
 
         if(email!=''){
             $("#email_otp_error").hide();
@@ -154,7 +115,6 @@ $(window).ready(function(){
     function check_phone() {
         var pattern = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
         var phone = $('#reg-phone').val().trim();
-        console.log(phone);
         if(phone.match(pattern)&&parseInt(phone)>6000000000&&parseInt(phone)<10000000000) {
             $('#phone_error').hide();
         }
@@ -164,51 +124,183 @@ $(window).ready(function(){
             phone_error=true;
         }
     }
-    function check_password() {
+    function check_password(){
         var password = $('#reg-password').val();
         var password2 = $('#reg-cpassword').val();
-        if(password!='' && password2!='') {
-            if(password == password2) {
-                $('#password_error').hide();
+            if(password.length<6){
+                $('#password_error').empty();
+                $('#password_error').html("Password should have more than 6 characters.");
+                $('#password_error').show();
+                password_less=true;
             }
-            else {
+            else if(password != password2) {
+                $('#password_error').empty();
                 $('#password_error').html("Passwords do not match");
                 $('#password_error').show();
                 password_error=true;
             }
+            else{
+                $('#password_error').hide();
+            }
+    }
+    function check_cpassword() {
+        var name = $('#reg-cpassword').val();
+        name.trim();
+        if(name!='') {
+            $('#cpassword_error').hide();
         }
-
+        else {
+            $('#cpassword_error').html("Confirm Password field cannot be empty");
+            $('#cpassword_error').show();
+            cpassword_error=true;
+        }
     }
 
+    $("#reg-name").focusout(function(){
+        check_name();
+    });
 
+    $("#reg-email").focusout(function(){
+        check_email();
+    });
+
+    $("#reg-phone").focusout(function(){
+        check_phone();
+    });
+
+    $('#reg-cpassword').focusout(function(){
+
+        check_cpassword();
+        check_password();
+    });
+    $('#reg-password').focusout(function(){
+        //check_password_length();
+        check_password();
+    });
+    $("#reg-email-otp").focusout(function(){
+        checkEmailOtp();
+    });
+    $("#reg-phone-otp").focusout(function(){
+        checkPhoneOtp();
+    });
+    $("#reg-college").focusout(function(){
+        check_college();
+    });
+    $("#reg-roll").focusout(function(){
+        check_roll();
+    })
+
+    $("#login-username-error").hide();
+    $("#login-password-error").hide();
+
+    var username_error =false;
+    var password_error = false;
+
+    $("#log-username").focusout(function(){
+        checkLoginUsername();
+    });
+
+    $("#log-password").focusout(function(){
+        checkLoginPassword();
+    });
+    function checkLoginUsername() {
+        var pattern = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})$/;
+        var email = $('#log-username').val().trim();
+        if(pattern.test(email)&&email!='') {
+            $('#login-username-error').hide();
+        }
+        else {
+            $('#login-username-error').html("Invalid email address");
+            $('#login-username-error').show();
+            email_error=true;
+        }
+    }
+    function checkLoginPassword(){
+        var password = $("#log-password").val();
+        if(password.length<6){
+            //console.log(password.length)
+            $("#login-password-error").html("Invalid Password");
+            $("#login-password-error").show();
+            password_error = true;
+        }
+        else{
+            $("#login-password-error").hide();
+        }
+    }
+
+    $("#login").click(function(e){
+        e.preventDefault();
+         username_error = false;
+         password_error = false;
+         checkLoginUsername();
+         checkLoginPassword();
+         if(!username_error && !password_error){
+             $.ajax({
+                 type:'POST',
+                 url:requrl+ "/api/participants/participantLogin",
+                 data: {
+                     email : $("#log-username").val().trim(),
+                     password : $("#log-password").val()
+                 }
+             }).done(function(res){
+                res = JSON.parse(res);
+                if(res.success===true){
+                    let token = "bearer "+res.token;
+                    localStorage.setItem('token',token);
+                    window.location.href = 'dashboard.html';
+                }
+                else{
+                    alert(res.msg);
+                    if(res.msg == "You are not registered yet."){
+                        window.location.href = 'registration.html';
+                    }
+                    else location.reload(true);
+                }
+             })
+             .fail(function(err){
+                alert('Some error occured.Please try again.');
+                location.reload(true);
+             });
+         }
+
+    });
 
     $("#reg-one").click(function(e){
         e.preventDefault();
-        console.log("regone is entered.")
 
         //validation
         name_error = false;
         email_error=false;
+        cpassword_error = false;
         password_error=false;
         phone_error=false;
+        password_less = false;
         check_name();
         check_email();
         check_password();
+        check_cpassword();
         check_phone();
+        //check_password_length();
 
+        let response = grecaptcha.getResponse();
+
+        if (response.length == 0) {
+            alert("CAPTCHA Required.");
+            return;
+        }
         //data entered
         var email = $("#reg-email").val().trim();
         var name = $("#reg-name").val().trim();
         var phone = $("#reg-phone").val().trim();
         var password = $("#reg-password").val();
 
-        if(!name_error && !email_error && !password_error && !phone_error){
-            console.log("sadasd");
+        if(!password_less && !name_error && !email_error && !password_error && !phone_error && !cpassword_error){
             var data = {
                 "email":email,
                 "name":name,
                 "phno":phone,
-                "password":password
+                "password":password,
+                "g-recaptcha-response": grecaptcha.getResponse()
             }
 
             $.ajax({
@@ -219,7 +311,7 @@ $(window).ready(function(){
                     res = JSON.parse(res);
                     if(res.success === false){
                         alert(res.msg);
-                        location.reload(true);
+                        return;
                     }
                     else{
                         $(".page-one").fadeOut();
@@ -240,8 +332,8 @@ $(window).ready(function(){
 
     $("#reg-two").click(function(e){
         e.preventDefault();
-        var phone_otp_error = false;
-        var email_otp_error = false;
+         phone_otp_error = false;
+         email_otp_error = false;
         checkOtp();
         var data ={
             email: $("#reg-email").val().trim(),
@@ -307,11 +399,14 @@ $(window).ready(function(){
                 success : function(res){
                     res = JSON.parse(res);
                     if(res.success === true){
-                        alert(res.msg);
-                        location.reload(true);
+                        $(".page-three").fadeOut();
+                        $('.bit-id').html(res.data);
+                        setTimeout(function(){
+                            $(".page-four").fadeIn();
+                        },1000);
                     }
-                    else{
-                        alert("Error!Please try again.");
+                    else if(res.success === false){
+                        alert(res.msg);
                     }
                 },
                 error: function() {

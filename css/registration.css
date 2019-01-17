@@ -250,7 +250,7 @@ a.button:hover {
   margin: 5px 0;
 }
 .error {
-	color: #ff0000;
+	color: #005b76;
 	font-size: 0.90em;
 }
 
@@ -282,8 +282,11 @@ a.button:hover {
   border-radius: .25rem;
 }
 .input-form{
-  background:transparent;border: none;
+  background-color: #00000017;
+  /* background:transparent;border: none; */
+  /* opacity: 0.2; */
   border-bottom: 1px solid rgb(0, 221, 185);
+  color: black;
 }
 .input-form::click{
   background:transparent;border: none;

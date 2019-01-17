@@ -26,7 +26,7 @@
 
 </head>
 
-<body style="overflow-x: hidden; background-color: #9EE0FF;">
+<body style="overflow-x: hidden; background-color: #9EE0FF;" id="skrollr-body">
 
     <div class="wrap">
         <div id="image">
@@ -34,65 +34,55 @@
         <div style="position: fixed; left: 100px; top: 100px; color: black;">
             <img src="img/plane.png" class="img img-fluid" id="plane">
         </div>
-        <div class="container-fluid" style="min-height: 100vh; z-index: 10; position: fixed; background: url('img/001M.jpg');
-        background-size: cover;"
+        <div class="container-fluid" style="z-index: 10; position: fixed; background: url('img/001M.jpg');
+                height: 100vh; background-size: cover;"
             data-0="display: inline-block; opacity: 1.0; " data-500="display: inline-block; opacity: 0; " data-2000="display: none;">
             <div class="row">
                 <div class="col-md-4 d-none d-sm-block">
                     <br>
+
                     <img class="hidden-xs hidden-sm" src="img/bit.png" height="50px" width="50px">
+                    <img src="img/bitotsav.png" height="50px" width="50px">
                 </div>
                 <div class="col-md-4" style="text-align: center">
-                    <img src="img/bitotsav_logo_white.png" class="img img-fluid">
+                    <!-- <img src="img/bitotsav_logo_white.png" class="img img-fluid"> -->
                 </div>
-                <div class="col-md-4  d-none d-sm-block">
+                <div class="col-md-4">
                     <br>
                     <div class="float-right">
-                        <img src="img/bitotsav.png" height="50px" width="50px">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <!-- <div id="container" class="d-none d-sm-block">
-                        <div id="monitor">
-                            <div id="monitorscreen">
-                                <video width="560" height="320" controls autoplay muted loop>
-                                    <source src="bitotsav_aftermovie_17.mp4" type="video/mp4">
-                                </video>
-
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-                <div class="col-md-3"></div>
-
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <div class="row" style="text-align: center">
-                        <div class="col-md-3">
-                            <a href="https://www.facebook.com/bitotsav" target="_blank"><i class="fa fa-facebook-official fa-2x icon" aria-hidden="true"></i></a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="https://www.twitter.com/bitotsav" target="_blank"><i class="fa fa-twitter fa-2x icon" aria-hidden="true"></i></a>
-                        </div>
-                        <div class="col-md-3">
-                                <a href="https://www.instagram.com/bitotsav" target="_blank"><i class="fa fa-instagram fa-2x icon" aria-hidden="true"></i></a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="https://www.youtube.com/channel/UCnQ43YDh1dXKtTFBrERkhYw" target="_blank"><i class="fa fa-youtube fa-2x icon" aria-hidden="true"></i></a>
-                        </div>
+                        <a href="registration.html" class="btn btn-success">Login/Register</a>
+                        <a href="sap.html" class="btn btn-info">SAP</a>
 
                     </div>
                 </div>
-                <div class="col-md-4">
-
-                </div>
             </div>
+            <div style="display: flex;
+                    align-items: center;
+                    justify-content: center;">
+
+                <img src="img/earth.png" id="mother_earth" />
+                <img src="img/two_planes.png" id="two_planes" />
+
+            </div>
+
+            <ul class="nav flex-column" style="position: fixed; top: 30vh;">
+                <li class="nav-item">
+                    <a href="https://www.facebook.com/bitotsav" target="_blank"><i class="fa fa-facebook-official fa-2x icon"
+                            aria-hidden="true"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.twitter.com/bitotsav" target="_blank"><i class="fa fa-twitter fa-2x icon"
+                            aria-hidden="true"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.instagram.com/bitotsav" target="_blank"><i class="fa fa-instagram fa-2x icon"
+                            aria-hidden="true"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.youtube.com/channel/UCnQ43YDh1dXKtTFBrERkhYw" target="_blank"><i class="fa fa-youtube fa-2x icon"
+                            aria-hidden="true"></i></a>
+                </li>
+            </ul>
         </div>
         <!-- <div class="sidebar-nav" style="z-index: 11; position:  fixed; top: 10px; left: 10px;">
             <div class="navbar navbar-default" role="navigation">
@@ -199,63 +189,103 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8" style="max-height: 70vh; overflow-y: scroll;">
-                        <div class="tabs tabs-theme">
-                                <div id="theme-content">
-                                    <input type="radio" id="tab1" name="tab-control">
-                                    <input type="radio" id="tab2" name="tab-control" checked>
-                                    <input type="radio" id="tab3" name="tab-control">
-                                    <ul>
-                                        <li title="Social Cause" id="social">
-                                            <label for="tab1" role="button">
-                                                <img src="img/ribbon.svg" alt="Social Cause"><br>
-                                                <span>Social Cause</span>
-                                            </label>
-                                        </li>
-                                        <li title="Theme" id="theme">
-                                            <label for="tab2" role="button">
-                                                <img src="img/theme.svg"><br>
-                                                <span>Theme</span>
-                                            </label>
-                                        </li>
-                                        <li title="Online Campaign" id="campaign">
-                                            <label for="tab3" role="button">
-                                                <img src="img/mail.svg"><br>
-                                                <span>Online Campaign</span>
-                                            </label>
-                                        </li>
-                                    </ul> 
-                                    <div class="slider"><div class="indicator"></div></div>
-                                    <div class="content">
-                                        <section id="social-content">
-                                            <h2>Social Cause</h2>
-                                            <h3 style="text-align:center"><strong>विकलांगता से दिव्यांगता तक</strong></h3>
-                                            <p style="text-align: center">
-                                                दिव्यांग्ता प्राय: जन्म से, परिस्थितिजन्य अथवा दुर्घटना के कारण होती है। हमारे देश मे आज भी लगभग 3 करोड़ लोग दिव्यांग है जिनमे 50% अशिक्षित है। सर्वविदित है कि समाज मे दिव्यांगजन की स्थिति चुनौतीपूर्ण होती है।आज के युग में भी दिव्यांग को दया, करुणा और सहानुभूति का पात्र समझा जाता है। समाज के ऐसे भाव के साथ वह जीता तो है, परंतु उसके संवेदनशील मन को अनर्थ आघात पहुंचती है। पूरे देश में एक पहल हुई है लेकिन केवल नया शब्द गढ देने मात्र से मानवीय सोच और संवेदनाओं में त्वरित या विशेष बदलाव आ जायेगा यह सोचना जल्दबाजी होगी। आज भी दिव्यांगों को वैसा उचित सम्मान नही मिल पा रहा है, जिसके वो हकदार है। यह निर्विवाद सत्य है कि प्रत्येक दिव्यान्गजन में किसी न किसी प्रकार की विशेष प्रतिभा विद्यमान होती है। ज़रूरत है उनके कौशल विकास एवं प्रशिक्षण की। आवश्यकता है, उनके इच्छाशक्ति को जागृत कर उनके आत्मविश्वास को दृढ करते हुए उनके प्रतिभा को विकसित कर उन्हे आत्मनिर्भर बनाने की, जिससे वह सम्मानजनक जीवन व्यतीत कर सके। समय है कि हमसब मिलकर दिव्यांगजनो के अधिकार, आत्मसम्मान और बेहतर जीवन के लिए एक साथ कोई पहल करे। 
-                                                इस बितोत्सव, हम न केवल इस बदलाव की सराहना करते है बल्कि साथ ही यह संकल्प लेते है कि विकलांगता से दिव्यांगता के इस सफर मे हुम भी भागीदार होंगे और दिव्यांगो के प्रति लोगों की सहानुभूति को सहयोग मे परिवर्तित करने मे बढ चढ़कर हिस्सा लेंगे।
-                                            </p>
-                                        </section>
-                                        <section>
-                                            <h2>Theme</h2>
-                                            <h3 style="text-align:center"><strong>Celebration of Cultures: Colours of Asia</strong></h3>
-                                            <p style="text-align: center">
-                                                <i>"We are, at almost every point of our day, immersed in cultural diversity: faces, clothes, smells, attitudes, values, traditions, behaviours, belief, rituals."<br></i>
-                                                -Randa Abdel-Fattah
-                                                <br>
-                                                <br>
-                                                From the ‘Khokhloma’ painting symbolizing the high importance of forests and nature in Russian culture and its history; to ‘Liwa’ the traditional dance performed in Eastern Arabia; from the traditional Chinese ‘Qipao’ dress, to over 720 dialects and 22 official languages in India; form ‘yakuniku’ a Japanese style of cooking, to ‘Teochew opera’ in Singapore; a deep vein of history courses through all the countries of Asia. Culture has ever since been the lifeblood of any vibrant society to tell their stories, celebrate, remember the past, entertain and envisage the future. The variant forms of art, architecture and language, folk music, invigorating dance and eclectic cuisines, marks off even various regions in a country characterizing their inherent traditional origin through different civilizations. Melding of culture and traditions through globalisation and technological advances have increased their historically grounded and validated contributions and brought about much needed futuristic changes. Through the theme “Celebration of Cultures-Colours of Asia” BITOTSAV’19 procures to contribute in its own distinctive way to celebrate the rich, large, complex and variegated cultures of humanity. 
-                                            </p>
-                                        </section>
-                                        <section id="campaign-content">
-                                            <h2>Online Campaign</h2>
-                                            <p style="text-align: center">
-                                                If we trace the trails of time, we come across various art forms, be it music, dance or the fine arts, which have, over time, lost their sheen and significance. But their grandeur and pageantry are unparalleled. From the Madhubani painting of Bihar to he Toda embroidery of the Nilgiri hills, these art forms, which show us our glorious past are gradually attriting and it is about time that we do something about it. In an effort to revive the magnificence of our rich culture, we at BITOTSAV'19 have pledged to bring to the fore, such art forms via various awareness campaigns, workshops and talks.
-                                            </p>
-                                        </section>
-                                    </div>
-                                </div>
+                    <div class="tabs tabs-theme">
+                        <div id="theme-content">
+                            <input type="radio" id="tab1" name="tab-control">
+                            <input type="radio" id="tab2" name="tab-control" checked>
+                            <input type="radio" id="tab3" name="tab-control">
+                            <ul>
+                                <li title="Social Cause" id="social">
+                                    <label for="tab1" role="button">
+                                        <img src="img/ribbon.svg" alt="Social Cause"><br>
+                                        <span>Social Cause</span>
+                                    </label>
+                                </li>
+                                <li title="Theme" id="theme">
+                                    <label for="tab2" role="button">
+                                        <img src="img/theme.svg"><br>
+                                        <span>Theme</span>
+                                    </label>
+                                </li>
+                                <li title="Online Campaign" id="campaign">
+                                    <label for="tab3" role="button">
+                                        <img src="img/mail.svg"><br>
+                                        <span>Online Campaign</span>
+                                    </label>
+                                </li>
+                            </ul>
+                            <div class="slider">
+                                <div class="indicator"></div>
                             </div>
+                            <div class="content">
+                                <section id="social-content">
+                                    <h2>Social Cause</h2>
+                                    <h3 style="text-align:center"><strong>विकलांगता से दिव्यांगता तक</strong></h3>
+                                    <p style="text-align: center">
+                                        दिव्यांग्ता प्राय: जन्म से, परिस्थितिजन्य अथवा दुर्घटना के कारण होती है। हमारे
+                                        देश मे आज भी लगभग 3 करोड़ लोग दिव्यांग है जिनमे 50% अशिक्षित है। सर्वविदित है कि
+                                        समाज मे दिव्यांगजन की स्थिति चुनौतीपूर्ण होती है।आज के युग में भी दिव्यांग को
+                                        दया, करुणा और सहानुभूति का पात्र समझा जाता है। समाज के ऐसे भाव के साथ वह जीता
+                                        तो है, परंतु उसके संवेदनशील मन को अनर्थ आघात पहुंचती है। पूरे देश में एक पहल
+                                        हुई है लेकिन केवल नया शब्द गढ देने मात्र से मानवीय सोच और संवेदनाओं में त्वरित
+                                        या विशेष बदलाव आ जायेगा यह सोचना जल्दबाजी होगी। आज भी दिव्यांगों को वैसा उचित
+                                        सम्मान नही मिल पा रहा है, जिसके वो हकदार है। यह निर्विवाद सत्य है कि प्रत्येक
+                                        दिव्यान्गजन में किसी न किसी प्रकार की विशेष प्रतिभा विद्यमान होती है। ज़रूरत है
+                                        उनके कौशल विकास एवं प्रशिक्षण की। आवश्यकता है, उनके इच्छाशक्ति को जागृत कर उनके
+                                        आत्मविश्वास को दृढ करते हुए उनके प्रतिभा को विकसित कर उन्हे आत्मनिर्भर बनाने
+                                        की, जिससे वह सम्मानजनक जीवन व्यतीत कर सके। समय है कि हमसब मिलकर दिव्यांगजनो के
+                                        अधिकार, आत्मसम्मान और बेहतर जीवन के लिए एक साथ कोई पहल करे।
+                                        इस बितोत्सव, हम न केवल इस बदलाव की सराहना करते है बल्कि साथ ही यह संकल्प लेते
+                                        है कि विकलांगता से दिव्यांगता के इस सफर मे हुम भी भागीदार होंगे और दिव्यांगो के
+                                        प्रति लोगों की सहानुभूति को सहयोग मे परिवर्तित करने मे बढ चढ़कर हिस्सा लेंगे।
+                                    </p>
+                                </section>
+                                <section>
+                                    <h2>Theme</h2>
+                                    <h3 style="text-align:center"><strong>Celebration of Cultures: Colours of Asia</strong></h3>
+                                    <p style="text-align: center">
+                                        <i>"We are, at almost every point of our day, immersed in cultural diversity:
+                                            faces, clothes, smells, attitudes, values, traditions, behaviours, belief,
+                                            rituals."<br></i>
+                                        -Randa Abdel-Fattah
+                                        <br>
+                                        <br>
+                                        From the ‘Khokhloma’ painting symbolizing the high importance of forests and
+                                        nature in Russian culture and its history; to ‘Liwa’ the traditional dance
+                                        performed in Eastern Arabia; from the traditional Chinese ‘Qipao’ dress, to
+                                        over 720 dialects and 22 official languages in India; form ‘yakuniku’ a
+                                        Japanese style of cooking, to ‘Teochew opera’ in Singapore; a deep vein of
+                                        history courses through all the countries of Asia. Culture has ever since been
+                                        the lifeblood of any vibrant society to tell their stories, celebrate, remember
+                                        the past, entertain and envisage the future. The variant forms of art,
+                                        architecture and language, folk music, invigorating dance and eclectic
+                                        cuisines, marks off even various regions in a country characterizing their
+                                        inherent traditional origin through different civilizations. Melding of culture
+                                        and traditions through globalisation and technological advances have increased
+                                        their historically grounded and validated contributions and brought about much
+                                        needed futuristic changes. Through the theme “Celebration of Cultures-Colours
+                                        of Asia” BITOTSAV’19 procures to contribute in its own distinctive way to
+                                        celebrate the rich, large, complex and variegated cultures of humanity.
+                                    </p>
+                                </section>
+                                <section id="campaign-content">
+                                    <h2>Online Campaign</h2>
+                                    <p style="text-align: center">
+                                        If we trace the trails of time, we come across various art forms, be it music,
+                                        dance or the fine arts, which have, over time, lost their sheen and
+                                        significance. But their grandeur and pageantry are unparalleled. From the
+                                        Madhubani painting of Bihar to he Toda embroidery of the Nilgiri hills, these
+                                        art forms, which show us our glorious past are gradually attriting and it is
+                                        about time that we do something about it. In an effort to revive the
+                                        magnificence of our rich culture, we at BITOTSAV'19 have pledged to bring to
+                                        the fore, such art forms via various awareness campaigns, workshops and talks.
+                                    </p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
 
-                    
+
 
                 </div>
                 <div class="col-md-2">
@@ -288,7 +318,7 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-1" id="event-back">
-                    <i class="fa fa-arrow-left fa-2x" aria-hidden="true" style="color: #FFF;" onclick="showEvents()"></i>
+                    <i class="fa fa-arrow-left fa-2x" aria-hidden="true" style="color: #FFF;" onmousedown="showEvents()"></i>
                 </div>
             </div>
             <div id="event-home" style="overflow-y: scroll; overflow-x: hidden; max-height: 80vh;">
@@ -299,63 +329,63 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="music"></i>
-                            <p>Music</p>
+                            <img class="img img-fluid" src="img/dhwani.png" id="music">
+                            <p>Dhwani</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="dance"></i>
-                            <p>Dance</p>
+                            <img class="img img-fluid" src="img/dansation.png" id="dance">
+                            <p>Dansation</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="dramatics"></i>
-                            <p>Dramatics</p>
+                            <img class="img img-fluid" src="img/swaang.png" id="dramatics">
+                            <p>Swaang</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="speakingarts"></i>
-                            <p>Speaking Arts</p>
+                            <img class="img img-fluid" src="img/rhetoric.png" id="speakingarts">
+                            <p>Rhetoric</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="literaryarts"></i>
-                            <p>Literary Arts</p>
+                            <img class="img img-fluid" src="img/taabiir.png" id="literaryarts">
+                            <p>Taabiir</p>
                         </div>
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-1"></div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="digitalarts"></i>
-                            <p>Digital Arts</p>
+                            <img class="img img-fluid" src="img/digitales.png" id="digitalarts">
+                            <p>Digitales</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="finearts"></i>
-                            <p>Fine Arts</p>
+                            <img class="img img-fluid" src="img/meraki.png" id="finearts">
+                            <p>Meraki</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="journalism"></i>
-                            <p>Journalism</p>
+                            <img class="img img-fluid" src="img/herald.png" id="journalism">
+                            <p>Herald</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="fashion"></i>
-                            <p>Fashion</p>
+                            <img class="img img-fluid" src="img/adaa.png" id="fashion">
+                            <p>Adaa</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="event-item text-center">
-                            <i class="fa fa-music fa-5x" aria-hidden="true" id="informals"></i>
+                            <img class="img img-fluid" src="img/euphoria.png" id="informals">
                             <p>Informals</p>
                         </div>
                     </div>
@@ -459,8 +489,7 @@
 
     <div class="container-fluid" style="min-height: 100vh; z-index: 10; position: fixed; background: url('img/003M.jpg');
     background-size: cover;"
-        data-0="display: none;" data-19500="display: inline-block; opacity: 0;" data-20000="display: inline-block; opacity: 1.0; "
-        >
+        data-0="display: none;" data-19500="display: inline-block; opacity: 0;" data-20000="display: inline-block; opacity: 1.0; ">
         <div class="row">
             <div class="col-md-4 d-none d-sm-block">
                 <br>
@@ -480,17 +509,21 @@
         <div class="container-fluid" style="max-height: 80vh; overflow-y: scroll;">
                 <div id="gallery">
                         <img id="background"/>
-                        <div id="album" class="fadeIn"><img id="albumImg" src="https://dl.dropbox.com/s/csx98jubo1kv3ik/CIMG2717.JPG?dl=0" /></div>
+                        <div id="album" class="fadeIn"><img id="albumImg" src="img/gal-1.jpeg" /></div>
                         <div id="div1">
                             <div id="before">❰</div>
                             <div id="after">❱</div>
                             <ul id="ul1">
-                                <li><img src="https://dl.dropbox.com/s/csx98jubo1kv3ik/CIMG2717.JPG?dl=0" /></li>
-                                <li><img src="https://dl.dropbox.com/s/ebf45nhjv5p8ux0/CIMG2603.JPG?dl=0" /></li>
-                                <li><img src="https://dl.dropbox.com/s/abduan8wgr8iwjm/CIMG2684.JPG?dl=0" /></li>
-                                <li><img src="https://dl.dropbox.com/s/3jy5hk1vaftlcfg/CIMG3094.JPG?dl=0" /></li>
-                                <li><img src="https://dl.dropbox.com/s/poebw5e2mefnvn8/CIMG2698.JPG?dl=0" /></li>
-                                <li><img src="https://dl.dropbox.com/s/pc9h6zesmlf95dh/CIMG2325.JPG?dl=0" /></li>
+                                <li><img src="img/gal-1.jpeg" /></li>
+                                <li><img src="img/gal-2.jpeg" /></li>
+                                <li><img src="img/gal-3.jpeg" /></li>
+                                <li><img src="img/gal-4.jpeg" /></li>
+                                <li><img src="img/gal-5.jpeg" /></li>
+                                <li><img src="img/gal-6.jpeg" /></li>
+                                <li><img src="img/gal-7.jpeg" /></li>
+                                <li><img src="img/gal-8.jpeg" /></li>
+                                <li><img src="img/gal-9.jpeg" /></li>
+                                <li><img src="img/gal-10.jpeg" /></li>
                             </ul>
                         </div> 
                     </div>
@@ -503,8 +536,8 @@
 
     <div data-0="display: inline-block; opacity: 1.0; " data-500="display: inline-block; opacity: 0; " data-2000="display: none;">
 
-        <div class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="next()">
+        <div id="next1" class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
+            onmousedown="next()" ontouchstart="next()">
             <i class="fa fa-chevron-circle-down fa-3x" aria-hidden="true"></i><br><br>
 
             Next Stop:<br> About Bitotsav
@@ -514,13 +547,13 @@
     <div data-0="display: none;" data-3500="display: inline-block; opacity: 0;" data-4000="display: inline-block; opacity: 1.0; "
         data-4500="display: inline-block; opacity: 0; " data-6000="display: none;">
         <div class="previous" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="previous()">
+            onmousedown="previous()" ontouchstart="previous()">
             <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i><br><br>
 
             Previous Stop:<br> Home
         </div>
-        <div class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="next()">
+        <div id="next2" class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
+            onmousedown="next()" ontouchstart="next()">
             <i class="fa fa-chevron-circle-down fa-3x" aria-hidden="true"></i><br><br>
 
             Next Stop:<br> Theme
@@ -530,13 +563,13 @@
     <div data-0="display: none;" data-7500="display: inline-block; opacity: 0;" data-8000="display: inline-block; opacity: 1.0; "
         data-8500="display: inline-block; opacity: 0; " data-10000="display: none;">
         <div class="previous" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="previous()">
+            onmousedown="previous()" ontouchstart="previous()">
             <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i><br><br>
 
             Previous Stop:<br> About Bitotsav
         </div>
-        <div class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="next()">
+        <div id="next3" class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
+            onmousedown="next()" ontouchstart="next()">
             <i class="fa fa-chevron-circle-down fa-3x" aria-hidden="true"></i><br><br>
 
             Next Stop:<br> Events
@@ -545,13 +578,13 @@
     <div data-0="display: none;" data-11500="display: inline-block; opacity: 0;" data-12000="display: inline-block; opacity: 1.0; "
         data-12500="display: inline-block; opacity: 0; " data-14000="display: none;">
         <div class="previous" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="previous()">
+            onmousedown="previous()" ontouchstart="previous()">
             <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i><br><br>
 
             Previous Stop:<br> Theme
         </div>
         <div class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="next()">
+            onmousedown="next()" ontouchstart="next()">
             <i class="fa fa-chevron-circle-down fa-3x" aria-hidden="true"></i><br><br>
 
             Next Stop:<br> Sponsors
@@ -561,13 +594,13 @@
     <div data-0="display: none;" data-15500="display: inline-block; opacity: 0;" data-16000="display: inline-block; opacity: 1.0; "
         data-16500="display: inline-block; opacity: 0; " data-18000="display: none;">
         <div class="previous" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="previous()">
+            onmousedown="previous()" ontouchstart="previous()">
             <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i><br><br>
 
             Previous Stop:<br> Events
         </div>
         <div class="next" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="next()">
+            onmousedown="next()" ontouchstart="next()">
             <i class="fa fa-chevron-circle-down fa-3x" aria-hidden="true"></i><br><br>
 
             Next Stop:<br> Gallery
@@ -577,7 +610,7 @@
 
     <div data-0="display: none;" data-19500="display: inline-block; opacity: 0;" data-20000="display: inline-block; opacity: 1.0; ">
         <div class="previous" style="font-family: 'Roboto', sans-serif; color: #FFF; font-weight: bold; text-align: center;"
-            onclick="previous()">
+            onmousedown="previous()" ontouchstart="previous()">
             <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i><br><br>
 
             Previous Stop:<br> Sponsors
