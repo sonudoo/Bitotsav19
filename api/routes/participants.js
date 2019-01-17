@@ -480,14 +480,14 @@ router.post('/updatePassword', checkAuth, (req, res) => {
                 success: false
             }));
         }
-        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, res) => {
+        bcrypt.compare(req.body.oldPassword, req.userData.password, (err, resul) => {
             if(err){
                 console.log(err);
                 return res.status(500).send(JSON.stringify({
                     success: false
                 }));
             }
-            if(res){
+            if(resul){
                 bcrypt.hash(req.body.newPassword, 10, (err, hash) =>{
                     if(err){
                         console.log(err);
@@ -497,7 +497,7 @@ router.post('/updatePassword', checkAuth, (req, res) => {
                     }
                     else{
                         db.participants
-                        .update({ email: req.body.email }, { $set: { password: hash } }, function (error, result) {
+                        .update({ email: req.userData.email }, { $set: { password: hash } }, function (error, result) {
                             if (error) {
                                 return res.status(500).send(JSON.stringify({
                                     success: false,
@@ -714,25 +714,88 @@ router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
 
 //Bitotsav Championship registration
 router.post('/championship', checkAuth, (req, res) => {
-    const newTeam = {
-        teamName: req.body.teamName,
-        teamLeader: req.body.teamLeader,
-        teamMembers: req.body.teamMembers,
-        teamPoints: 0
-    };
+    const memberCheck = 0;
+    const memberUpdated = 0;
+    const memberArr = JSON.parse(req.body.teamMembers);
     db.championship
-    .insert(newTeam, function (error, result) {
-        if (error) {
+    .find({teamName: req.body.teamName},function(error, team){
+        if(error){
+            console.log(err);
             return res.status(500).send(JSON.stringify({
-                success: false,
-                msg: "An unknown error occurred."
+                success: false
             }));
         }
-        console.log(result);
-        res.status(200).send(JSON.stringify({
-            success: true,
-            msg: "Team Registered for Bitotsav Championship!"
-        }));
+        if(team.length>=1){
+            return res.status(200).send(JSON.stringify({
+                success: false,
+                msg: `${req.body.teamName} is already in use.`
+            }));
+        }
+        const teamM = memberArr.map(member => member.memberEmail);
+        for(let i=0;i<teamM.length;i++){
+            db.participants
+            .find({email: teamM[i]},function(error, member){
+                if(error){
+                    console.log(err);
+                    return res.status(500).send(JSON.stringify({
+                        success: false
+                    }));
+                }
+                if(member.length<1){
+                    return res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: `${teamM[i]} is not registered.`
+                    }));
+                }
+                if(member[0].teamName !== "-1"){
+                    return res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: `${teamM[i]} is already in a team.`
+                    }));
+                }
+                memberCheck = memberCheck + 1;
+                if(memberCheck == teamM.length){
+                    for(let j=0;j<teamM.length;j++){
+                        db.participants
+                        .update({email: teamM[j]},{
+                            $set: {
+                                teamName: req.body.teamName
+                                }
+                            },function(error, result){
+                                if(error){
+                                    console.log(err);
+                                    return res.status(500).send(JSON.stringify({
+                                        success: false
+                                    }));
+                                }
+                                memberUpdated = memberUpdated + 1;
+                                if(memberUpdated == teamM.length){
+                                    const newTeam = {
+                                        teamName: req.body.teamName,
+                                        teamLeader: req.body.teamLeader,
+                                        teamMembers: memberArr,
+                                        teamPoints: 0
+                                    };
+                                    db.championship
+                                    .insert(newTeam, function (error, result) {
+                                        if (error) {
+                                            return res.status(500).send(JSON.stringify({
+                                                success: false,
+                                                msg: "An unknown error occurred."
+                                            }));
+                                        }
+                                        console.log(result);
+                                        res.status(200).send(JSON.stringify({
+                                            success: true,
+                                            msg: "Team Registered for Bitotsav Championship!"
+                                        }));
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
     });
-});
-module.exports = router;
+    module.exports = router;

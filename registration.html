@@ -56,59 +56,128 @@
 
 
 <div class="page-one">
-  <h1 style="font-size:32px;">Registration</h1>
-  <br>
 
-  <form action="/">
-  <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-envelope"></i></span></span>
-      <input type="text" class="form-control" id="reg-email" placeholder="Email" required/>
-      <span class="error" id="email_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-user"></i></span></span>
-      <input class="form-control" type="text" id="reg-name" placeholder="Name" required/>
-      <span class="error" id="name_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-phone"></i></span></span>
-      <input class="form-control" type="text" id="reg-phone" placeholder="Phone" required/>
-      <span class="error" id="phone_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-key"></i></span></span>
-      <input class="form-control" type="password" id="reg-password" placeholder="Password" required/>
-      <span class="error" id="password_error"></span>
-   </div>
-   <div class="input-group spacing" >
-      <span class="input-group-addon"><span class="input-group-text"><i  class="iconimg fa fa-key"></i></span></span>
-      <input class="form-control" type="password" id="reg-cpassword" placeholder="Confirm Password" required/>
-      <span class="error" id="cpassword_error"></span>
-   </div>
-   <div class="row">
-    <span class="error" id="password_error"></span>
-   </div>
-  </div>
   <div class="row">
-    <div class="input-group box spacing" >
-      <span class="input-group-addon"><span class="inp-grp-txt box-child-label">Confirm Password</i></span></span>
-      <input class="input-form form-control box-child-field" type="password" id="reg-cpassword" placeholder="Confirm Password" required/>
-      
-   </div>
-   <div class="row">
-    <span class="error" id="cpassword_error"></span>
-   </div>
-  </div>
+    <div class="col-md-6">
+        <div class="login">
 
-    <div  class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-7">
+                  <h1 style="font-size:32px;">Login</h1>
+                  <br>
+                  <div class="">
+                      <form action="/">
+                        <div class="row"> <div class="input-group spacing" >
+                         <input id="log-username" type="text" class="input-form form-control"  placeholder="Username" required/>
+                       </div>
+                       </div>
+                       <div class="row"><span class="error" id="username_error"></span></div>
+                          <div class="row">
+                           <div class="input-group spacing" >
+                             <!-- <span class="input-group-addon"><span class="inp-grp-txt">Password</span></span> -->
+                             <input id="log-password" type="password" class=" input-form form-control"  placeholder="Password" required/>
+                             
+                       
+                          </div>
+                          </div>
+                          <div class="row"><span class="error" id="password_error"></span></div>
+                           <center><button id="login" class="btn btn-info" >Login</button></center>
+                       
+                       
+                         </form>
+                 </div>
+              </div>
+
+              <div class="col-md-1"></div>
+            </div>
+
+          </div>
+    </div>
+    <div class="col-md-6">
+       
   
 
-   <center><button id="reg-one" class="btn btn-success" > Register</button></center>
+<div class="content-left">
+    <div class="row">
+        <div class="col-md-1">
+          </div>
+      <div class="col-md-7"> 
+          <h1 style="font-size:32px;">Registration</h1>
 
-
-  </form>
+          <br>      
+          <form action="/">
+            <div class="row">
+              <div class="input-group spacing box" >
+                <!-- <span class="input-group-addon"><span class="box-child-label inp-grp-txt">Email</span></span> -->
+                <input type="text" class=" input-form box-child-field form-control" id="reg-email" placeholder="Email" required/>
+                
+             </div>
+          
+            </div>
+            <div class="row">
+              <span class="error" id="email_error"></span>
+             </div>
+             <div class="row">
+              <div class="input-group box spacing" >
+                <!-- <span class="input-group-addon"><span class="box-child-label inp-grp-txt">Name</i></span></span> -->
+                <input class="input-form box-child-field form-control" type="text" id="reg-name" placeholder="Name" required/>
+                
+             </div>
+             </div>
+             <div class="row">
+              <span class="error" id="name_error"></span>
+             </div>
+             <div class="row">
+              <div class="input-group box spacing" >
+                <!-- <span class="input-group-addon"><span class="inp-grp-txt box-child-label">Phone</span></span> -->
+                <input class="input-form form-control box-child-field" type="text" id="reg-phone" placeholder="Phone" required/>
+                
+             </div>
+             
+             </div>
+             <div class="row">
+              <span class="error" id="phone_error"></span>
+             </div>
+            <div class="row">
+              <div class="input-group box spacing" >
+                <!-- <span class="input-group-addon"><span class="inp-grp-txt box-child-label">Password</i></span></span> -->
+                <input class="input-form form-control box-child-field" type="password" id="reg-password" placeholder="Password" required/>
+                
+             </div>
+             <div class="row">
+              <span class="error" id="password_error"></span>
+             </div>
+            </div>
+            <div class="row">
+              <div class="input-group box spacing" >
+                <!-- <span class="input-group-addon"><span class="inp-grp-txt box-child-label">Confirm Password</i></span></span> -->
+                <input class="input-form form-control box-child-field" type="password" id="reg-cpassword" placeholder="Confirm Password" required/>
+                
+             </div>
+             <div class="row">
+              <span class="error" id="cpassword_error"></span>
+             </div>
+            </div>
+          
+              <div class="row">
+                  <div  class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
+              </div>
+            
+          
+             <center><button id="reg-one" class="btn btn-info" > Register</button></center>
+          
+          
+            </form>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
 </div>
 
+
+  </div>
+</div>
+</div>
 <div class="page-two" style ="display: none" >
     <h1 style="font-size:32px;">OTP Verification</h1>
     <br>
@@ -199,7 +268,7 @@
 </div>
 
 
-        </form>
+
 
     </section>
   </div>
@@ -514,6 +583,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
   <script src="js/custom.js"></script>
   <script src="js/registration.js"></script>
+  <script src="js/login.js"></script>
 </body>
 
 </html>

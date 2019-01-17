@@ -36,14 +36,14 @@ $.ajax({
         userbitEmail=res.data.email;
         prepareEventTable(res.data.id,res.data.events);
     },
-    error: function(res){
-        res = JSON.parse(res);
-        alert(res.msg);
+    error: function(){
+        alert("Error! Please login");
+        return;
     }
 });
 
 // Championship registration
-$('#team-registration').submit(function(e){
+$('#team-info').submit(function(e){
     e.preventDefault();
     var tName=$("#teamName").val().trim();
     if(tName==="")
@@ -92,6 +92,12 @@ $('#team-registration').submit(function(e){
             memberId: bitIds[i]
         });
     }
+    var memberSet=new Set(emails);
+    if(memberSet.size!==8) {
+        $("#error-message3").text("*All Field Should be different");
+        $("#error-message3").css("color", "red");
+        return false;
+    }
     $.ajax({
         url: requrl + "/api/participants/championship",
         type: 'POST',
@@ -99,7 +105,7 @@ $('#team-registration').submit(function(e){
             token: localStorage.getItem('token')
         },
         data: {
-            teamMembers: members,
+            teamMembers: JSON.stringify(members),
             teamLeader: userbitId,
             teamName: tName
         },
@@ -108,9 +114,8 @@ $('#team-registration').submit(function(e){
             alert(res.msg);
             location.reload(true);
         },
-        error: function(res){
-            res = JSON.parse(res);
-            alert(res.msg);
+        error: function(){
+            alert("Error! Please try again.");
         }
     });
 });
@@ -178,11 +183,15 @@ function prepareEventTable(id, events) {
             $('#js-dropdown2').select2();
             $("#memberInfo").html("");
             var members=$("#js-dropdown2").val();
-            for(var i=0;i<members;i++) {
-                $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
+            $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member 1</div><div class='col-xs-5'><input type='text' id='email0' disabled></div><div class='col-xs-5'><input type='text' id='bitotsavId0' disabled></div></div>");
+            for(var i=1;i<members;i++) {
+                $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='Email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='Bitotsav Id' required></div></div>");
             }
             $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
             $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
+
+            $("#email0").val(userbitEmail);
+            $("#bitotsavId0").val(userbitId);
 
             $('#js-dropdown').on('change', function() {
                 $("#js-dropdown2").html("");
@@ -194,22 +203,30 @@ function prepareEventTable(id, events) {
                 }
                 $("#memberInfo").html("");
                 var members=$("#js-dropdown2").val();
-                for(var i=0;i<members;i++) {
-                    $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
+                $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member 1</div><div class='col-xs-5'><input type='text' id='email0' disabled></div><div class='col-xs-5'><input type='text' id='bitotsavId0' disabled></div></div>");
+                for(var i=1;i<members;i++) {
+                    $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='Email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='Bitotsav Id' required></div></div>");
                 }
                 $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
                 $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
+
+                $("#email0").val(userbitEmail);
+                $("#bitotsavId0").val(userbitId);
             });
 
             $("#js-dropdown2").on("change",function(){
                 $("#memberInfo").html("");
                 var eventId=$("#js-dropdown").val();
                 var members=$("#js-dropdown2").val();
-                for(var i=0;i<members;i++) {
-                    $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='BitotsavId' required></div></div>");
+                $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member 1</div><div class='col-xs-5'><input type='text' id='email0' disabled></div><div class='col-xs-5'><input type='text' id='bitotsavId0' disabled></div></div>");
+                for(var i=1;i<members;i++) {
+                    $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='Email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='Bitotsav Id' required></div></div>");
                 }
                 $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
                 $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
+
+                $("#email0").val(userbitEmail);
+                $("#bitotsavId0").val(userbitId);
             });
 
             // Deregister Routes
@@ -218,9 +235,8 @@ function prepareEventTable(id, events) {
                 deregisterAjax(eventId);
             });
         },
-        error: function(res){
-            res = JSON.parse(res);
-            alert(res.msg);
+        error: function(){
+            alert("Error! Please login again!");
         }
     });
 }
@@ -256,9 +272,8 @@ function deregisterAjax(eventId) {
             alert(res.msg);
             location.reload(true);
         },
-        error: function(res){
-            res = JSON.parse(res);
-            alert(res.msg);
+        error: function(){
+            alert("Error! Please try again.");
         }
     });
 }
@@ -316,6 +331,13 @@ $("#memberInfo").submit(function(e) {
             memberId: bitIds[i]
         });
     }
+    var memberSet=new Set(emails);
+    if(memberSet.size!==parseInt(memberSize)) {
+        $("#error-message2").text("*All Emails Should be different");
+        $("#error-message2").css("color", "red");
+        return false;
+    }
+    members.shift();
     var leaderId=userbitId;
     var leaderEmail=userbitEmail;
     var leaderCollege=userbitCollege;
@@ -343,11 +365,8 @@ $("#memberInfo").submit(function(e) {
             alert(res.msg);
             location.reload(true);
         },
-        error: function(res){
-            res = JSON.parse(res);
-            $("#error-message2").text("*"+res.msg);
-            $("#error-message2").css("color", "red");
-            return false;
+        error: function(){
+            alert("Error! Please try again.");
         }
     });
     return false;
@@ -401,10 +420,8 @@ $("#passwordUpdate").submit(function(e) {
             $("#error-message").text("*"+res.msg);
             $("#error-message").css("color", "green");
         },
-        error: function(res){
-            res = JSON.parse(res);
-            $("#error-message").text("*"+res.msg);
-            $("#error-message").css("color", "red");
+        error: function(){
+            alert("Error! Please try again.")
         }
     });
     return false;

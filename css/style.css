@@ -44,7 +44,7 @@ a {
 /* ==================================================
   Elements
   ================================================== */
-.btn {
+/* .btn {
   background-color: #199EB8;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   font-weight: 800;
@@ -70,6 +70,10 @@ a {
 .btn-ghost:hover {
   background-color: #fff;
   color: #199EB8;
+} */
+
+.btn{
+  font-family: "Raleway", Helvetica, Arial, sans-serif;
 }
 
 section {
@@ -1694,4 +1698,7 @@ button.scroll_down:before {
 #reg-body{
   background-size: cover;
   background-image: url('../img/002M.jpg');
+}
+.content-left{
+  border-left: 1px  solid rgb(27, 186, 159);
 }
