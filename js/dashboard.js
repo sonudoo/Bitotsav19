@@ -13,6 +13,7 @@ $.ajax({
         // Event id team leader
         if(res.success===false) {
             alert(res.msg);
+            window.location.href = "login.html";
             return;
         }
         console.log(res);

@@ -412,7 +412,7 @@ router.get('/getEvents', (req, res) => {
 const checkAuth = function (req, res, next) {
     const token = req.headers.token.split(' ')[1];
     if (token == undefined) {
-        return res.status(403).send(JSON.stringify({
+        return res.status(200).send(JSON.stringify({
             success: false,
             msg: "Authentication Failed.Please Log In."
         }));;
