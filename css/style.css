@@ -1300,7 +1300,7 @@ transform: scale(0.55);
   padding: 20px;
   text-decoration: none;
   font-size: 25px;
-  color: rgba(255, 136, 0, 1);
+  color: rgb(5, 188, 158);
   display: block;
   border-radius: 100%;
 }
@@ -1685,4 +1685,13 @@ button.scroll_down:before {
   .sidenav{
       display: none;
   }
+}
+#login-body{
+  background-size: cover;
+  background-image: url('../img/002M.jpg');
+}
+
+#reg-body{
+  background-size: cover;
+  background-image: url('../img/002M.jpg');
 }
