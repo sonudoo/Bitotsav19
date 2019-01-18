@@ -1,7 +1,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
-    background-image: linear-gradient(to bottom right, #F4F7F5, #C1C3C4);
+    /* background-image: linear-gradient(to bottom right, #F4F7F5, #C1C3C4); */
+    background: radial-gradient(ellipse at top left, #FFFFFF 0%,#CBD1CE 100%);
 }
 
 #passwordUpdate input {
@@ -461,7 +462,7 @@ a.article, a.article:hover {
 }
 
 /* ---------------------------------------------------
-    TABLE 
+    TABLE
 ------------------------------------------------------*/
 
 #events table {

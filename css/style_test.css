@@ -16,23 +16,23 @@ html, body {
     background-position: center center;
     background-image: url('../img/asiamap.png');
   }
-  
 
-  
+
+
 #container {
   max-width: 1024px;
   margin: auto;
 }
 
 #monitor {
-	background: #000; 
+	background: #000;
 	position: relative;
-	border-top: 3px solid #888; 
+	border-top: 3px solid #888;
 	margin: 5%;
-	padding: 2% 2% 4% 2%; 
-	border-radius: 10px; 
-	border-bottom-left-radius: 50% 2%; 
-	border-bottom-right-radius: 50% 2%; 
+	padding: 2% 2% 4% 2%;
+	border-radius: 10px;
+	border-bottom-left-radius: 50% 2%;
+	border-bottom-right-radius: 50% 2%;
 	transition: margin-right 1s;
 }
 
@@ -42,31 +42,30 @@ html, body {
 	position: absolute;
 	bottom: 3%;
 	left: 36%;
-	height: .5%; 
+	height: .5%;
 	width: 28%;
-	background: #ddd; 
-	border-radius: 50%; 
-	box-shadow: 0 0 3px 0 white; 
+	background: #ddd;
+	border-radius: 50%;
+	box-shadow: 0 0 3px 0 white;
 }
 
 #monitorscreen {
 	position: relative;
   background-color: #777;
-	background-size: cover; 
+	background-size: cover;
 	background-position: top center;
-	height: 0; 
-	padding-bottom: 56.25%; 
+	height: 0;
+	padding-bottom: 56.25%;
 	position: relative;
 	overflow: hidden;
 }
 
-
 @media all and (min-width: 960px) {
 	#monitor {
-		-webkit-animation: tvflicker .2s infinite alternate; 
-		-moz-animation:    tvflicker .5s infinite alternate; 
-		-o-animation:      tvflicker .5s infinite alternate; 
-		animation:         tvflicker .5s infinite alternate; 
+		-webkit-animation: tvflicker .2s infinite alternate;
+		-moz-animation:    tvflicker .5s infinite alternate;
+		-o-animation:      tvflicker .5s infinite alternate;
+		animation:         tvflicker .5s infinite alternate;
 	}
 
 	@-webkit-keyframes tvflicker {
@@ -369,9 +368,9 @@ button.scroll_down:before {
   background: transparent optional; /*just make scrollbar invisible */
 }
 @media screen and (max-width: 576px){
-  
+
   /* div.event-card-group{
-   
+
     max-height: 100%;
   } */
   div.event-card{
@@ -502,7 +501,7 @@ button.scroll_down:before {
 }
 
 /* -------------------------------------------------------------------------
-   end Scroll Down Button 
+   end Scroll Down Button
  * ------------------------------------------------------------------------- */
 
 #back{
@@ -543,7 +542,7 @@ html{
     padding: 0;
 }
 
-/* make sidebar nav vertical */ 
+/* make sidebar nav vertical */
 @media (min-width: 768px) {
   .sidebar-nav .navbar .navbar-collapse {
     padding: 0;
@@ -572,7 +571,7 @@ html{
 .sponsor-img{
   width: 52vw;
 }
-  
+
 }
 
 
@@ -1060,7 +1059,7 @@ to {
 
 /* Planes */
 #two_planes {
-  animation: rotating 4s linear infinite; 
+  animation: rotating 4s linear infinite;
   transform-origin: 50% 50%;
   transform-style: preserve-3D;
   display: block;
@@ -1098,7 +1097,7 @@ to {
   max-width:60%;
   max-height: 60%;
   width: auto;
-  height: auto; 
+  height: auto;
   position: absolute;
   top: 40%;
   transform: translateY(-50%);
@@ -1123,7 +1122,7 @@ body {
   /* makes sure it stays on top */
 }
 
-        
+
 html, #status {
   width: 100%;
   height: 100%;
@@ -1371,3 +1370,59 @@ right: 0;
 top: 0;
 z-index: -1;
 }
+
+
+/* Sponsors Area */
+#sponsors {
+  /* background: #f3f4f3; */
+}
+
+#sponsors .spnsors-logo {
+  text-align: center;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 10%;
+  display: inline-block;
+  border: 1px solid #ddd;
+  background: #fff;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+#sponsors .spnsors-logo:hover {
+  border-color: transparent;
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  #sponsors .spnsors-logo img {
+    width: 80%;
+  }
+}
+
+@media (max-width: 991px) {
+  #sponsors .spnsors-logo img {
+    width: 80%;
+  }
+}
+
+/* only small tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+  #sponsors .spnsors-logo {
+    padding: 30px;
+  }
+}
+
+/* mobile or only mobile */
+@media (max-width: 767px) {
+  #sponsors .spnsors-logo {
+    margin-bottom: 15px;
+  }
+  #sponsors .spnsors-logo img {
+    width: 80%;
+  }
+}
+
+
+

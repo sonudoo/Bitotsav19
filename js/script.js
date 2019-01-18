@@ -31,8 +31,8 @@ $(document).ready(function () {
     $("#two_planes").css("top", earth.position().top);
 });
 let countries = ["None", "One", "Two", "Three", "Four", "Five", "Six"]
-let countriesX = [0, 550, 800, 650, 550, 800, 650];
-let countriesY = [0, 700, 500, 200, 800, 700, 500];
+let countriesX = [0, 550, 850, 650, 575, 800, 650];
+let countriesY = [0, 750, 600, 200, 850, 750, 500];
 let order = [];
 for (let i = 0; i < 6; i++) {
     order.push(i);

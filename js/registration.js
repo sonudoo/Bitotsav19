@@ -234,8 +234,16 @@ $(window).ready(function(){
         checkLoginPassword();
     });
 
+    $('#go-to-login').on('click',function(e){
+        e.preventDefault();
+        window.location.href = "registration.html";
+    });
+
     $("#login").click(function(e){
         e.preventDefault();
+        let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i> Logging"
+        $(this).html(loadingText);
+        $(this).prop('disabled',true);
          username_error = false;
          password_error = false;
          checkLoginUsername();
@@ -268,12 +276,18 @@ $(window).ready(function(){
                 location.reload(true);
              });
          }
+         else{
+             $("#login").html('Login');
+             $("#login").prop('disabled',false);
+         }
 
     });
 
     $("#reg-one").click(function(e){
         e.preventDefault();
-
+        let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i> Loading"
+        $(this).html(loadingText);
+        $(this).prop('disabled',true);
         //validation
         name_error = false;
         email_error=false;
@@ -317,6 +331,8 @@ $(window).ready(function(){
                     res = JSON.parse(res);
                     if(res.success === false){
                         alert(res.msg);
+                        $("#reg-one").html('Register');
+                        $("#reg-one").prop('disabled',false);
                         return;
                     }
                     else{
@@ -332,15 +348,23 @@ $(window).ready(function(){
                 }
             })
         }
+        else{
+            $("#reg-one").html('Register');
+            $("#reg-one").prop('disabled',false);
+        }
     });
 
 
 
     $("#reg-two").click(function(e){
+        let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i> Loading"
+        $(this).html(loadingText);
+        $(this).prop('disabled',true);
         e.preventDefault();
          phone_otp_error = false;
          email_otp_error = false;
-        checkOtp();
+        checkPhoneOtp();
+        checkEmailOtp();
         var data ={
             email: $("#reg-email").val().trim(),
             phoneOtp:parseInt($("#reg-phone-otp").val().trim()),
@@ -357,6 +381,8 @@ $(window).ready(function(){
                         $("#reg-phone-otp").val("");
                         $("#reg-email-otp").val("");
                         alert(res.msg);
+                        $("#reg-two").html('Verify');
+                        $("#reg-two").prop('disabled',false);
                     }
                     else{
                         $(".page-two").fadeOut();
@@ -369,8 +395,15 @@ $(window).ready(function(){
                 }
             });
         }
+        else {
+            $("#reg-two").html('Verify');
+            $("#reg-two").prop('disabled',false);
+        }
     });
     $("#reg-three").click(function(e){
+        let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i> Loading"
+        $(this).html(loadingText);
+        $(this).prop('disabled',true);
         //api/admin/saveparticipant
         e.preventDefault();
         college_error=false;
@@ -413,14 +446,21 @@ $(window).ready(function(){
                     }
                     else if(res.success === false){
                         alert(res.msg);
+                        $("#reg-three").html('Submit');
+                        $("#reg-three").prop('disabled',false);
                     }
                 },
                 error: function() {
                     alert("Error! Please try again.");
+                    $("#reg-three").html('Submit');
+                    $("#reg-three").prop('disabled',false);
                 }
             });
         }
-
+        else {
+            $("#reg-three").html('Submit');
+            $("#reg-three").prop('disabled',false);
+        }
 
     });
 

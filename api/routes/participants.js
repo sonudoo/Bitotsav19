@@ -543,6 +543,44 @@ router.post('/updatePassword', checkAuth, (req, res) => {
 router.post('/eventRegistration', checkAuth, (req, res) => {
 
     const memberArr = JSON.parse(req.body.members);
+    if(memberArr.length == 0){
+        db.participants.update({ email : req.userData.email }, {
+            $push : {
+                events: {
+                    "eventId" : parseInt(req.body.eventId),
+                    "teamLeader" : req.body.leaderId
+                }
+            }
+        }, (error, result) => {
+            if(error) {
+                res.status(500).send(JSON.stringify({
+                    success: false,
+                    msg: "Some error occurred"
+                }));
+            } else {
+                const newTeam = {
+                    eventId: parseInt(req.body.eventId),
+                    teamLeaderId: req.body.leaderId,
+                    teamMembers: []
+                }
+                db.teams
+                .insert(newTeam, function (error, result) {
+                    if (error) {
+                        return res.status(500).send(JSON.stringify({
+                            success: false,
+                            msg: "An unknown error occurred."
+                        }));
+                    }
+                    console.log(result);
+                    res.status(200).send(JSON.stringify({
+                        success: true,
+                        msg: "Team Registered Successfully"
+                    }));
+                });
+
+            }
+        });
+    }
     let validatedMembers = 0;
     for(let j=0;j<memberArr.length;j++){
         db.participants.find({email : memberArr[j].memberEmail}, (error, result) => {
@@ -648,7 +686,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
 
 // Event De-Registration
 router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
-    let bitotsavID = "BT18/"+req.params.bitId;
+    let bitotsavID = "BT19/"+req.params.bitId;
     let eventID = parseInt(req.params.eventId);
     let countMembers = 0;
     db.participants
@@ -688,6 +726,24 @@ router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
                 }));
             }
             else{
+                if(team[0].teamMembers.length == 0){
+                    db.teams
+                    .remove({
+                        eventId: eventID,
+                        teamLeaderId: bitotsavID
+                    }, function(err, result){
+                        if(err){
+                            console.log(err);
+                            return res.status(500).send(JSON.stringify({
+                                success: false
+                            }));
+                        }
+                        return res.status(200).send(JSON.stringify({
+                            success: true,
+                            msg: 'Team De-Registered successfully'
+                        }));
+                    });
+                }
                 for(let i=0;i<team[0].teamMembers.length;i++){
                     const memberId = team[0].teamMembers[i];
                     db.participants

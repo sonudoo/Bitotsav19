@@ -16,7 +16,6 @@ $.ajax({
             window.location.href = "registration.html";
             return;
         }
-        console.log(res);
         $("#username").text(res.data.name.toUpperCase());
         $("#username").text(res.data.username);
         $("#email").text(res.data.email);
@@ -197,7 +196,7 @@ function prepareEventTable(id, events) {
                 $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='Email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='Bitotsav Id' required></div></div>");
             }
             $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
-            $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
+            $("#memberInfo").append("<button type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' id='registerUsers'>Register</button>");
 
             $("#email0").val(userbitEmail);
             $("#bitotsavId0").val(userbitId);
@@ -217,7 +216,7 @@ function prepareEventTable(id, events) {
                     $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='Email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='Bitotsav Id' required></div></div>");
                 }
                 $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
-                $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
+                $("#memberInfo").append("<button type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' id='registerUsers'>Register</button>");
 
                 $("#email0").val(userbitEmail);
                 $("#bitotsavId0").val(userbitId);
@@ -232,7 +231,7 @@ function prepareEventTable(id, events) {
                     $("#memberInfo").append("<br><div class='row'><div class='col-xs-2'>Member "+(i+1)+"</div><div class='col-xs-5'><input type='text' id='email"+i+"' placeholder='Email' required></div><div class='col-xs-5'><input type='text' id='bitotsavId"+i+"' placeholder='Bitotsav Id' required></div></div>");
                 }
                 $("#memberInfo").append("<br><p style='line-height: 1em; font-size: 1em;' id='error-message2'></p>");
-                $("#memberInfo").append("<input type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' value='Register' id='registerUsers'>");
+                $("#memberInfo").append("<button type='submit' style='width:inherit' class='btn btn-primary' name='registerUsers' id='registerUsers'>Register</button>");
 
                 $("#email0").val(userbitEmail);
                 $("#bitotsavId0").val(userbitId);
@@ -298,6 +297,9 @@ $("#sidebar a").on("click",function(){
 
 $("#memberInfo").submit(function(e) {
     e.preventDefault();
+    let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i> Registering"
+    $('#registerUsers').html(loadingText);
+    $('#registerUsers').prop('disabled',true);
     // Validation
     var emails=[],bitIds=[];
     var memberSize=$("#js-dropdown2").val();
@@ -311,6 +313,8 @@ $("#memberInfo").submit(function(e) {
             var fieldNum=i+1;
             $("#error-message2").text("*Email field "+fieldNum+" is empty!");
             $("#error-message2").css("color", "red");
+            $('#registerUsers').html('Register');
+            $('#registerUsers').prop('disabled',false);
             return false;
         }
         if(bitIds[i]==="")
@@ -318,6 +322,8 @@ $("#memberInfo").submit(function(e) {
             var fieldNum=i+1;
             $("#error-message2").text("*Bitotsav ID field "+fieldNum+" is empty!");
             $("#error-message2").css("color", "red");
+            $('#registerUsers').html('Register');
+            $('#registerUsers').prop('disabled',false);
             return false;
         }
     }
@@ -326,6 +332,8 @@ $("#memberInfo").submit(function(e) {
             var fieldNum=i+1;
             $("#error-message2").text("*Email "+fieldNum+" is incorrect!");
             $("#error-message2").css("color", "red");
+            $('#registerUsers').html('Register');
+            $('#registerUsers').prop('disabled',false);
             return false;
         }
     }
@@ -344,6 +352,8 @@ $("#memberInfo").submit(function(e) {
     if(memberSet.size!==parseInt(memberSize)) {
         $("#error-message2").text("*All Emails Should be different");
         $("#error-message2").css("color", "red");
+        $('#registerUsers').html('Register');
+        $('#registerUsers').prop('disabled',false);
         return false;
     }
     members.shift();
@@ -357,8 +367,6 @@ $("#memberInfo").submit(function(e) {
         leaderEmail: leaderEmail,
         leaderCollege: leaderCollege
     };
-    $("#error-message2").text("Registering...............");
-    $("#error-message2").css("color", "orange");
     $.ajax({
         type: 'POST',
         headers: {
@@ -371,6 +379,8 @@ $("#memberInfo").submit(function(e) {
             if(res.success===false) {
                 $("#error-message2").text("*"+res.msg);
                 $("#error-message2").css("color", "red");
+                $('#registerUsers').html('Register');
+                $('#registerUsers').prop('disabled',false);
                 return false;
             }
             $("#error-message2").text("Event registered successfully!");
@@ -382,6 +392,8 @@ $("#memberInfo").submit(function(e) {
         error: function(){
             $("#error-message2").text("Error! Please try again.");
             $("#error-message2").css("color","red");
+            $('#registerUsers').html('Register');
+            $('#registerUsers').prop('disabled',false);
         }
     });
     return false;

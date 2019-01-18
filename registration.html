@@ -16,9 +16,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
 
     <!-- Bootstrap CSS File -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Libraries CSS Files -->
+    <!-- <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"><!-- Libraries CSS Files -->
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <!-- Main Stylesheet File -->
@@ -43,7 +43,7 @@
                 <a href="https://www.youtube.com/channel/UCnQ43YDh1dXKtTFBrERkhYw" target="_blank"><i class="fa fa-youtube fa-5x icons" aria-hidden="true"></i></a>
 
             </div>
-            <div class="row"">
+            <div class="row">
                 <div class="col-md-12" style="text-align: left;">
                     <img id="bitlogo" src="img/bit.png" style="height: 70px; width: 70px; padding: 10px;">
                     <img id="bitotsavlogo" src="img/bitotsav.png" style="height: 70px; width: 70px; padding: 10px; float: right;">
@@ -82,7 +82,7 @@
                                                 </div>
                                             </div>
                                             <div class="row"><span class="error" id="login-password-error"></span></div>
-                                            <center><button id="login" class="btn btn-info" >Login</button></center>
+                                            <center><button id="login" class="btn btn-info">Login</button></center>
 
 
                                         </form>
@@ -162,7 +162,7 @@
                                         </div>
 
 
-                                        <center><button id="reg-one" class="btn btn-info" > Register</button></center>
+                                        <center><button id="reg-one" class="btn btn-info"> Register</button></center>
 
 
                                     </form>
@@ -213,7 +213,7 @@
 
                     </div>
 
-                    <center><button id="reg-two" class="btn btn-success" >Verify & Next</button></center>
+                    <center><button id="reg-two" class="btn btn-success" >Verify</button></center>
                 </form>
             </div>
             <div class="page-three" style="display:none">
@@ -259,10 +259,10 @@
                             <span class="input-group-addon box-child-label"><span class="inp-grp-txt">Source</span></span>
                             <!-- <input type="text" style="flex:2;" class="input-form form-control box-child-field" id="reg-source" required/> -->
                             <select style="flex:2;" class="input-form form-control box-child-field" id="reg-source">
-                                <option>Friends</option>
-                                <option>Newspaper</option>
-                                <option>Online</option>
-                                <option>Others</option>
+                                <option value="Friends">Friends</option>
+                                <option value="Newspaper">Newspaper</option>
+                                <option value="Online">Online</option>
+                                <option value="Others">Others</option>
                             </select>
 
                         </div>
@@ -270,6 +270,17 @@
                     <div class="row">
                         <span class="error" id="source_error"></span>
                     </div>
+
+                    <div class="row">
+                        <div class="input-group box spacing">
+                            <span class="input-group-addon box-child-label"><span class="inp-grp-txt">Roll no</span></span>
+                            <input style="flex:2;" class="input-form form-control box-child-field" id="reg-roll">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="error" id="roll_error"></span>
+                    </div>
+
 
                     <div class="row">
                         <div class="input-group box spacing">
@@ -286,7 +297,7 @@
 
 
 
-                    <center><button id="reg-three" class="btn btn-success" >Submit</button></center>
+                    <center><button id="reg-three" class="btn btn-success">Submit</button></center>
 
                 </form>
 
@@ -294,12 +305,13 @@
             </div>
             <div class="page-four" style="display:none">
                 <center>
-                    <h1>Congratulations! You have been registered succesfully.</h1>
+                    <h2>Congratulations! You have been registered succesfully.</h2>
                     <br>
-                    <h2>
+                    <h3>
                         Your registration ID is :
-                    </h2>
-                    <h1 class="bit-id"></h1>
+                    </h3>
+                    <h3 class="bit-id"></h3>
+                    <button id="go-to-login" class="btn btn-success">Login</button>
                 </center>
             </div>
 
@@ -600,12 +612,14 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <script src="lib/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
     <script src="lib/jquery/jquery-migrate.min.js"></script>
     <script src="lib/superfish/hoverIntent.js"></script>
     <script src="lib/superfish/superfish.min.js"></script>
     <script src="lib/tether/js/tether.min.js"></script>
     <script src="lib/stellar/stellar.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script> -->
     <script src="lib/counterup/counterup.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/easing/easing.js"></script>
