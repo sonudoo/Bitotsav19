@@ -1,3 +1,13 @@
+$(window).on('load', function () {
+    setTimeout(function () {
+      $('#status').hide(); // will first fade out the loading animation 
+      $('#preloader').fadeOut('slow'); // will fade out the white DIV that covers the website. 
+      $('body').css({ 'overflow': 'visible' });
+    }, 500);
+  });
+
+
+
 /**
  * To revolve the planes around the earth together
  */

@@ -27,6 +27,8 @@ $(window).ready(function(){
     $('#roll_error').hide();
     $('#source_error').hide();
     $('#year_error').hide();
+    $("#login-username-error").hide();
+    $("#login-password-error").hide();
 
     var email_error = false;
     var name_error = false;
@@ -38,12 +40,14 @@ $(window).ready(function(){
     var roll_error=false;
     var cpassword_error = false;
     var password_less = false;
+    var username_error =false;
+    var password_error = false;
 
     function check_name() {
-        var name = $('#reg-name').val();
-        name.trim();
+        var name = $('#reg-name').val().trim();
         if(name!='') {
             $('#name_error').hide();
+            name_error=false;
         }
         else {
             $('#name_error').html("Name field cannot be empty");
@@ -53,9 +57,9 @@ $(window).ready(function(){
     }
     function check_college() {
         var name = $('#reg-college').val();
-
         if(name!=undefined) {
             $('#college_error').hide();
+            college_error=false;
         }
         else {
             $('#college_error').html("College name cannot be empty");
@@ -64,10 +68,10 @@ $(window).ready(function(){
         }
     }
     function check_roll() {
-        var name = $('#reg-roll').val();
-        name.trim();
+        var name = $('#reg-roll').val().trim();
         if(name!='') {
             $('#roll_error').hide();
+            roll_error=false;
         }
         else {
             $('#roll_error').html("Roll number cannot be empty");
@@ -75,11 +79,11 @@ $(window).ready(function(){
             roll_error=true;
         }
     }
-
     function checkPhoneOtp(){
         var phone = $("#reg-phone-otp").val().trim();
         if(phone!=''){
             $("#phone_otp_error").hide();
+            phone_otp_error = false;
         }
         else{
             $("#phone_otp_error").html("Phone OTP is not entered.");
@@ -93,6 +97,7 @@ $(window).ready(function(){
 
         if(email!=''){
             $("#email_otp_error").hide();
+            email_otp_error = false;
         }
         else{
             $("#email_otp_error").html("Email OTP is not entered.");
@@ -105,6 +110,7 @@ $(window).ready(function(){
         var email = $('#reg-email').val().trim();
         if(pattern.test(email)&&email!='') {
             $('#email_error').hide();
+            email_error=false;
         }
         else {
             $('#email_error').html("Invalid email address");
@@ -117,6 +123,7 @@ $(window).ready(function(){
         var phone = $('#reg-phone').val().trim();
         if(phone.match(pattern)&&parseInt(phone)>6000000000&&parseInt(phone)<10000000000) {
             $('#phone_error').hide();
+            phone_error=false;
         }
         else {
             $('#phone_error').html("Invalid phone number");
@@ -126,88 +133,42 @@ $(window).ready(function(){
     }
     function check_password(){
         var password = $('#reg-password').val();
-        var password2 = $('#reg-cpassword').val();
             if(password.length<6){
                 $('#password_error').empty();
                 $('#password_error').html("Password should have more than 6 characters.");
                 $('#password_error').show();
                 password_less=true;
             }
-            else if(password != password2) {
-                $('#password_error').empty();
-                $('#password_error').html("Passwords do not match");
-                $('#password_error').show();
-                password_error=true;
-            }
             else{
                 $('#password_error').hide();
+                password_less=false;
             }
     }
     function check_cpassword() {
+        var password = $('#reg-password').val();
         var name = $('#reg-cpassword').val();
-        name.trim();
-        if(name!='') {
-            $('#cpassword_error').hide();
-        }
-        else {
+        if(name == '') {
             $('#cpassword_error').html("Confirm Password field cannot be empty");
             $('#cpassword_error').show();
             cpassword_error=true;
         }
+        else if(password != name) {
+            $('#cpassword_error').empty();
+            $('#cpassword_error').html("Passwords do not match");
+            $('#cpassword_error').show();
+            cpassword_error=true;
+        }
+        else {
+            $('#cpassword_error').hide();
+            cpassword_error=false;
+        }
     }
-
-    $("#reg-name").focusout(function(){
-        check_name();
-    });
-
-    $("#reg-email").focusout(function(){
-        check_email();
-    });
-
-    $("#reg-phone").focusout(function(){
-        check_phone();
-    });
-
-    $('#reg-cpassword').focusout(function(){
-
-        check_cpassword();
-        check_password();
-    });
-    $('#reg-password').focusout(function(){
-        //check_password_length();
-        check_password();
-    });
-    $("#reg-email-otp").focusout(function(){
-        checkEmailOtp();
-    });
-    $("#reg-phone-otp").focusout(function(){
-        checkPhoneOtp();
-    });
-    $("#reg-college").focusout(function(){
-        check_college();
-    });
-    $("#reg-roll").focusout(function(){
-        check_roll();
-    })
-
-    $("#login-username-error").hide();
-    $("#login-password-error").hide();
-
-    var username_error =false;
-    var password_error = false;
-
-    $("#log-username").focusout(function(){
-        checkLoginUsername();
-    });
-
-    $("#log-password").focusout(function(){
-        checkLoginPassword();
-    });
     function checkLoginUsername() {
         var pattern = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})$/;
         var email = $('#log-username').val().trim();
         if(pattern.test(email)&&email!='') {
             $('#login-username-error').hide();
+            email_error=false;
         }
         else {
             $('#login-username-error').html("Invalid email address");
@@ -225,8 +186,53 @@ $(window).ready(function(){
         }
         else{
             $("#login-password-error").hide();
+            password_error = false;
         }
     }
+
+    $("#reg-name").focusout(function(){
+        check_name();
+    });
+
+    $("#reg-email").focusout(function(){
+        check_email();
+    });
+
+    $("#reg-phone").focusout(function(){
+        check_phone();
+    });
+
+    $('#reg-cpassword').focusout(function(){
+        check_cpassword();
+    });
+
+    $('#reg-password').focusout(function(){
+        check_password();
+    });
+
+    $("#reg-email-otp").focusout(function(){
+        checkEmailOtp();
+    });
+
+    $("#reg-phone-otp").focusout(function(){
+        checkPhoneOtp();
+    });
+
+    $("#reg-college").focusout(function(){
+        check_college();
+    });
+
+    $("#reg-roll").focusout(function(){
+        check_roll();
+    });
+
+    $("#log-username").focusout(function(){
+        checkLoginUsername();
+    });
+
+    $("#log-password").focusout(function(){
+        checkLoginPassword();
+    });
 
     $("#login").click(function(e){
         e.preventDefault();
