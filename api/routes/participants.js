@@ -10,7 +10,7 @@ const request = require('request');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const collegeList = require("../collegeList.json");
-
+const fs = require('fs');
 
 // Get the College List
 router.get('/getCollegeList', (req, res) => {
@@ -141,6 +141,21 @@ router.post('/saveparticipant', (req, res) => {
                                     }));
                                 } else {
                                     console.log('Confirmation Email sent: ' + info.response);
+                                    fs.readFile('collegeList.json', 'utf8', function readFileCallback(err, data){
+                                        if (err){
+                                            console.log(err);
+                                        } else {
+                                            obj = JSON.parse(data); //now it an object
+                                            if(!obj.colleges.includes(req.body.college)){
+                                                obj.colleges.push(req.body.college); //add some data
+                                            }
+                                            json = JSON.stringify(obj); //convert it back to json
+                                            fs.writeFile('collegeList.json', json, 'utf8', function (err) {
+                                                if (err) console.log(err);
+                                                console.log('College File Updated!');
+                                            }); // write it back
+                                        }
+                                    });
                                     return res.status(200).send(JSON.stringify({
                                         success: true,
                                         msg: "You are registered successfully",
@@ -820,10 +835,16 @@ router.post('/championship', checkAuth, (req, res) => {
                         msg: `${teamM[i]} is not registered.`
                     }));
                 }
-                if(member[0].teamName !== "-1"){
+                else if(member[0].teamName !== "-1"){
                     return res.status(200).send(JSON.stringify({
                         success: false,
                         msg: `${teamM[i]} is already in a team.`
+                    }));
+                }
+                else if (member[0].college !== req.body.leaderCollege){
+                    return res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: "Team members must be of the same college."
                     }));
                 }
                 memberCheck = memberCheck + 1;

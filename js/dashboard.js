@@ -117,7 +117,8 @@ $('#team-info').submit(function(e){
         data: {
             teamMembers: JSON.stringify(members),
             teamLeader: userbitId,
-            teamName: tName
+            teamName: tName,
+            leaderCollege:userbitCollege
         },
         success: function(res) {
             res = JSON.parse(res);
@@ -439,6 +440,8 @@ $("#passwordUpdate").submit(function(e) {
     {
         $("#error-message").text("*Password should be atleast 6 characters long!");
         $("#error-message").css("color", "red");
+        $('#passwordSave').html('Update');
+        $('#passwordSave').prop('disabled',false);
         return false;
     }
     if (newPassword !== confirmNewPassword)
@@ -466,7 +469,6 @@ $("#passwordUpdate").submit(function(e) {
             if(res.success===false) {
                 $("#error-message").text("*"+res.msg);
                 $("#error-message").css("color", "red");
-                console.log(res);
                 return false;
             }
             $("#error-message").text("*"+res.msg);
