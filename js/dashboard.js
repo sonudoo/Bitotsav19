@@ -435,6 +435,12 @@ $("#passwordUpdate").submit(function(e) {
         $('#passwordSave').prop('disabled',false);
         return false;
     }
+    if(oldPassword.length<6||newPassword.length<6||confirmNewPassword.length<6)
+    {
+        $("#error-message").text("*Password should be atleast 6 characters long!");
+        $("#error-message").css("color", "red");
+        return false;
+    }
     if (newPassword !== confirmNewPassword)
     {
         $("#error-message").text("*Password Mismatch");
@@ -460,8 +466,7 @@ $("#passwordUpdate").submit(function(e) {
             if(res.success===false) {
                 $("#error-message").text("*"+res.msg);
                 $("#error-message").css("color", "red");
-                $('#passwordSave').html('Update');
-                $('#passwordSave').prop('disabled',false);
+                console.log(res);
                 return false;
             }
             $("#error-message").text("*"+res.msg);
