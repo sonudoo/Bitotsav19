@@ -8,6 +8,7 @@ import { ParticipantDetailsComponent } from '../participant-details/participant-
 import { TeamListComponent } from '../participant-list/team-list.component';
 import { SMSComponent } from '../sms/sms.component';
 import { ResultAnnouncementComponent } from '../result-announcement/result-announcement.component';
+import { AnnouncementComponent } from '../announcement/announcement.component';
 const routes: Routes = [
     {
         path: '',
@@ -40,6 +41,10 @@ const routes: Routes = [
     {
         path: 'result',
         component: ResultAnnouncementComponent
+    },
+    {
+        path: 'announcement',
+        component: AnnouncementComponent
     }
 ];
 

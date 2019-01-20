@@ -18,6 +18,8 @@ import { ParticipantDetailsComponent } from './participant-details/participant-d
 import { TeamListComponent } from './participant-list/team-list.component';
 import { SMSComponent } from './sms/sms.component';
 import { ResultAnnouncementComponent } from './result-announcement/result-announcement.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
+import { PMComponent } from './pm/pm.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { ResultAnnouncementComponent } from './result-announcement/result-announ
     ParticipantDetailsComponent,
     TeamListComponent,
     SMSComponent,
-    ResultAnnouncementComponent
+    ResultAnnouncementComponent,
+    AnnouncementComponent,
+    PMComponent
   ],
   imports: [
     BrowserModule,

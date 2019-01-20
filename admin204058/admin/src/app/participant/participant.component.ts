@@ -23,6 +23,7 @@ export class ParticipantComponent implements OnInit {
     if(this.storage.get('token') != undefined){
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
+          console.log(data);
           for(let i in data){
             this.participants.push({
               id: data[i].id,
