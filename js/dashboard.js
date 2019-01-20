@@ -45,48 +45,56 @@ $.ajax({
 // Championship registration
 $('#team-info').submit(function(e){
     e.preventDefault();
+    let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i> Registering"
+    $('#team-registration').html(loadingText);
+    $('#team-registration').prop('disabled',true);
+
     var tName=$("#teamName").val().trim();
     if(tName==="")
     {
         $("#error-message3").text("*Team Name Field is empty!");
         $("#error-message3").css("color", "red");
+        $('#team-registration').html('Register');
+        $('#team-registration').prop('disabled',false);
         return false;
     }
     var emails=[],bitIds=[];
-    for(var i=2;i<9;i++) {
+    for(var i=1;i<9;i++) {
         emails.push($("#emailT"+i).val().trim());
         bitIds.push($("#bitotsavIdT"+i).val().trim());
     }
-    for(var i=0;i<7;i++) {
+    for(var i=0;i<8;i++) {
         if(emails[i]==="")
         {
-            var fieldNum=i+2;
+            var fieldNum=i+1;
             $("#error-message3").text("*Email field "+fieldNum+" is empty!");
             $("#error-message3").css("color", "red");
+            $('#team-registration').html('Register');
+            $('#team-registration').prop('disabled',false);
             return false;
         }
         if(bitIds[i]==="")
         {
-            var fieldNum=i+2;
+            var fieldNum=i+1;
             $("#error-message3").text("*Bitotsav ID field "+fieldNum+" is empty!");
             $("#error-message3").css("color", "red");
+            $('#team-registration').html('Register');
+            $('#team-registration').prop('disabled',false);
             return false;
         }
     }
-    for(var i=0;i<7;i++) {
+    for(var i=0;i<8;i++) {
         if(check_email(emails[i])===false) {
             var fieldNum=i+2;
             $("#error-message3").text("*Email "+fieldNum+" is incorrect!");
             $("#error-message3").css("color", "red");
+            $('#team-registration').html('Register');
+            $('#team-registration').prop('disabled',false);
             return false;
         }
     }
     var members=[];
-    members.push({
-        memberEmail: userbitEmail,
-        memberId: userbitId
-    });
-    for(var i=0;i<7;i++) {
+    for(var i=0;i<8;i++) {
         members.push({
             memberEmail: emails[i],
             memberId: bitIds[i]
@@ -96,10 +104,10 @@ $('#team-info').submit(function(e){
     if(memberSet.size!==8) {
         $("#error-message3").text("*All Field Should be different");
         $("#error-message3").css("color", "red");
+        $('#team-registration').html('Register');
+        $('#team-registration').prop('disabled',false);
         return false;
     }
-    $("#error-message3").text("Registering.........");
-    $("#error-message3").css("color", "orange");
     $.ajax({
         url: requrl + "/api/participants/championship",
         type: 'POST',
@@ -123,6 +131,8 @@ $('#team-info').submit(function(e){
         error: function(){
             $("#error-message3").text("*Error! Please try again.");
             $("#error-message3").css("color","red");
+            $('#team-registration').html('Register');
+            $('#team-registration').prop('disabled',false);
         }
     });
     return false;
@@ -411,6 +421,9 @@ function check_email(email) {
 
 $("#passwordUpdate").submit(function(e) {
     e.preventDefault();
+    let loadingText="<i class='fa fa-circle-o-notch fa-spin'></i>  UPDATING"
+    $('#passwordSave').html(loadingText);
+    $('#passwordSave').prop('disabled',true);
     var oldPassword=$('#old-password').val();
     var newPassword=$('#new-password').val();
     var confirmNewPassword=$('#confirm-new-password').val();
@@ -418,16 +431,18 @@ $("#passwordUpdate").submit(function(e) {
     {
         $("#error-message").text("*Fields can't be empty!");
         $("#error-message").css("color", "red");
+        $('#passwordSave').html('Update');
+        $('#passwordSave').prop('disabled',false);
         return false;
     }
     if (newPassword !== confirmNewPassword)
     {
         $("#error-message").text("*Password Mismatch");
         $("#error-message").css("color", "red");
+        $('#passwordSave').html('Update');
+        $('#passwordSave').prop('disabled',false);
         return false;
     }
-    $("#error-message").text("Updating..........");
-    $("#error-message").css("color", "orange");
 
     // Now we send Passwords for verification
     $.ajax({
@@ -445,6 +460,8 @@ $("#passwordUpdate").submit(function(e) {
             if(res.success===false) {
                 $("#error-message").text("*"+res.msg);
                 $("#error-message").css("color", "red");
+                $('#passwordSave').html('Update');
+                $('#passwordSave').prop('disabled',false);
                 return false;
             }
             $("#error-message").text("*"+res.msg);
@@ -456,7 +473,9 @@ $("#passwordUpdate").submit(function(e) {
         },
         error: function(){
             $("#error-message").text("");
-            alert("Error! Please try again.")
+            alert("Error! Please try again.");
+            $('#passwordSave').html('Update');
+            $('#passwordSave').prop('disabled',false);
         }
     });
     return false;

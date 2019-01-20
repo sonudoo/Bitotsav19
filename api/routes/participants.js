@@ -790,7 +790,7 @@ router.post('/championship', checkAuth, (req, res) => {
     const memberCheck = 0;
     const memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
-    db.championship
+    db.championships
     .find({teamName: req.body.teamName},function(error, team){
         if(error){
             console.log(err);
@@ -849,7 +849,7 @@ router.post('/championship', checkAuth, (req, res) => {
                                     teamMembers: memberArr,
                                     teamPoints: 0
                                 };
-                                db.championship
+                                db.championships
                                 .insert(newTeam, function (error, result) {
                                     if (error) {
                                         return res.status(500).send(JSON.stringify({
