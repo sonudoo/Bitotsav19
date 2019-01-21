@@ -819,10 +819,9 @@ router.post('/championship', checkAuth, (req, res) => {
                 msg: `${req.body.teamName} is already in use.`
             }));
         }
-        const teamM = memberArr.map(member => member.memberEmail);
-        for(let i=0;i<teamM.length;i++){
+        for(let i=0;i<memberArr.length;i++){
             db.participants
-            .find({email: teamM[i]},function(error, member){
+            .find({email: memberArr[i].memberEmail},function(error, member){
                 if(error){
                     console.log(err);
                     return res.status(500).send(JSON.stringify({
@@ -847,11 +846,17 @@ router.post('/championship', checkAuth, (req, res) => {
                         msg: "Team members must be of the same college."
                     }));
                 }
+                else if (member[0].id !== memberArr[i].memberId){
+                    return res.status(200).send(JSON.stringify({
+                        success: false,
+                        msg: "Incorrect Bitotsav ID."
+                    }));
+                }
                 memberCheck = memberCheck + 1;
-                if(memberCheck == teamM.length){
-                    for(let j=0;j<teamM.length;j++){
+                if(memberCheck == memberArr.length){
+                    for(let j=0;j<memberArr.length;j++){
                         db.participants
-                        .update({email: teamM[j]},{
+                        .update({email: memberArr[j].memberEmail},{
                             $set: {
                                 teamName: req.body.teamName
                             }
