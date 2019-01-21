@@ -122,12 +122,20 @@ $('#team-info').submit(function(e){
         },
         success: function(res) {
             res = JSON.parse(res);
-            $("#error-message3").text("*Team Registered Successfully!");
-            $("#error-message3").css("color","green");
-            setTimeout(function(){
-                location.reload(true);
-            },1000);
-            return false;
+            if(res.success == true){
+                $("#error-message3").text("*Team Registered Successfully!");
+                $("#error-message3").css("color","green");
+                setTimeout(function(){
+                    location.reload(true);
+                },1000);
+            }
+            else{
+                $("#error-message3").text("*"+res.msg);
+                $("#error-message3").css("color", "red");
+                $('#team-registration').html('Register');
+                $('#team-registration').prop('disabled',false);
+                return false;
+            }
         },
         error: function(){
             $("#error-message3").text("*Error! Please try again.");
