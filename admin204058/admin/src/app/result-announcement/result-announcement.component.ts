@@ -27,8 +27,9 @@ export class ResultAnnouncementComponent implements OnInit {
     if (this.storage.get('token') != undefined) {
       this.getAllEventsService.getAllEvents(this.storage.get('token')).subscribe(
         data => {
+          console.log(data);
           for (let i in data) {
-            if(data[i].eventPosition1 != "NA" && data[i].eventPosition2 != "NA" && data[i].eventPosition3 != "NA"){
+            if(data[i].eventPosition1.teamLeaderId != undefined || data[i].eventPosition2.teamLeaderId != undefined || data[i].eventPosition3.teamLeaderId != undefined){
               continue;
             }
             this.events.push({
@@ -88,7 +89,7 @@ export class ResultAnnouncementComponent implements OnInit {
             resultAnnouncement.reset();
           }
           else{
-            alert(data.msg);
+            alert(data.error);
           }
         },
         error => {

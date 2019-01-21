@@ -134,9 +134,9 @@ router.post('/addEvent', (req, res) => {
         else {
             req.body.addEventData.eventId = result.length + 1;
             req.body.addEventData.eventStatus = "Scheduled";
-            req.body.addEventData.eventPosition1 = "NA";
-            req.body.addEventData.eventPosition2 = "NA";
-            req.body.addEventData.eventPosition3 = "NA";
+            req.body.addEventData.eventPosition1 = {};
+            req.body.addEventData.eventPosition2 = {};
+            req.body.addEventData.eventPosition3 = {};
             db.events.insert(req.body.addEventData, function (error, result) {
                 if (error) {
                     res.send(JSON.stringify({
@@ -499,7 +499,7 @@ router.post('/resultAnnouncement', (req, res) => {
     if (req.body.eventPosition3 == undefined) {
         return res.sendStatus(403);
     }
-    db.events.find({ eventId: parseInt(req.body.eventId), eventPosition1: "NA", eventPosition2: "NA", eventPosition3: "NA" }, function (error, event) {
+    db.events.find({ eventId: parseInt(req.body.eventId), eventPosition1: {}, eventPosition2: {}, eventPosition3: {} }, function (error, event) {
         if (error) {
             res.send(JSON.stringify({
                 success: false,
@@ -652,7 +652,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                 }
                                                             })
                                                         }
-                                                        db.events.update({ eventId: parseInt(req.body.eventId), eventPosition1: "NA", eventPosition2: "NA", eventPosition3: "NA" },
+                                                        db.events.update({ eventId: parseInt(req.body.eventId), eventPosition1: {}, eventPosition2: {}, eventPosition3:{} },
                                                             {
                                                                 $set: {
                                                                     eventPosition1: {
@@ -810,6 +810,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                             Web Team,<br>
                                                                                                             Bitotsav '19</p>`
                                                                                                         };
+                                                                                                        
                                                                                                         transporter.sendMail(mailOptions, function (error, info) {
                                                                                                             if (error) {
                                                                                                                 return res.status(500).send(JSON.stringify({
