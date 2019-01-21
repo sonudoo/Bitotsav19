@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ResultAnnouncementService {
-  _url = "http://localhost:3000/api/admin/resultAnnouncement";
+  _url = "https://bitotsav.in/api/admin/resultAnnouncement";
   
   constructor(private _http: HttpClient) { }
   announce(token: any, eventId: Number, eventPosition1: String, eventPosition2: String, eventPosition3: String){

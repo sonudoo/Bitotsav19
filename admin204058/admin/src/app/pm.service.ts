@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PMService {
-  _url = "http://localhost:3000/api/admin/sendPM";
+  _url = "https://bitotsav.in/api/admin/sendPM";
   
   constructor(private _http: HttpClient) { }
   sendPM(token: any, id: String, title: String, msg: String){

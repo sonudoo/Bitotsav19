@@ -515,9 +515,6 @@ router.post('/resultAnnouncement', (req, res) => {
             }
             else {
                 event = event[0];
-                /**
-                * Need to include Points update, prize update and winning notifications to users which is refelcted in their panel as well.
-                */
 
                 let eventPosition1Members = [];
                 let eventPosition2Members = [];
@@ -736,7 +733,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                 type: "RESULT",
                                                                                 feedId: timestamp
                                                                             }
-                                                                            db.announcements.insert(data, function (error, result) {
+                                                                            db.announcements.insert(data, function (error, insertionResult) {
                                                                                 if (error) {
                                                                                     res.send(JSON.stringify({
                                                                                         success: false,
@@ -768,10 +765,89 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                         }
                                                                                         else {
                                                                                             if (response.body.message_id != -1) {
-
-                                                                                                res.send(JSON.stringify({
-                                                                                                    success: true
-                                                                                                }))
+                                                                                                var transporter = nodemailer.createTransport({
+                                                                                                    service: 'gmail',
+                                                                                                    auth: {
+                                                                                                        user: 'webmaster@bitotsav.in',
+                                                                                                        pass: 'Bitotsav2018!@'
+                                                                                                    }
+                                                                                                });
+                                                                            
+                                                                                                var mailOptions = {
+                                                                                                    from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                                                                                                    to: result[parseInt(req.body.eventPosition1.split("/")[1]) - 10000].email,
+                                                                                                    subject: 'Congratulations!',
+                                                                                                    text: '',
+                                                                                                    html: `
+                                                                                                    <h2 align="center">Bitotsav</h2>
+                                                                                                    <p>
+                                                                                                    Hi,<br><br>
+                                                                                                    We express our heartiest congratulations for securing 1st Postion for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
+                                                                                                    In case you are registered for Bitotsav Championship, your points will be automatically updated.<br><br>
+                                                                                                    Regards,<br>
+                                                                                                    Web Team,<br>
+                                                                                                    Bitotsav '19</p>`
+                                                                                                };
+                                                                                                transporter.sendMail(mailOptions, function (error, info) {
+                                                                                                    if (error) {
+                                                                                                        return res.status(500).send(JSON.stringify({
+                                                                                                            success: false,
+                                                                                                            msg: `Error sending Email. Please try again later`
+                                                                                                        }));
+                                                                                                    } else {
+                                                                                                        var mailOptions = {
+                                                                                                            from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                                                                                                            to: result[parseInt(req.body.eventPosition2.split("/")[1]) - 10000].email,
+                                                                                                            subject: 'Congratulations!',
+                                                                                                            text: '',
+                                                                                                            html: `
+                                                                                                            <h2 align="center">Bitotsav</h2>
+                                                                                                            <p>
+                                                                                                            Hi,<br><br>
+                                                                                                            We express our heartiest congratulations for securing 2nd Postion for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
+                                                                                                            In case you are registered for Bitotsav Championship, your points will be automatically updated.<br><br>
+                                                                                                            Regards,<br>
+                                                                                                            Web Team,<br>
+                                                                                                            Bitotsav '19</p>`
+                                                                                                        };
+                                                                                                        transporter.sendMail(mailOptions, function (error, info) {
+                                                                                                            if (error) {
+                                                                                                                return res.status(500).send(JSON.stringify({
+                                                                                                                    success: false,
+                                                                                                                    msg: `Error sending Email. Please try again later`
+                                                                                                                }));
+                                                                                                            } else {
+                                                                                                                var mailOptions = {
+                                                                                                                    from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                                                                                                                    to: result[parseInt(req.body.eventPosition3.split("/")[1]) - 10000].email,
+                                                                                                                    subject: 'Congratulations!',
+                                                                                                                    text: '',
+                                                                                                                    html: `
+                                                                                                                    <h2 align="center">Bitotsav</h2>
+                                                                                                                    <p>
+                                                                                                                    Hi,<br><br>
+                                                                                                                    We express our heartiest congratulations for securing 3rd Postion for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
+                                                                                                                    In case you are registered for Bitotsav Championship, your points will be automatically updated.<br><br>
+                                                                                                                    Regards,<br>
+                                                                                                                    Web Team,<br>
+                                                                                                                    Bitotsav '19</p>`
+                                                                                                                };
+                                                                                                                transporter.sendMail(mailOptions, function (error, info) {
+                                                                                                                    if (error) {
+                                                                                                                        return res.status(500).send(JSON.stringify({
+                                                                                                                            success: false,
+                                                                                                                            msg: `Error sending Email. Please try again later`
+                                                                                                                        }));
+                                                                                                                    } else {
+                                                                                                                        res.send(JSON.stringify({
+                                                                                                                            success: true
+                                                                                                                        }))
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            }
+                                                                                                        });
+                                                                                                    }
+                                                                                                });
                                                                                             }
                                                                                             else {
                                                                                                 res.send(JSON.stringify({
@@ -785,14 +861,10 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                             })
                                                                         }
                                                                     })
-                                                                    return res.send(JSON.stringify({
-                                                                        success: true
-                                                                    }));
                                                                 }
                                                             });
                                                     }
                                                 });
-
                                             }
                                         }
                                     });
@@ -801,11 +873,6 @@ router.post('/resultAnnouncement', (req, res) => {
                         }
                     }
                 });
-
-
-
-
-
             }
         }
     })
