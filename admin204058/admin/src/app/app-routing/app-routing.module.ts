@@ -9,6 +9,7 @@ import { TeamListComponent } from '../participant-list/team-list.component';
 import { SMSComponent } from '../sms/sms.component';
 import { ResultAnnouncementComponent } from '../result-announcement/result-announcement.component';
 import { AnnouncementComponent } from '../announcement/announcement.component';
+import { PMComponent } from '../pm/pm.component';
 const routes: Routes = [
     {
         path: '',
@@ -45,6 +46,10 @@ const routes: Routes = [
     {
         path: 'announcement',
         component: AnnouncementComponent
+    },
+    {
+        path: 'personalmessage',
+        component: PMComponent
     }
 ];
 

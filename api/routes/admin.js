@@ -278,6 +278,144 @@ router.post('/sendSMS', (req, res) => {
     });
 });
 
+router.post('/sendPM', (req, res) => {
+    let url = "https://fcm.googleapis.com/fcm/send";
+    let headers = {
+        "Content-Type": "application/json",
+        "Authorization": "key=AAAAj8SmANU:APA91bF5PyTPMgTFL0kEKpfyGn-RFO0veqZRuJJfXxTODOgRwXALnLRymYhvMfB-NwoVm4i1E-AN_p9NLw8ifdYSPyUcu9w5wkzH7uUQOzYe0OCeZrAV5krsO7D05fVaVofDEJKCJzgY"
+    }
+    db.fcm.find({ id: req.body.id}, function(error, result){
+        if(error){
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        }
+        else{
+            if(result.length != 1){
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "The message cannot be sent"
+                }))
+            }
+            else{
+                for(let i in result[0].tokens){
+                    let timestamp = Date.now();
+                    request({
+                        headers: headers,
+                        url:     url,
+                        method: 'POST',
+                        json:    {
+                            "to": result[0].tokens[i],
+                            "time_to_live": 60*60*24,
+                            "data": {
+                                "title": req.body.title,
+                                "content": req.body.msg,
+                                "type": "PM",
+                                "timestamp": timestamp,
+                                "feedId": timestamp
+                            }
+                        }
+                      }, function(error, response, body){
+                        if(error){
+                            res.send(JSON.stringify({
+                                success: false,
+                                error: "API call error"
+                            }));
+                        }
+                        else{
+                            if(response.body.success != 1){
+                                res.send(JSON.stringify({
+                                    success: false,
+                                    error: "Don't know what got hooked up."
+                                }))
+                            }                
+                        }
+                    })
+                }
+                res.send(JSON.stringify({
+                    success: true
+                }))
+            }
+        }
+    })
+});
+
+router.post('/sendAnnouncement', function(req, res){
+    let url = "https://fcm.googleapis.com/fcm/send";
+    let headers = {
+        "Content-Type": "application/json",
+        "Authorization": "key=AAAAj8SmANU:APA91bF5PyTPMgTFL0kEKpfyGn-RFO0veqZRuJJfXxTODOgRwXALnLRymYhvMfB-NwoVm4i1E-AN_p9NLw8ifdYSPyUcu9w5wkzH7uUQOzYe0OCeZrAV5krsO7D05fVaVofDEJKCJzgY"
+    }
+    db.announcements.find({}, function(error, result){
+        if(error){
+            res.send(JSON.stringify({
+                success: false,
+                msg: 'Database fetch error occured'
+            }));
+        }
+        else{
+            let timestamp = Date.now();
+            let data = {
+                id: result.length + 1,
+                title: req.body.title,
+                content: req.body.msg,
+                timestamp: timestamp,
+                type: "ANNOUNCEMENT",
+                feedId: timestamp
+            }
+            db.announcements.insert(data, function(error, result){
+                if(error){
+                    res.send(JSON.stringify({
+                        success: false,
+                        error: "Database fetch error occured"
+                    }));
+                }
+                else{
+                    request({
+                        headers: headers,
+                        url:     url,
+                        method: 'POST',
+                        json:    {
+                            "to": '/topics/global',
+                            "time_to_live": 60*60*24,
+                            "data": {
+                                "title": req.body.title,
+                                "content": req.body.msg,
+                                "type": "ANNOUNCEMENT",
+                                "timestamp": timestamp,
+                                "feedId": timestamp
+                            }
+                        }
+                      }, function(error, response, body){
+                        if(error){
+                            res.send(JSON.stringify({
+                                success: false,
+                                error: "API call error"
+                            }));
+                        }
+                        else{
+                            if(response.body.message_id != -1){
+                                
+                                res.send(JSON.stringify({
+                                    success: true
+                                }))
+                            }
+                            else{
+                                res.send(JSON.stringify({
+                                    success: false,
+                                    error: "API call error"
+                                }));
+                            }                
+                        }
+                    })
+                }
+            })
+        }
+    })
+    
+})
+
 router.post('/resultAnnouncement', (req, res) => {
     if (req.body.eventId == undefined) {
         return res.sendStatus(403);

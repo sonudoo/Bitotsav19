@@ -19,7 +19,7 @@ const collegeList = require("../collegeList.json");
 router.get('/getAllEvents', function (req, res) {
     db.events.find({}, function (error, result) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured"
             }));
@@ -41,14 +41,14 @@ router.get('/getAllEvents', function (req, res) {
 router.post('/getEventById', function (req, res) {
     db.events.find({ eventId: req.body.eventId }, function (error, result) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured"
             }));
         }
         else {
             if (result.length != 1) {
-                res.send(JSON.stringify({
+                res.status(404).send(JSON.stringify({
                     success: false,
                     msg: "No such event found"
                 }))
@@ -70,15 +70,37 @@ router.post('/getEventById', function (req, res) {
 
 
 router.get('/getAllBCTeams', function (req, res) {
-    db.championship.find({}, function (error, result) {
+    db.championships.find({}, function (error, result1) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured"
             }));
         }
         else {
-            res.send(JSON.stringify(result));
+            db.participants.find({id:{$ne: "-1"}},function(error, result2){
+                if(error){
+                    res.status(502).send(JSON.stringify({
+                        success: false,
+                        msg: "Database fetch error occured"
+                    }));
+                }
+                else{
+                    let result = [];
+                    for(let i in result1){
+                        
+                        let tmp = {};
+                        tmp['teamName'] = result1[i].teamName;
+                        tmp['teamPoints'] = result1[i].teamPoints;
+                        tmp.teamMembers = {};
+                        for(let j in result1[i].teamMembers){
+                            tmp.teamMembers[result1[i].teamMembers[j].memberId] = result2[parseInt(result1[i].teamMembers[j].memberId.split("/")[1]) - 10000].name;
+                        }
+                        result.push(tmp);
+                    }
+                    res.send(JSON.stringify(result));
+                }
+            })
         }
     })
 });
@@ -88,10 +110,7 @@ router.get('/getAllBCTeams', function (req, res) {
  */
 
 router.get('/getCollegeList', (req, res) => {
-    res.status(200).send(JSON.stringify({
-        success: true,
-        collegeList: collegeList
-    }));
+    res.status(200).send(JSON.stringify(collegeList));
 });
 
 // Step 1
@@ -104,7 +123,7 @@ router.post('/register', (req, res) => {
     request(recaptcha_url, function (error, resp, body) {
         body = JSON.parse(body);
         if (body.success !== undefined && !body.success) {
-            return res.status(200).send(JSON.stringify({
+            return res.status(403).send(JSON.stringify({
                 success: false,
                 msg: "Captcha validation failed"
             }));
@@ -112,13 +131,13 @@ router.post('/register', (req, res) => {
         else {
             db.participants.find({ email: req.body.email }, function (error, user) {
                 if (error) {
-                    console.log(err);
-                    return res.status(500).send(JSON.stringify({
-                        success: false
+                    return res.status(502).send(JSON.stringify({
+                        success: false,
+                        msg: "Database fetch error occurred"
                     }));
                 }
                 if (user.length >= 1 && user[0].otpVerified == true && user[0].id !== "-1") {
-                    res.status(200).send(JSON.stringify({
+                    res.status(409).send(JSON.stringify({
                         success: false,
                         msg: "The email Id is already registered"
                     }));
@@ -152,27 +171,23 @@ router.post('/register', (req, res) => {
                     };
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {
-                            console.log(error);
-                            return res.status(500).send(JSON.stringify({
+                            return res.status(502).send(JSON.stringify({
                                 success: false,
                                 msg: `Error sending Email. Please try again later`
                             }));
                         } else {
-                            console.log('Email sent: ' + info.response);
-
                             //sending phone otp
                             let otpUrl = `http://sms.digimiles.in/bulksms/bulksms?username=di78-pantheon&password=digimile&type=0&dlr=1&destination=${req.body.phno}&source=BITSAV&message=Your Bitotsav'19 registration OTP is: ${phoneOtpsent}`;
                             request(otpUrl, (error, response, body) => {
                                 if (error) {
-                                    return res.status(500).send(JSON.stringify({
+                                    return res.status(502).send(JSON.stringify({
                                         success: false,
                                         msg: `Error sending OTP. Please try again later`,
                                     }));
                                 } else {
                                     db.participants.find({ email: req.body.email }, function (error, participant) {
                                         if (error) {
-                                            console.log(err);
-                                            return res.status(500).send(JSON.stringify({
+                                            return res.status(502).send(JSON.stringify({
                                                 success: false
                                             }));
                                         }
@@ -212,9 +227,9 @@ router.post('/register', (req, res) => {
                                                     };
                                                     db.participants.insert(newParticipant, function (error, result) {
                                                         if (error) {
-                                                            return res.status(500).send(JSON.stringify({
+                                                            return res.status(502).send(JSON.stringify({
                                                                 success: false,
-                                                                msg: "An unknown error occurred."
+                                                                msg: "Database fetch error occurred"
                                                             }));
                                                         }
                                                         res.status(200).send(JSON.stringify({
@@ -248,9 +263,9 @@ router.post('/register', (req, res) => {
                                                                 }
                                                             }, function (error, result) {
                                                                 if (error) {
-                                                                    return res.status(500).send(JSON.stringify({
+                                                                    return res.status(502).send(JSON.stringify({
                                                                         success: false,
-                                                                        msg: "An unknown error occurred."
+                                                                        msg: "Database fetch error occured."
                                                                     }));
                                                                 }
                                                                 res.status(200).send(JSON.stringify({
@@ -278,33 +293,32 @@ router.post('/register', (req, res) => {
 router.post('/verify', (req, res) => {
     db.participants.find({ email: req.body.email }, function (error, result) {
         if (error) {
-            console.log(err);
-            return res.status(500).send(JSON.stringify({
+            return res.status(502).send(JSON.stringify({
                 success: false
             }));
         }
         if (result.length == 1) {
             if (result[0].emailOtp != req.body.emailOtp && result[0].phoneOtp != req.body.phoneOtp) {
-                res.status(200).send(JSON.stringify({
+                res.status(403).send(JSON.stringify({
                     success: false,
                     msg: "Both Phone OTP and E-mail OTP are incorrect!!"
                 }));
             } else if (result[0].emailOtp == req.body.emailOtp && result[0].phoneOtp != req.body.phoneOtp) {
-                res.status(200).send(JSON.stringify({
+                res.status(403).send(JSON.stringify({
                     success: false,
                     msg: "Incorrect Phone OTP!!"
                 }));
             } else if (result[0].emailOtp != req.body.emailOtp && result[0].phoneOtp == req.body.phoneOtp) {
-                res.status(200).send(JSON.stringify({
+                res.status(403).send(JSON.stringify({
                     success: false,
                     msg: "Incorrect Email OTP!!"
                 }));
             } else {
                 db.participants.update({ email: req.body.email }, { $set: { otpVerified: true } }, function (error, result) {
                     if (error) {
-                        res.status(500).send(JSON.stringify({
+                        res.status(502).send(JSON.stringify({
                             success: false,
-                            msg: "An unknown error occured"
+                            msg: "Database fetch error occured"
                         }));
                     }
                     else {
@@ -328,9 +342,9 @@ router.post('/verify', (req, res) => {
 router.post('/saveparticipant', (req, res) => {
     db.counters.find({}, (error, result) => {
         if (error) {
-            res.status(500).send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
-                msg: "An unknown error occured"
+                msg: "Database fetch error occured."
             }));
         } else {
             const bitId = "BT19/" + result[0].counter;
@@ -344,17 +358,17 @@ router.post('/saveparticipant', (req, res) => {
             }
             db.counters.update({}, { $set: { counter: parseInt(result[0].counter + 1) } }, function (error, result) {
                 if (error) {
-                    res.status(500).send(JSON.stringify({
+                    res.status(502).send(JSON.stringify({
                         success: false,
-                        msg: "An unknown error occured"
+                        msg: "Database fetch error occured."
                     }));
                 }
                 else {
                     db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
                         if (error) {
-                            res.status(500).send(JSON.stringify({
+                            res.status(502).send(JSON.stringify({
                                 success: false,
-                                msg: "An unknown error occured"
+                                msg: "Database fetch error occured."
                             }));
                         }
                         else {
@@ -387,8 +401,7 @@ router.post('/saveparticipant', (req, res) => {
                             };
                             transporter.sendMail(mailOptions, function (error, info) {
                                 if (error) {
-                                    console.log(error);
-                                    return res.status(500).send(JSON.stringify({
+                                    return res.status(502).send(JSON.stringify({
                                         success: false,
                                         msg: `Error sending Conformation Email. Please try again later`
                                     }));
@@ -412,19 +425,18 @@ router.post('/saveparticipant', (req, res) => {
 router.post('/login', (req, res) => {
     db.participants.find({ email: req.body.email }, function (error, user) {
         if (error) {
-            console.log(err);
-            return res.status(500).send(JSON.stringify({
+            return res.status(502).send(JSON.stringify({
                 success: false
             }));
         }
         if (user.length < 1) {
-            res.status(200).send(JSON.stringify({
+            res.status(403).send(JSON.stringify({
                 success: false,
                 msg: "You are not registered yet."
             }));
         }
         else if (user[0].otpVerified == false || user[0].id == "-1") {
-            res.status(200).send(JSON.stringify({
+            res.status(403).send(JSON.stringify({
                 success: false,
                 msg: 'You have not been successfully registered.'
             }));
@@ -432,9 +444,9 @@ router.post('/login', (req, res) => {
         else {
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
-                    return res.status(500).send(JSON.stringify({
+                    return res.status(502).send(JSON.stringify({
                         success: false,
-                        msg: "An unknown error occurred."
+                        msg: "Database fetch error occured."
                     }));
                 } else {
                     if (result) {
@@ -451,7 +463,7 @@ router.post('/login', (req, res) => {
                             }, secretKey)
                         }));
                     } else {
-                        return res.status(200).send(JSON.stringify({
+                        return res.status(403).send(JSON.stringify({
                             success: false,
                             msg: 'Wrong Password.'
                         }));
@@ -465,7 +477,7 @@ router.post('/login', (req, res) => {
 const checkAuth = function (req, res, next) {
     const token = req.headers.token.split(' ')[1];
     if (token == undefined) {
-        return res.status(200).send(JSON.stringify({
+        return res.status(403).send(JSON.stringify({
             success: false,
             msg: "Authentication Failed. Please Log In."
         }));;
@@ -473,9 +485,9 @@ const checkAuth = function (req, res, next) {
     else {
         jwt.verify(token, secretKey, function (error, data) {
             if (error) {
-                return res.status(500).send(JSON.stringify({
+                return res.status(502).send(JSON.stringify({
                     success: false,
-                    msg: "An unknown error occurred."
+                    msg: "Database fetch error occured."
                 }));
             }
             else {
@@ -489,13 +501,13 @@ const checkAuth = function (req, res, next) {
 router.get('/getParticipantDetails', checkAuth, (req, res) => {
     db.participants.find({ email: req.userData.email }, function (error, user) {
         if (error) {
-            console.log(err);
-            return res.status(500).send(JSON.stringify({
-                success: false
+            return res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured."
             }));
         }
         if (user.length < 1) {
-            res.status(200).send(JSON.stringify({
+            res.status(404).send(JSON.stringify({
                 success: false,
                 msg: "No such participant present"
             }));
@@ -520,6 +532,56 @@ router.get('/getParticipantDetails', checkAuth, (req, res) => {
         }
     });
 });
+
+router.post('/getTeamDetails', function(req, res){
+    if(req.body.eventId == undefined || req.body.teamLeaderId == undefined){
+        res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "Event Id or Team Leader Id is missing."
+        }));
+    }
+    else{
+        db.teams.find({eventId: parseInt(req.body.eventId), teamLeaderId: req.body.teamLeaderId},function(error, result1){
+            if(error){
+                res.status(502).send(JSON.stringify({
+                    success: false,
+                    msg: "Database fetch error occured"
+                }));
+            }
+            else{
+                if(result1.length != 1){
+                    res.status(404).send(JSON.stringify({
+                        success: false,
+                        msg: "No such team found in the database"
+                    }));
+                }
+                else{
+                    db.participants.find({id: {$ne: "-1"}}, function(error, result2){
+                        if(error){
+                            res.status(502).send(JSON.stringify({
+                                success: false,
+                                msg: "Database fetch error occured"
+                            }));
+                        }
+                        else{
+                            result1 = result1[0];
+                            let teamMembers = {};
+                            teamMembers[req.body.teamLeader] = result2[parseInt(req.body.teamLeader.split("/")[1]) - 10000].name;
+                            for(let i in result1.teamMembers.length){
+                                teamMembers[result1.teamMembers[i]] = result2[parseInt(result1.teamMembers[i].split("/")[1]) - 10000].name;
+                            }
+                            res.send(JSON.stringify({
+                                success: true,
+                                teamMembers: teamMembers
+                            }))
+                        }
+                    });
+                }
+                
+            }
+        })
+    }
+})
 
 router.post('/addFCMToken', checkAuth, (req, res) => {
     if (req.body.token == undefined) {
