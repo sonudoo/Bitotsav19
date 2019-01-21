@@ -1598,6 +1598,9 @@ body.mobile-nav-active #mobile-nav-toggle {
   .back-to-top {
     bottom: 15px;
   }
+  .carousel-content{
+    width:100vw !important;
+  }
 
   #header #logo h1 {
     font-size: 28px;
