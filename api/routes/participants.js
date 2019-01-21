@@ -802,8 +802,8 @@ router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
 
 //Bitotsav Championship registration
 router.post('/championship', checkAuth, (req, res) => {
-    const memberCheck = 0;
-    const memberUpdated = 0;
+    let memberCheck = 0;
+    let memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
     db.championships
     .find({teamName: req.body.teamName},function(error, team){
@@ -831,13 +831,13 @@ router.post('/championship', checkAuth, (req, res) => {
                 if(member.length<1){
                     return res.status(200).send(JSON.stringify({
                         success: false,
-                        msg: `${teamM[i]} is not registered.`
+                        msg: `${memberArr[i].memberEmail} is not registered.`
                     }));
                 }
                 else if(member[0].teamName !== "-1"){
                     return res.status(200).send(JSON.stringify({
                         success: false,
-                        msg: `${teamM[i]} is already in a team.`
+                        msg: `${memberArr[i].memberEmail} is already in a team.`
                     }));
                 }
                 else if (member[0].college !== req.body.leaderCollege){
@@ -868,7 +868,7 @@ router.post('/championship', checkAuth, (req, res) => {
                                 }));
                             }
                             memberUpdated = memberUpdated + 1;
-                            if(memberUpdated == teamM.length){
+                            if(memberUpdated == memberArr.length){
                                 const newTeam = {
                                     teamName: req.body.teamName,
                                     teamLeader: req.body.teamLeader,
