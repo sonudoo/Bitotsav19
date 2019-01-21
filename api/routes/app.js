@@ -29,9 +29,6 @@ router.get('/getAllEvents', function (req, res) {
                 delete result[i]['_id'];
                 delete result[i]['eventFacultyAdvisor'];
                 delete result[i]['eventRequirement'];
-                delete result[i]['eventPosition1'];
-                delete result[i]['eventPosition2'];
-                delete result[i]['eventPosition3'];
             }
             res.send(JSON.stringify(result));
         }
@@ -57,9 +54,6 @@ router.post('/getEventById', function (req, res) {
                 delete result[0]['_id'];
                 delete result[0]['eventFacultyAdvisor'];
                 delete result[0]['eventRequirement'];
-                delete result[0]['eventPosition1'];
-                delete result[0]['eventPosition2'];
-                delete result[0]['eventPosition3'];
 
                 res.send(JSON.stringify(result[0]));
             }

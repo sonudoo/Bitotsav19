@@ -208,5 +208,11 @@
       </select>
       <small class="text-danger" [class.d-none]="eventStatus.valid || eventStatus.untouched">Event Status is required.</small>
     </div>
+    <div class="form-group">
+        <label for="msg">Briefly describe the change (To be sent to App)</label>
+        <textarea type="text" class="form-control" #eventDescription="ngModel" id="msg" name="msg"
+          [(ngModel)]="msgData" required [class.is-invalid]="msg.invalid && msg.touched"></textarea>
+        <small class="text-danger" [class.d-none]="msg.valid || msg.untouched">This field is required</small>
+      </div>
   <button type="submit" [disabled]="updateEventForm.form.invalid" class="btn btn-primary">Submit</button>
 </form>

@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class UpdateEventComponent implements OnInit {
   public events = [];
   public currentEventId;
+  public msgData;
   @Input('display') public display;
   public updateEventData: UpdateEventData = {
     eventName: "",
@@ -122,7 +123,7 @@ export class UpdateEventComponent implements OnInit {
       return false;
     }
     if(this.storage.get('token') != undefined){
-      this.updateEventService.updateEvent(this.storage.get('token'), this.currentEventId, this.updateEventData).subscribe(
+      this.updateEventService.updateEvent(this.storage.get('token'), this.currentEventId, this.updateEventData , this.msgData).subscribe(
         data => {
           if(data.success == true){
             this.updateEventData = {
