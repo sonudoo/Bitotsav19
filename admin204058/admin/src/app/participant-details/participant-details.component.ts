@@ -37,7 +37,7 @@ export class ParticipantDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = "BT18/" + params.get('id');
+      this.id = "BT19/" + params.get('id');
     });
     if (this.storage.get('token') != undefined) {
       this.getParticipantById.getParticipantById(this.storage.get('token'), this.id).subscribe(

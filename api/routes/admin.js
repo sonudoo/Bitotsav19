@@ -281,7 +281,7 @@ router.post('/getSAPById', (req, res) => {
 
 
 router.post('/getAllParticipants', (req, res) => {
-    db.participants.find({ verified: true }, function (error, result) {
+    db.participants.find({ id: {$ne: "-1"} }, function (error, result) {
         if (error) {
             res.send(JSON.stringify({
                 success: false,

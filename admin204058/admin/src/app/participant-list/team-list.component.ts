@@ -70,10 +70,10 @@ export class TeamListComponent implements OnInit {
               cleared = true;
             }
             this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4">Team Leader - '+data[i].teamLeaderId+'</td>');
-            let idx = parseInt(data[i].teamLeaderId.slice(5)) - 10001;
+            let idx = parseInt(data[i].teamLeaderId.slice(5)) - 10000;
             this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[idx].name + '</td><td>' + this.participants[idx].college + '</td><td>' + this.participants[idx].rollno + '</td><td>' + this.participants[idx].id + '</td></tr>');
             for(let j in data[i].teamMembers){
-              idx = parseInt(data[i].teamMembers[j].slice(5)) - 10001;
+              idx = parseInt(data[i].teamMembers[j].slice(5)) - 10000;
               this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[idx].name + '</td><td>' + this.participants[idx].college + '</td><td>' + this.participants[idx].rollno + '</td><td>' + this.participants[idx].id + '</td></tr>');
             }
           }

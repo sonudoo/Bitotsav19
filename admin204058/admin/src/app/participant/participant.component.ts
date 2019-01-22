@@ -12,18 +12,20 @@ import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 export class ParticipantComponent implements OnInit {
   
   public participants = [];
-  public participant;
+  public participant: String;
   public searchBy;
   public timeout = 0;
   @ViewChild('tbody') tbody: ElementRef;
-  constructor(private getAllParticipantsService: GetAllParticipantsService, @Inject(LOCAL_STORAGE) private storage: StorageService, private verifyTokenService: VerifyTokenService, private router: Router, private el: ElementRef) { }
+  constructor(private getAllParticipantsService: GetAllParticipantsService, @Inject(LOCAL_STORAGE) private storage: StorageService, private verifyTokenService: VerifyTokenService, private router: Router, private el: ElementRef) {
+    this.participant = "";
+   }
 
 
   ngOnInit() {
     if(this.storage.get('token') != undefined){
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
-          console.log(data);
+          console.log("Data", data);
           for(let i in data){
             this.participants.push({
               id: data[i].id,
@@ -53,6 +55,7 @@ export class ParticipantComponent implements OnInit {
     }, 1000);
   }
   search(){
+    console.log(this.participant);
     if(this.participant.length < 3){
       return;
     }
@@ -66,7 +69,7 @@ export class ParticipantComponent implements OnInit {
               this.tbody.nativeElement.innerHTML = "";
               cleared = true;
             }
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td><a id="participant-'+i+'">'+this.participants[i].id+'</a></td></tr>');
+            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td><a id="participant-'+i+'" style="cursor: pointer; text-decoration: underline; color: blue;">'+this.participants[i].id+'</a></td></tr>');
             this.el.nativeElement.querySelector('#participant-'+i).addEventListener('click', (event) => this.showDetails(this.participants[i].id.slice(5)));
 
           }
@@ -82,7 +85,7 @@ export class ParticipantComponent implements OnInit {
               this.tbody.nativeElement.innerHTML = "";
               cleared = true;
             }
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td><a id="participant-'+i+'">'+this.participants[i].id+'</a></td></tr>');
+            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td><a id="participant-'+i+'" style="cursor: pointer; text-decoration: underline; color: blue;">'+this.participants[i].id+'</a></td></tr>');
             this.el.nativeElement.querySelector('#participant-'+i).addEventListener('click', (event) => this.showDetails(this.participants[i].id.slice(5)));
 
           }
