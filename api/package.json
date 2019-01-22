@@ -19,6 +19,7 @@
     "mongojs": "^2.6.0",
     "mongoose": "^5.4.2",
     "nodemailer": "^5.0.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "swagger-ui-express": "^4.0.2"
   }
 }

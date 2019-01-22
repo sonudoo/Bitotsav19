@@ -72,22 +72,22 @@ router.get('/getAllBCTeams', function (req, res) {
             }));
         }
         else {
-            db.participants.find({id:{$ne: "-1"}},function(error, result2){
-                if(error){
+            db.participants.find({ id: { $ne: "-1" } }, function (error, result2) {
+                if (error) {
                     res.status(502).send(JSON.stringify({
                         success: false,
                         msg: "Database fetch error occured"
                     }));
                 }
-                else{
+                else {
                     let result = [];
-                    for(let i in result1){
-                        
+                    for (let i in result1) {
+
                         let tmp = {};
                         tmp['teamName'] = result1[i].teamName;
                         tmp['teamPoints'] = result1[i].teamPoints;
                         tmp.teamMembers = {};
-                        for(let j in result1[i].teamMembers){
+                        for (let j in result1[i].teamMembers) {
                             tmp.teamMembers[result1[i].teamMembers[j].memberId] = result2[parseInt(result1[i].teamMembers[j].memberId.split("/")[1]) - 10000].name;
                         }
                         result.push(tmp);
@@ -189,9 +189,9 @@ router.post('/register', (req, res) => {
                                             //new participant
                                             bcrypt.hash(req.body.password, 10, (err, hash) => {
                                                 if (err) {
-                                                    console.log(err);
-                                                    res.status(500).send(JSON.stringify({
-                                                        success: false
+                                                    res.status(502).send(JSON.stringify({
+                                                        success: false,
+                                                        msg: "Encryption error occured"
                                                     }));
                                                 }
                                                 else {
@@ -240,7 +240,8 @@ router.post('/register', (req, res) => {
                                                 if (err) {
                                                     console.log(err);
                                                     res.status(500).send(JSON.stringify({
-                                                        success: false
+                                                        success: false,
+                                                        msg: "Encryption error occured"
                                                     }));
                                                 } else {
                                                     db.participants
@@ -400,7 +401,6 @@ router.post('/saveparticipant', (req, res) => {
                                         msg: `Error sending Conformation Email. Please try again later`
                                     }));
                                 } else {
-                                    console.log('Confirmation Email sent: ' + info.response);
                                     return res.status(200).send(JSON.stringify({
                                         success: true,
                                         msg: "You are registered successfully",
@@ -508,82 +508,411 @@ router.get('/getParticipantDetails', checkAuth, (req, res) => {
         }
         else {
             res.status(200).send(JSON.stringify({
-                success: true,
-                data: {
-                    email: user[0].email,
-                    name: user[0].name,
-                    gender: user[0].gender,
-                    college: user[0].college,
-                    id: user[0].id,
-                    year: user[0].year,
-                    payment: user[0].payment,
-                    events: user[0].events,
-                    rollno: user[0].rollno,
-                    phno: user[0].phno,
-                    teamName: user[0].teamName
-                }
+                email: user[0].email,
+                name: user[0].name,
+                gender: user[0].gender,
+                college: user[0].college,
+                id: user[0].id,
+                year: user[0].year,
+                payment: user[0].payment,
+                events: user[0].events,
+                rollno: user[0].rollno,
+                phno: user[0].phno,
+                teamName: user[0].teamName
             }));
         }
     });
 });
 
-router.post('/getTeamDetails', function(req, res){
-    if(req.body.eventId == undefined || req.body.teamLeaderId == undefined){
+router.post('/getTeamDetails', function (req, res) {
+    if (req.body.eventId == undefined || req.body.teamLeaderId == undefined) {
         res.status(403).send(JSON.stringify({
             success: false,
             msg: "Event Id or Team Leader Id is missing."
         }));
     }
-    else{
-        db.teams.find({eventId: parseInt(req.body.eventId), teamLeaderId: req.body.teamLeaderId},function(error, result1){
-            if(error){
+    else {
+        db.teams.find({ eventId: parseInt(req.body.eventId), teamLeaderId: req.body.teamLeaderId }, function (error, result1) {
+            if (error) {
                 res.status(502).send(JSON.stringify({
                     success: false,
                     msg: "Database fetch error occured"
                 }));
             }
-            else{
-                if(result1.length != 1){
+            else {
+                if (result1.length != 1) {
                     res.status(404).send(JSON.stringify({
                         success: false,
                         msg: "No such team found in the database"
                     }));
                 }
-                else{
-                    db.participants.find({id: {$ne: "-1"}}, function(error, result2){
-                        if(error){
+                else {
+                    db.participants.find({ id: { $ne: "-1" } }, function (error, result2) {
+                        if (error) {
                             res.status(502).send(JSON.stringify({
                                 success: false,
                                 msg: "Database fetch error occured"
                             }));
                         }
-                        else{
+                        else {
                             result1 = result1[0];
                             let teamMembers = {};
                             teamMembers[req.body.teamLeader] = result2[parseInt(req.body.teamLeader.split("/")[1]) - 10000].name;
-                            for(let i in result1.teamMembers.length){
+                            for (let i in result1.teamMembers.length) {
                                 teamMembers[result1.teamMembers[i]] = result2[parseInt(result1.teamMembers[i].split("/")[1]) - 10000].name;
                             }
-                            res.send(JSON.stringify({
+                            res.status(200).send(JSON.stringify({
                                 success: true,
                                 teamMembers: teamMembers
                             }))
                         }
                     });
                 }
-                
+
             }
         })
     }
 })
 
+router.post('/eventRegistration', checkAuth, (req, res) => {
+
+    const memberArr = JSON.parse(req.body.members);
+    if (memberArr.length == 0) {
+        db.participants.update({ email: req.userData.email }, {
+            $push: {
+                events: {
+                    "eventId": parseInt(req.body.eventId),
+                    "teamLeader": req.body.leaderId
+                }
+            }
+        }, (error, result) => {
+            if (error) {
+                res.status(502).send(JSON.stringify({
+                    success: false,
+                    msg: "Some error occurred"
+                }));
+            } else {
+                const newTeam = {
+                    eventId: parseInt(req.body.eventId),
+                    teamLeaderId: req.body.leaderId,
+                    teamMembers: []
+                }
+                db.teams
+                    .insert(newTeam, function (error, result) {
+                        if (error) {
+                            return res.status(502).send(JSON.stringify({
+                                success: false,
+                                msg: "An unknown error occurred."
+                            }));
+                        }
+                        res.status(200).send(JSON.stringify({
+                            success: true,
+                            msg: "Team Registered Successfully"
+                        }));
+                    });
+
+            }
+        });
+    }
+    let validatedMembers = 0;
+    for (let j = 0; j < memberArr.length; j++) {
+        db.participants.find({ email: memberArr[j].memberEmail }, (error, result) => {
+            if (error) {
+                res.status(502).send(JSON.stringify({
+                    success: false,
+                    msg: "Some Error Occured!!"
+                }));
+            } else {
+                if (result.length < 1) {
+                    res.status(404).send(JSON.stringify({
+                        success: false,
+                        msg: `Email ${memberArr[j].memberEmail} has not registered.`
+                    }));
+                }
+                else if (result[0].id !== memberArr[j].memberId) {
+                    res.status(404).send(JSON.stringify({
+                        success: false,
+                        msg: "Incorrect Bitotsav ID"
+                    }));
+                } else if (result[0].college !== req.body.leaderCollege) {
+                    res.status(405).send(JSON.stringify({
+                        success: false,
+                        msg: `Member ${memberArr[j].memberId} does not belong to the same college`
+                    }));
+                } else {
+                    for (let k = 0; k < result[0].events.length; k++) {
+                        if (result[0].events[k].eventId == req.body.eventId) {
+                            return res.status(409).send(JSON.stringify({
+                                success: false,
+                                msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
+                            }));
+                        }
+                    }
+                    validatedMembers = validatedMembers + 1;
+                    if (validatedMembers == memberArr.length) {
+                        db.participants.update({ email: req.body.leaderEmail }, {
+                            $push: {
+                                events: {
+                                    "eventId": parseInt(req.body.eventId),
+                                    "teamLeader": req.body.leaderId
+                                }
+                            }
+                        }, (error, result) => {
+                            if (error) {
+                                res.status(502).send(JSON.stringify({
+                                    success: false,
+                                    msg: "Some error occurred"
+                                }));
+                            } else {
+                                // update for all the members
+                                let updatedMembers = 0;
+                                for (let i = 0; i < memberArr.length; i++) {
+                                    db.participants.update({ email: memberArr[i].memberEmail }, {
+                                        $push: {
+                                            events: {
+                                                "eventId": parseInt(req.body.eventId),
+                                                "teamLeader": req.body.leaderId
+                                            }
+                                        }
+                                    }, (error, result) => {
+                                        if (error) {
+                                            res.status(502).send(JSON.stringify({
+                                                success: false,
+                                                msg: "Some error occurred"
+                                            }));
+                                        } else {
+                                            updatedMembers = updatedMembers + 1;
+                                            if (updatedMembers == memberArr.length) {
+                                                const teamM = memberArr.map(member => member.memberId);
+                                                const newTeam = {
+                                                    eventId: parseInt(req.body.eventId),
+                                                    teamLeaderId: req.body.leaderId,
+                                                    teamMembers: teamM
+                                                }
+                                                db.teams
+                                                    .insert(newTeam, function (error, result) {
+                                                        if (error) {
+                                                            return res.status(502).send(JSON.stringify({
+                                                                success: false,
+                                                                msg: "An unknown error occurred."
+                                                            }));
+                                                        }
+                                                        res.status(200).send(JSON.stringify({
+                                                            success: true,
+                                                            msg: "Team Registered Successfully"
+                                                        }));
+                                                    });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+});
+
+// Event De-Registration
+router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
+    let bitotsavID = "BT19/" + req.params.bitId;
+    let eventID = parseInt(req.params.eventId);
+    let countMembers = 0;
+    db.participants
+        .update({
+            email: req.userData.email,
+            events: {
+                $elemMatch: {
+                    eventId: eventID,
+                    teamLeader: bitotsavID
+                }
+            }
+        }, {
+                $pull: { events: { eventId: eventID } }
+            }, function (error, result) {
+                if (error) {
+                    res.status(502).send(JSON.stringify({
+                        success: false
+                    }));
+                }
+                db.teams
+                    .find({
+                        eventId: eventID,
+                        teamLeaderId: bitotsavID
+                    }, function (err, team) {
+                        if (err) {
+                            res.status(502).send(JSON.stringify({
+                                success: false
+                            }));
+                        }
+                        if (team.length < 1) {
+                            res.status(403).send(JSON.stringify({
+                                success: false,
+                                msg: "You are not registered in this event or you are not the Team Leader."
+                            }));
+                        }
+                        else {
+                            if (team[0].teamMembers.length == 0) {
+                                db.teams
+                                    .remove({
+                                        eventId: eventID,
+                                        teamLeaderId: bitotsavID
+                                    }, function (err, result) {
+                                        if (err) {
+                                            return res.status(502).send(JSON.stringify({
+                                                success: false
+                                            }));
+                                        }
+                                        return res.status(200).send(JSON.stringify({
+                                            success: true,
+                                            msg: 'Team De-Registered successfully'
+                                        }));
+                                    });
+                            }
+                            for (let i = 0; i < team[0].teamMembers.length; i++) {
+                                const memberId = team[0].teamMembers[i];
+                                db.participants
+                                    .update({
+                                        id: memberId
+                                    }, {
+                                            $pull: { events: { eventId: eventID } }
+                                        }, function (error, result) {
+                                            if (error) {
+                                                return res.status(502).send(JSON.stringify({
+                                                    success: false
+                                                }));
+                                            }
+                                            countMembers = countMembers + 1;
+                                            if (countMembers == team[0].teamMembers.length) {
+                                                db.teams
+                                                    .remove({
+                                                        eventId: eventID,
+                                                        teamLeaderId: bitotsavID
+                                                    }, function (err, result) {
+                                                        if (err) {
+                                                            return res.status(502).send(JSON.stringify({
+                                                                success: false
+                                                            }));
+                                                        }
+                                                        res.status(200).send(JSON.stringify({
+                                                            success: true,
+                                                            msg: 'Team De-Registered successfully'
+                                                        }));
+                                                    });
+                                            }
+                                        });
+                            }
+                        }
+                    });
+            });
+});
+
+//Bitotsav Championship registration
+router.post('/championship', checkAuth, (req, res) => {
+    let memberCheck = 0;
+    let memberUpdated = 0;
+    const memberArr = JSON.parse(req.body.teamMembers);
+    db.championships
+        .find({ teamName: req.body.teamName }, function (error, team) {
+            if (error) {
+                return res.status(502).send(JSON.stringify({
+                    success: false
+                }));
+            }
+            if (team.length >= 1) {
+                return res.status(409).send(JSON.stringify({
+                    success: false,
+                    msg: `${req.body.teamName} is already in use.`
+                }));
+            }
+            for (let i = 0; i < memberArr.length; i++) {
+                db.participants
+                    .find({ email: memberArr[i].memberEmail }, function (error, member) {
+                        if (error) {
+                            return res.status(502).send(JSON.stringify({
+                                success: false
+                            }));
+                        }
+                        if (member.length < 1) {
+                            return res.status(404).send(JSON.stringify({
+                                success: false,
+                                msg: `${memberArr[i].memberEmail} is not registered.`
+                            }));
+                        }
+                        else if (member[0].teamName !== "-1") {
+                            return res.status(409).send(JSON.stringify({
+                                success: false,
+                                msg: `${memberArr[i].memberEmail} is already in a team.`
+                            }));
+                        }
+                        else if (member[0].college !== req.body.leaderCollege) {
+                            return res.status(405).send(JSON.stringify({
+                                success: false,
+                                msg: "Team members must be of the same college."
+                            }));
+                        }
+                        else if (member[0].id !== memberArr[i].memberId) {
+                            return res.status(404).send(JSON.stringify({
+                                success: false,
+                                msg: "Incorrect Bitotsav ID."
+                            }));
+                        }
+                        memberCheck = memberCheck + 1;
+                        if (memberCheck == memberArr.length) {
+                            for (let j = 0; j < memberArr.length; j++) {
+                                db.participants
+                                    .update({ email: memberArr[j].memberEmail }, {
+                                        $set: {
+                                            teamName: req.body.teamName
+                                        }
+                                    }, function (error, result) {
+                                        if (error) {
+                                            return res.status(502).send(JSON.stringify({
+                                                success: false
+                                            }));
+                                        }
+                                        memberUpdated = memberUpdated + 1;
+                                        if (memberUpdated == memberArr.length) {
+                                            const newTeam = {
+                                                teamName: req.body.teamName,
+                                                teamLeader: req.body.teamLeader,
+                                                teamMembers: memberArr,
+                                                teamPoints: 0
+                                            };
+                                            db.championships
+                                                .insert(newTeam, function (error, result) {
+                                                    if (error) {
+                                                        return res.status(502).send(JSON.stringify({
+                                                            success: false,
+                                                            msg: "An unknown error occurred."
+                                                        }));
+                                                    }
+                                                    res.status(200).send(JSON.stringify({
+                                                        success: true,
+                                                        msg: "Team Registered for Bitotsav Championship!"
+                                                    }));
+                                                });
+                                        }
+                                    });
+                            }
+                        }
+                    });
+            }
+        });
+});
+
 router.post('/addFCMToken', checkAuth, (req, res) => {
     if (req.body.token == undefined) {
-        return res.sendStatus(403);
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "Token is required"
+        }));
     }
     db.fcm.find({ id: req.userData.id }, function (error, result) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occurred"
             }));
@@ -592,13 +921,13 @@ router.post('/addFCMToken', checkAuth, (req, res) => {
             if (result.length == 0) {
                 db.fcm.insert({ id: req.userData.id, tokens: [req.body.token] }, function (error, result) {
                     if (error) {
-                        res.send(JSON.stringify({
+                        res.status(502).send(JSON.stringify({
                             success: false,
                             msg: "Database fetch error occurred"
                         }));
                     }
                     else {
-                        res.send(JSON.stringify({
+                        res.status(200).send(JSON.stringify({
                             success: true
                         }))
                     }
@@ -606,7 +935,7 @@ router.post('/addFCMToken', checkAuth, (req, res) => {
             }
             else {
                 if (result[0].tokens.indexOf(req.body.token) > -1) {
-                    return res.send(JSON.stringify({
+                    return res.status(409).send(JSON.stringify({
                         success: false,
                         msg: "Token already exists"
                     }));
@@ -614,13 +943,13 @@ router.post('/addFCMToken', checkAuth, (req, res) => {
                 result[0].tokens.push(req.body.token);
                 db.fcm.update({ id: req.userData.id }, { $set: { tokens: result[0].tokens } }, function (error, result) {
                     if (error) {
-                        res.send(JSON.stringify({
+                        res.status(502).send(JSON.stringify({
                             success: false,
                             msg: "Database fetch error occurred"
                         }));
                     }
                     else {
-                        res.send(JSON.stringify({
+                        res.status(200).send(JSON.stringify({
                             success: true
                         }))
                     }
@@ -633,18 +962,21 @@ router.post('/addFCMToken', checkAuth, (req, res) => {
 
 router.post('/removeFCMToken', checkAuth, (req, res) => {
     if (req.body.token == undefined) {
-        return res.sendStatus(403);
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "Token is required"
+        }));
     }
     db.fcm.find({ id: req.userData.id }, function (error, result) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occurred"
             }));
         }
         else {
             if (result.length == 0) {
-                res.send(JSON.stringify({
+                res.status(404).send(JSON.stringify({
                     success: false,
                     msg: "No such token exists"
                 }));
@@ -652,24 +984,24 @@ router.post('/removeFCMToken', checkAuth, (req, res) => {
             else {
                 let idx = result[0].tokens.indexOf(req.body.token)
                 if (idx > -1) {
-                    result[0].tokens.splice( idx, 1 );
+                    result[0].tokens.splice(idx, 1);
 
                     db.fcm.update({ id: req.userData.id }, { $set: { tokens: result[0].tokens } }, function (error, result) {
                         if (error) {
-                            res.send(JSON.stringify({
+                            res.status(502).send(JSON.stringify({
                                 success: false,
                                 msg: "Database fetch error occurred"
                             }));
                         }
                         else {
-                            res.send(JSON.stringify({
+                            res.status(200).send(JSON.stringify({
                                 success: true
                             }))
                         }
                     })
                 }
-                else{
-                    return res.send(JSON.stringify({
+                else {
+                    return res.status(404).send(JSON.stringify({
                         success: false,
                         msg: "Token not found"
                     }));
@@ -686,13 +1018,13 @@ router.post('/removeFCMToken', checkAuth, (req, res) => {
 router.get('/getAllFeeds', function (req, res) {
     db.announcements.find({}, function (error, result) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 error: "Database fetch error occured"
             }));
         }
         else {
-            res.send(JSON.stringify(result));
+            res.status(200).send(JSON.stringify(result));
         }
     });
 });
@@ -701,13 +1033,13 @@ router.get('/getAllFeeds', function (req, res) {
 router.post('/getFeedsAfter', function (req, res) {
     db.announcements.find({ timestamp: { $gt: req.body.timestamp } }, function (error, result) {
         if (error) {
-            res.send(JSON.stringify({
+            res.status(502).send(JSON.stringify({
                 success: false,
                 error: "Database fetch error occured"
             }));
         }
         else {
-            res.send(JSON.stringify(result));
+            res.status(200).send(JSON.stringify(result));
         }
     });
 });
