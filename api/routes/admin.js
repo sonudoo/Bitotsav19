@@ -589,14 +589,18 @@ router.post('/resultAnnouncement', (req, res) => {
                                                         }));
                                                     }
                                                     else {
+                                                        let map = {};
+                                                        for(let i in result){
+                                                            map[result[i].id] = result[i]; 
+                                                        }
                                                         for (let i in eventPosition1Members) {
-                                                            eventPosition1Teams.add(result[parseInt(eventPosition1Members[i].split("/")[1]) - 10000].teamName);
+                                                            eventPosition1Teams.add(map[eventPosition1Members[i]].teamName);
                                                         }
                                                         for (let i in eventPosition2Members) {
-                                                            eventPosition2Teams.add(result[parseInt(eventPosition2Members[i].split("/")[1]) - 10000].teamName);
+                                                            eventPosition2Teams.add(map[eventPosition2Members[i]].teamName);
                                                         }
                                                         for (let i in eventPosition3Members) {
-                                                            eventPosition3Teams.add(result[parseInt(eventPosition3Members[i].split("/")[1]) - 10000].teamName);
+                                                            eventPosition3Teams.add(map[eventPosition3Members[i]].teamName);
                                                         }
                                                         let team1 = null;
                                                         let team2 = null;
@@ -657,21 +661,21 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                 $set: {
                                                                     eventPosition1: {
                                                                         teamLeader: req.body.eventPosition1,
-                                                                        teamLeaderName: result[parseInt(req.body.eventPosition1.split("/")[1]) - 10000].name,
+                                                                        teamLeaderName: map[req.body.eventPosition1].name,
                                                                         championshipTeam: (team1 != null) ? team1 : "-1",
                                                                         points: (team1 != null) ? event.eventPoints1 : 0
                                                                     },
                                                                     eventPosition2: {
                                                                         teamLeader: req.body.eventPosition2,
-                                                                        teamLeaderName: result[parseInt(req.body.eventPosition2.split("/")[1]) - 10000].name,
+                                                                        teamLeaderName: map[req.body.eventPosition2].name,
                                                                         championshipTeam: (team2 != null) ? team2 : "-1",
                                                                         points: (team2 != null && team2 != team1) ? event.eventPoints2 : 0
                                                                     },
                                                                     eventPosition3: {
                                                                         teamLeader: req.body.eventPosition3,
-                                                                        teamLeaderName: result[parseInt(req.body.eventPosition3.split("/")[1]) - 10000].name,
+                                                                        teamLeaderName: map[req.body.eventPosition3].name,
                                                                         championshipTeam: (team3 != null) ? team3 : "-1",
-                                                                        points: (team3 != null && team3 != team1 && team3 != team1) ? event.eventPoints3 : 0
+                                                                        points: (team3 != null && team3 != team2 && team3 != team1) ? event.eventPoints3 : 0
                                                                     }
                                                                 }
                                                             }, function (error, updateResult) {
@@ -691,12 +695,12 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                         }
                                                                         else {
                                                                             let timestamp = Date.now();
-                                                                            let content = "1. " + req.body.eventPosition1 + " (" + result[parseInt(req.body.eventPosition1.split("/")[1]) - 10000].name + ")";
+                                                                            let content = "1. " + req.body.eventPosition1 + " (" + map[req.body.eventPosition1].name + ")";
                                                                             if (team1 != null) {
                                                                                 content += " - " + team1 + " - " + event.eventPoints1 + " pts";
                                                                             }
                                                                             content += "\n";
-                                                                            content += "2. " + req.body.eventPosition2 + " (" + result[parseInt(req.body.eventPosition2.split("/")[1]) - 10000].name + ")";
+                                                                            content += "2. " + req.body.eventPosition2 + " (" + map[req.body.eventPosition2].name + ")";
                                                                             if (team2 != null) {
                                                                                 content += " - " + team2 + " - ";
                                                                                 if (team2 != team1) {
@@ -708,7 +712,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                             }
 
                                                                             content += "\n";
-                                                                            content += "3. " + req.body.eventPosition3 + " (" + result[parseInt(req.body.eventPosition3.split("/")[1]) - 10000].name + ")";
+                                                                            content += "3. " + req.body.eventPosition3 + " (" + map[req.body.eventPosition3].name + ")";
                                                                             if (team3 != null) {
                                                                                 content += " - " + team3 + " - ";
                                                                                 if (team3 != team2 && team3 != team1) {
@@ -731,7 +735,8 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                 content: content,
                                                                                 timestamp: timestamp,
                                                                                 type: "RESULT",
-                                                                                feedId: timestamp
+                                                                                feedId: timestamp,
+                                                                                eventId: parseInt(req.body.eventId)
                                                                             }
                                                                             db.announcements.insert(data, function (error, insertionResult) {
                                                                                 if (error) {
@@ -753,7 +758,8 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                 "content": content,
                                                                                                 "type": "RESULT",
                                                                                                 "timestamp": timestamp,
-                                                                                                "feedId": timestamp
+                                                                                                "feedId": timestamp,
+                                                                                                eventId: parseInt(req.body.eventId)
                                                                                             }
                                                                                         }
                                                                                     }, function (error, response, body) {
@@ -775,7 +781,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                             
                                                                                                 var mailOptions = {
                                                                                                     from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                                                                                                    to: result[parseInt(req.body.eventPosition1.split("/")[1]) - 10000].email,
+                                                                                                    to: map[req.body.eventPosition1].email,
                                                                                                     subject: 'Congratulations!',
                                                                                                     text: '',
                                                                                                     html: `
@@ -797,7 +803,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                     } else {
                                                                                                         var mailOptions = {
                                                                                                             from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                                                                                                            to: result[parseInt(req.body.eventPosition2.split("/")[1]) - 10000].email,
+                                                                                                            to: map[req.body.eventPosition2].email,
                                                                                                             subject: 'Congratulations!',
                                                                                                             text: '',
                                                                                                             html: `
@@ -820,7 +826,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                             } else {
                                                                                                                 var mailOptions = {
                                                                                                                     from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                                                                                                                    to: result[parseInt(req.body.eventPosition3.split("/")[1]) - 10000].email,
+                                                                                                                    to: map[req.body.eventPosition3].email,
                                                                                                                     subject: 'Congratulations!',
                                                                                                                     text: '',
                                                                                                                     html: `

@@ -80,15 +80,18 @@ router.get('/getAllBCTeams', function (req, res) {
                     }));
                 }
                 else {
+                    let map = {};
+                    for(let i in result2){
+                        map[result2[i].id] = result2[i];
+                    }
                     let result = [];
                     for (let i in result1) {
-
                         let tmp = {};
                         tmp['teamName'] = result1[i].teamName;
                         tmp['teamPoints'] = result1[i].teamPoints;
                         tmp.teamMembers = {};
                         for (let j in result1[i].teamMembers) {
-                            tmp.teamMembers[result1[i].teamMembers[j].memberId] = result2[parseInt(result1[i].teamMembers[j].memberId.split("/")[1]) - 10000].name;
+                            tmp.teamMembers[result1[i].teamMembers[j].memberId] = map[result1[i].teamMembers[j].memberId].name;
                         }
                         result.push(tmp);
                     }
@@ -238,8 +241,7 @@ router.post('/register', (req, res) => {
                                             //participant tried registering before but got an error while doing it
                                             bcrypt.hash(req.body.password, 10, (err, hash) => {
                                                 if (err) {
-                                                    console.log(err);
-                                                    res.status(500).send(JSON.stringify({
+                                                    res.status(502).send(JSON.stringify({
                                                         success: false,
                                                         msg: "Encryption error occured"
                                                     }));
@@ -555,11 +557,15 @@ router.post('/getTeamDetails', function (req, res) {
                             }));
                         }
                         else {
+                            let map = {};
+                            for(let i in result2){
+                                map[result2[i].id] = result2[i];
+                            }
                             result1 = result1[0];
                             let teamMembers = {};
-                            teamMembers[req.body.teamLeader] = result2[parseInt(req.body.teamLeader.split("/")[1]) - 10000].name;
+                            teamMembers[req.body.teamLeaderId] = map[req.body.teamLeaderId].name;
                             for (let i in result1.teamMembers.length) {
-                                teamMembers[result1.teamMembers[i]] = result2[parseInt(result1.teamMembers[i].split("/")[1]) - 10000].name;
+                                teamMembers[result1.teamMembers[i]] = map[result1.teamMembers[i]].name;
                             }
                             res.status(200).send(JSON.stringify({
                                 success: true,
