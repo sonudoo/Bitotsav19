@@ -1,6 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 const db = require('../setup').db;
 const jwt = require('jsonwebtoken');
 const secretKey = require('../setup').secretKey;
@@ -8,8 +6,6 @@ const adminPassword = "10204";
 const nodemailer = require('nodemailer');
 const request = require('request');
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const collegeList = require("../collegeList.json");
 
 router.post('/login', (req, res) => {
     if (req.body.username === "admin" && req.body.password === adminPassword) {
@@ -580,7 +576,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                 let eventPosition1Teams = new Set();
                                                 let eventPosition2Teams = new Set();
                                                 let eventPosition3Teams = new Set();
-
+  
                                                 db.participants.find({ id: { $ne: "-1" } }, function (error, result) {
                                                     if (error) {
                                                         res.send(JSON.stringify({
