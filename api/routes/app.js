@@ -479,9 +479,9 @@ const checkAuth = function (req, res, next) {
     else {
         jwt.verify(token, secretKey, function (error, data) {
             if (error) {
-                return res.status(502).send(JSON.stringify({
+                return res.status(403).send(JSON.stringify({
                     success: false,
-                    msg: "Database fetch error occured."
+                    msg: "Token modified. Decryption error"
                 }));
             }
             else {
