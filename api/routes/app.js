@@ -449,7 +449,7 @@ router.post('/login', (req, res) => {
                         return res.status(200).send(JSON.stringify({
                             success: true,
                             token: jwt.sign({
-                                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
+                                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30),
                                 data: {
                                     email: user[0].email,
                                     password: user[0].password,
