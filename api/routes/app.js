@@ -903,6 +903,124 @@ router.post('/championship', checkAuth, (req, res) => {
         });
 });
 
+router.post('/addStarEvent', checkAuth, (req, res) => {
+    if(req.body.eventId == undefined){
+        res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "eventId is required"
+        }))
+    }
+    else{
+        db.participants.find({id: req.userData.id}, function(error, result){
+            if(error){
+                res.status(502).send(JSON.stringify({
+                    success: false,
+                    msg: "Database fetch error occurred"
+                }));
+            }
+            else{
+                if(result.length != 1){
+                    res.status(403).send(JSON.stringify({
+                        success: false,
+                        msg: "Unauthorized"
+                    }))
+                }
+                else{
+                    result = result[0];
+                    if(result.starred == undefined){
+                        result.starred = [req.body.eventId];
+                    }
+                    else{
+                        if (result.starred.indexOf(req.body.eventId) > -1) {
+                            return res.status(409).send(JSON.stringify({
+                                success: false,
+                                msg: "Event is already starred"
+                            }));
+                        }
+                        else{  
+                            result.starred.push(req.body.eventId);
+                        }
+                    }
+                    db.participants.update({id: req.userData.id}, result, function(error, updateResult){
+                        if(error){
+                            res.status(502).send(JSON.stringify({
+                                success: false,
+                                msg: "Database fetch error occured"
+                            }))
+                        }
+                        else{
+                            res.status(200).send(JSON.stringify({
+                                success: true
+                            }))
+                        }
+                    })
+                }
+            }
+        })
+    }
+})
+
+router.post('/removeStarEvent', checkAuth, (req, res) => {
+    if(req.body.eventId == undefined){
+        res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "eventId is required"
+        }))
+    }
+    else{
+        db.participants.find({id: req.userData.id}, function(error, result){
+            if(error){
+                res.status(502).send(JSON.stringify({
+                    success: false,
+                    msg: "Database fetch error occurred"
+                }));
+            }
+            else{
+                if(result.length != 1){
+                    res.status(403).send(JSON.stringify({
+                        success: false,
+                        msg: "Unauthorized"
+                    }))
+                }
+                else{
+                    result = result[0];
+                    if(result.starred == undefined){
+                        res.status(404).send(JSON.stringify({
+                            success: false,
+                            msg: "The event was not found in starred events"
+                        }))
+                    }
+                    else{
+                        let idx = result.starred.indexOf(req.body.eventId);
+                        if (idx > -1) {
+                            result.starred.splice(idx, 1);
+                            db.participants.update({id: req.userData.id}, result, function(error, updateResult){
+                                if(error){
+                                    res.status(502).send(JSON.stringify({
+                                        success: false,
+                                        msg: "Database fetch error occured"
+                                    }))
+                                }
+                                else{
+                                    res.status(200).send(JSON.stringify({
+                                        success: true
+                                    }))
+                                }
+                            })
+                        }
+                        else{  
+                            res.status(404).send(JSON.stringify({
+                                success: false,
+                                msg: "The event was not found in starred events"
+                            }))
+                        }
+                    }
+                }
+            }
+        })
+    }
+})
+
 router.post('/addFCMToken', checkAuth, (req, res) => {
     if (req.body.token == undefined) {
         return res.status(403).send(JSON.stringify({
