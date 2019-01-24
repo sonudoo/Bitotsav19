@@ -258,7 +258,8 @@ eventCategoryList.forEach(function(category){
               <button type="button" class="close" data-dismiss="modal">&times;</button>  
               </div>
               <div class="modal-body">
-              <div><div class="modal-event-rules"><h2>Rules</h2><hr><div class="event-team-size">Team Size: `+result[j].eventMinimumMembers +` - `+result[j].eventMaximumMembers +`</div> <div class="event-venue">Venue: `+result[j].eventVenue+`</div> <div class="event-time">Time: `+result[j].eventTime+`</div> <div class="event-day">Day: `+result[j].eventDay+` </div><br><br> <div class="event-rules"><ol><li>`+result[j].eventRules.replace(/\n/g,"<li>")+`</ol></div>  </div></div>
+              <div><div class="modal-event-description"><h2>Description</h2><hr><div class="event-team-size">Team Size: `+result[j].eventMinimumMembers +` - `+result[j].eventMaximumMembers +`</div> <div class="event-venue">Venue: `+result[j].eventVenue+`</div> <div class="event-time">Time: `+result[j].eventTime+`</div> <div class="event-day">Day: `+result[j].eventDay+` </div><br> <div class="event-description">`+result[j].eventDescription.replace(/\n/g,"<br>")+`<br><br></div></div></div>
+              <div><div class="modal-event-rules"><h2>Rules</h2><hr><div class="event-rules"><ol><li>`+result[j].eventRules.replace(/\n/g,"<li>")+`</ol></div>  </div></div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
