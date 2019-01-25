@@ -128,11 +128,11 @@
 
   $(window).on('scroll', function () {
     var cur_pos = $(this).scrollTop();
-  
+
     nav_sections.each(function() {
       var top = $(this).offset().top - main_nav_height,
           bottom = top + $(this).outerHeight();
-  
+
       if (cur_pos >= top && cur_pos <= bottom) {
         main_nav.find('li').removeClass('menu-active menu-item-active');
         main_nav.find('a[href="#'+$(this).attr('id')+'"]').parent('li').addClass('menu-active menu-item-active');
@@ -209,7 +209,7 @@
 
     $('.close-modal').on("click",function(){
         elements.removeClass('active');
-    }); 
+    });
 
 })(jQuery);
 
@@ -229,7 +229,6 @@ eventCategoryList.forEach(function(category){
           // if (result.success === 'fail') {
           //     location.reload(true);
           // }
-            console.log(category);
             // console.log(i);
             // console.log(eventCategoryList[i]);
             let tmp = ``;
@@ -250,12 +249,12 @@ eventCategoryList.forEach(function(category){
           </div>`
           tmp2+= `<div class="modal fade" id="event`+result[j].eventId+`" role="dialog">
           <div class="modal-dialog">
-          
+
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
               <h4 class="modal-title">`+result[j].eventName+`</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>  
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <div class="modal-body">
               <div><div class="modal-event-description"><h2>Description</h2><hr><div class="event-team-size">Team Size: `+result[j].eventMinimumMembers +` - `+result[j].eventMaximumMembers +`</div> <div class="event-venue">Venue: `+result[j].eventVenue+`</div> <div class="event-time">Time: `+result[j].eventTime+`</div> <div class="event-day">Day: `+result[j].eventDay+` </div><br> <div class="event-description">`+result[j].eventDescription.replace(/\n/g,"<br>")+`<br><br></div></div></div>
@@ -265,7 +264,7 @@ eventCategoryList.forEach(function(category){
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
-            
+
           </div>
         </div>`;
             }
@@ -277,7 +276,7 @@ eventCategoryList.forEach(function(category){
           alert('Some error occured.Please try again.');
           location.reload(true);
       });
-     
+
   })
 
 });
@@ -293,4 +292,4 @@ var elements = $('#services .modal-overlay,#services .modal');
 
     $('.close-modal').on("click",function(){
         elements.removeClass('active');
-    }); 
+    });

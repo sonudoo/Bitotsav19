@@ -1,7 +1,7 @@
 $(window).on('load', function () {
     setTimeout(function () {
-      $('#status').hide(); // will first fade out the loading animation 
-      $('#preloader').fadeOut('slow'); // will fade out the white DIV that covers the website. 
+      $('#status').hide(); // will first fade out the loading animation
+      $('#preloader').fadeOut('slow'); // will fade out the white DIV that covers the website.
       $('body').css({ 'overflow': 'visible' });
     }, 500);
   });
@@ -22,7 +22,7 @@ var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 if (isMobile) {
   alert('Please use Desktop View to see the contents.');
 }
-document.body.addEventListener('touchstart', function(e){ 
+document.body.addEventListener('touchstart', function(e){
     e.preventDefault();
     e.stopPropagation();
 })
@@ -56,7 +56,7 @@ $(window).scroll(function (event) {
         let fy = countriesY[order[currentCountry]];
         let gy = countriesY[order[currentCountry + 1]];
         let angle = Math.atan2((gy - fy), (gx - fx)) * (180 / Math.PI) - offset;
-        console.log("Angle between " + countries[order[currentCountry]] + " and " + countries[order[currentCountry + 1]] + " is " + (angle - offset));
+        //console.log("Angle between " + countries[order[currentCountry]] + " and " + countries[order[currentCountry + 1]] + " is " + (angle - offset));
         $("#plane").css('transform', 'rotate(' + angle + 'deg)');
     }
     else {
@@ -68,7 +68,7 @@ $(window).scroll(function (event) {
         let gy = countriesY[order[currentCountry]];
         let fy = countriesY[order[currentCountry + 1]];
         let angle = Math.atan2((gy - fy), (gx - fx)) * (180 / Math.PI) - offset;
-        console.log("Angle between " + countries[order[currentCountry + 1]] + " and " + countries[order[currentCountry]] + " is " + (angle + offset));
+        //console.log("Angle between " + countries[order[currentCountry + 1]] + " and " + countries[order[currentCountry]] + " is " + (angle + offset));
         $("#plane").css('transform', 'rotate(' + angle + 'deg)');
     }
     lastScroll = scroll;
@@ -619,47 +619,47 @@ var albumImg = document.getElementById('albumImg');
 var before = document.getElementById('before');
 var after = document.getElementById('after');
 var speed = 1;
-ul1.innerHTML = ul1.innerHTML + ul1.innerHTML; 
+ul1.innerHTML = ul1.innerHTML + ul1.innerHTML;
 ul1.style.width = li[0].offsetWidth * li.length + 192 + 'px'; //
 function move(){
-   if(-ul1.offsetLeft > ul1.offsetWidth/2){  
-      ul1.style.left = 0; 
+   if(-ul1.offsetLeft > ul1.offsetWidth/2){
+      ul1.style.left = 0;
    }
-   if(ul1.offsetLeft > 0){ 
-      ul1.style.left = -ul1.offsetWidth/2 + 'px';  
+   if(ul1.offsetLeft > 0){
+      ul1.style.left = -ul1.offsetWidth/2 + 'px';
    }
    ul1.style.left = ul1.offsetLeft + speed + 'px';
 }
 function moveClickLeft(){
-   if(ul1.offsetLeft%136 != 0){ 
+   if(ul1.offsetLeft%136 != 0){
       ul1.style.left = ul1.offsetLeft - ul1.offsetLeft%136 - 136 + 'px';
-      
+
    }
    else{
 
-      if(-ul1.offsetLeft >= ul1.offsetWidth/2){ 
-         ul1.style.left = 0; 
+      if(-ul1.offsetLeft >= ul1.offsetWidth/2){
+         ul1.style.left = 0;
       }
 
       ul1.style.left = ul1.offsetLeft + speed + 'px';
    }
-}     
+}
 
 function moveClickRight(){
-   if(ul1.offsetLeft%136 != 0){ 
+   if(ul1.offsetLeft%136 != 0){
       ul1.style.left = ul1.offsetLeft - ul1.offsetLeft%136 + 'px';
    }else{
-      if(ul1.offsetLeft >= 0){ 
-         ul1.style.left = -ul1.offsetWidth/2 + 'px';  
+      if(ul1.offsetLeft >= 0){
+         ul1.style.left = -ul1.offsetWidth/2 + 'px';
       }
-      ul1.style.left = ul1.offsetLeft + speed + 'px';     
+      ul1.style.left = ul1.offsetLeft + speed + 'px';
    }
 }
 //*/
 var timer = setInterval( move, 30 );
 
 div1.onmouseover = function(){
-   clearInterval(timer);  
+   clearInterval(timer);
 }
 div1.onmouseout = function(){
    timer = setInterval( move, 30 );
@@ -684,8 +684,3 @@ for(i=0 ; i<img.length ; i++){
       },1);
    }
 }
-
-
-
-
-
