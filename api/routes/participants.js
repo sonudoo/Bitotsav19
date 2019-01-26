@@ -616,11 +616,6 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                         success: false,
                         msg: "Incorrect Bitotsav ID"
                     }));
-                } else if (result[0].college !== req.body.leaderCollege){
-                    res.status(200).send(JSON.stringify({
-                        success: false,
-                        msg: `Member ${memberArr[j].memberId} does not belong to the same college`
-                    }));
                 } else {
                     for(let k=0;k<result[0].events.length;k++){
                         if(result[0].events[k].eventId == req.body.eventId){
@@ -838,12 +833,6 @@ router.post('/championship', checkAuth, (req, res) => {
                     return res.status(200).send(JSON.stringify({
                         success: false,
                         msg: `${memberArr[i].memberEmail} is already in a team.`
-                    }));
-                }
-                else if (member[0].college !== req.body.leaderCollege){
-                    return res.status(200).send(JSON.stringify({
-                        success: false,
-                        msg: "Team members must be of the same college."
                     }));
                 }
                 else if (member[0].id !== memberArr[i].memberId){
