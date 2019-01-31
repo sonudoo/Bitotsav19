@@ -102,6 +102,60 @@ router.get('/getAllBCTeams', function (req, res) {
     })
 });
 
+
+router.post('/getBCTeamByName', function (req, res) {
+    if(req.body.teamName == undefined){
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "teamName is required"
+        }))
+    }
+    db.championships.find({teamName: req.body.teamName}, function (error, result1) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured"
+            }));
+        }
+        else {
+            if(result1.length != 1){
+                res.status(404).send(JSON.stringify({
+                    success: false,
+                    msg: "Team not found"
+                }))
+            }
+            else{
+                db.participants.find({ id: { $ne: "-1" } }, function (error, result2) {
+                    if (error) {
+                        res.status(502).send(JSON.stringify({
+                            success: false,
+                            msg: "Database fetch error occured"
+                        }));
+                    }
+                    else {
+                        let map = {};
+                        for(let i in result2){
+                            map[result2[i].id] = result2[i];
+                        }
+                        let result = [];
+                        for (let i in result1) {
+                            let tmp = {};
+                            tmp['teamName'] = result1[i].teamName;
+                            tmp['teamPoints'] = result1[i].teamPoints;
+                            tmp.teamMembers = {};
+                            for (let j in result1[i].teamMembers) {
+                                tmp.teamMembers[result1[i].teamMembers[j].memberId] = map[result1[i].teamMembers[j].memberId].name;
+                            }
+                            result.push(tmp);
+                        }
+                        res.send(JSON.stringify(result[0]));
+                    }
+                })
+            }
+        }
+    })
+});
+
 /**
  * User routes
  */
@@ -114,7 +168,7 @@ router.get('/getCollegeList', (req, res) => {
 
 router.post('/register', (req, res) => {
     var recaptcha_url = "https://www.google.com/recaptcha/api/siteverify?";
-    recaptcha_url += "secret=" + "6LcW6YEUAAAAAGeeSe5bs4TJKaoItsig6vPTHoNm" + "&";
+    recaptcha_url += "secret=" + "6LeFRY4UAAAAAEHrcn6FjTj20qWf634Wzs3sRl3w" + "&";
     recaptcha_url += "response=" + req.body["g-recaptcha-response"] + "&";
     recaptcha_url += "remoteip=" + req.connection.remoteAddress;
     request(recaptcha_url, function (error, resp, body) {
@@ -509,19 +563,71 @@ router.get('/getParticipantDetails', checkAuth, (req, res) => {
             }));
         }
         else {
-            res.status(200).send(JSON.stringify({
-                email: user[0].email,
-                name: user[0].name,
-                gender: user[0].gender,
-                college: user[0].college,
-                id: user[0].id,
-                year: user[0].year,
-                payment: user[0].payment,
-                events: user[0].events,
-                rollno: user[0].rollno,
-                phno: user[0].phno,
-                teamName: user[0].teamName
-            }));
+            if(user[0].teamName != "-1"){
+                db.championships.find({teamName: user[0].teamName}, function(error, result){
+                    if(error){
+                        res.status(502).send(JSON.stringify({
+                            success: false,
+                            msg: "Database fetch error occured"
+                        }))
+                    }
+                    else{
+                        db.participants.find({}, function(error, result2){
+                            if(error){
+                                res.status(502).send(JSON.stringify({
+                                    success: false,
+                                    msg: "Database fetch error occured"
+                                }))
+                            }
+                            else{
+                                let map = {};
+                                for(let i in result2){
+                                    map[result2[i].id] = result2[i];
+                                }
+                                let teamMembers = [];
+                                for(let j in result[0].teamMembers){
+                                    teamMembers.push({
+                                        name: map[result[0].teamMembers[j].memberId].name,
+                                        email: map[result[0].teamMembers[j].memberId].email,
+                                        id: result[0].teamMembers[j].memberId
+                                    });
+                                }
+                                res.status(200).send(JSON.stringify({
+                                    email: user[0].email,
+                                    name: user[0].name,
+                                    gender: user[0].gender,
+                                    college: user[0].college,
+                                    id: user[0].id,
+                                    year: user[0].year,
+                                    payment: user[0].payment,
+                                    events: user[0].events,
+                                    rollno: user[0].rollno,
+                                    phno: user[0].phno,
+                                    teamName: user[0].teamName,
+                                    teamMembers: teamMembers
+                                }));
+                            }
+                        })
+                        
+                    }
+                })
+            }
+            else{
+                res.status(200).send(JSON.stringify({
+                    email: user[0].email,
+                    name: user[0].name,
+                    gender: user[0].gender,
+                    college: user[0].college,
+                    id: user[0].id,
+                    year: user[0].year,
+                    payment: user[0].payment,
+                    events: user[0].events,
+                    rollno: user[0].rollno,
+                    phno: user[0].phno,
+                    teamName: user[0].teamName,
+                    teamMembers: []
+                }));
+            }
         }
     });
 });
@@ -820,6 +926,12 @@ router.post('/championship', checkAuth, (req, res) => {
     let memberCheck = 0;
     let memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
+    if(memberArr.length == 0){
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "No members sent"
+        }))
+    }
     db.championships
         .find({ teamName: req.body.teamName }, function (error, team) {
             if (error) {

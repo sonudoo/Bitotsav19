@@ -14,7 +14,7 @@ import { GetAllEventsService } from '../get-all-events.service';
 export class TeamListComponent implements OnInit {
 
   public teams = [];
-  public participants = [];
+  public participants = {};
   public events = [];
   public currentEventId;
   @ViewChild('tbody') tbody: ElementRef;
@@ -26,12 +26,13 @@ export class TeamListComponent implements OnInit {
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
           for (let i in data) {
-            this.participants.push({
+            this.participants[data[i].id] = {
               id: data[i].id,
               name: data[i].name,
               college: data[i].college,
-              rollno: data[i].rollno
-            });
+              rollno: data[i].rollno,
+              phno: data[i].phno
+            };
           }
         },
         error => {
@@ -59,26 +60,24 @@ export class TeamListComponent implements OnInit {
     }
   }
   onChange(event: any) {
+    this.tbody.nativeElement.innerHTML = "Searching..";
     if (this.storage.get('token') != undefined) {
       this.getTeamsListService.getTeamsList(this.storage.get('token'), event).subscribe(
         data => {
-          this.tbody.nativeElement.innerHTML = "Searching..";
-          let cleared = false;
+          this.tbody.nativeElement.innerHTML = "";
+          this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4">Total teams - '+data.length+'</td>');
+
           for (let i in data) {
-            if(cleared == false){
-              this.tbody.nativeElement.innerHTML = "";
-              cleared = true;
+            let j = parseInt(i)+1;
+            if(this.currentEventId == "-1"){
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4" style="font-weight: bold;">Event - '+this.events[parseInt(data[i].eventId)-1].eventName+'</td></tr>');
             }
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4">Team Leader - '+data[i].teamLeaderId+'</td>');
-            let idx = parseInt(data[i].teamLeaderId.slice(5)) - 10000;
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[idx].name + '</td><td>' + this.participants[idx].college + '</td><td>' + this.participants[idx].rollno + '</td><td>' + this.participants[idx].id + '</td></tr>');
+            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4" style="font-weight: bold;">'+j+'. '+data[i].teamLeaderId+' ('+this.participants[data[i].teamLeaderId].name+') ('+this.participants[data[i].teamLeaderId].phno+')</td></tr>');
+            
+            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[data[i].teamLeaderId].name + '</td><td>' + this.participants[data[i].teamLeaderId].college + '</td><td>' + this.participants[data[i].teamLeaderId].rollno + '</td><td>' + this.participants[data[i].teamLeaderId].id + '</td></tr>');
             for(let j in data[i].teamMembers){
-              idx = parseInt(data[i].teamMembers[j].slice(5)) - 10000;
-              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[idx].name + '</td><td>' + this.participants[idx].college + '</td><td>' + this.participants[idx].rollno + '</td><td>' + this.participants[idx].id + '</td></tr>');
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[data[i].teamMembers[j]].name + '</td><td>' + this.participants[data[i].teamMembers[j]].college + '</td><td>' + this.participants[data[i].teamMembers[j]].rollno + '</td><td>' + this.participants[data[i].teamMembers[j]].id + '</td></tr>');
             }
-          }
-          if (cleared == false) {
-            this.tbody.nativeElement.innerHTML = "No result found";
           }
         },
         error => {

@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('../setup').db;
 const jwt = require('jsonwebtoken');
 const secretKey = require('../setup').secretKey;
-const adminPassword = "10204";
+const adminPassword = "1020415";
 const nodemailer = require('nodemailer');
 const request = require('request');
 const router = express.Router();
@@ -316,17 +316,32 @@ router.post('/getTeamsList', (req, res) => {
     if (req.body.eventId == undefined) {
         return res.sendStatus(403);
     }
-    db.teams.find({ eventId: parseInt(req.body.eventId) }, function (error, result) {
-        if (error) {
-            res.send(JSON.stringify({
-                success: false,
-                error: "An unknown error occured"
-            }));
-        }
-        else {
-            return res.send(JSON.stringify(result));
-        }
-    });
+    else if(req.body.eventId == "-1"){
+        db.teams.find({}, function (error, result) {
+            if (error) {
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "An unknown error occured"
+                }));
+            }
+            else {
+                return res.send(JSON.stringify(result));
+            }
+        });
+    }
+    else{
+        db.teams.find({ eventId: parseInt(req.body.eventId) }, function (error, result) {
+            if (error) {
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "An unknown error occured"
+                }));
+            }
+            else {
+                return res.send(JSON.stringify(result));
+            }
+        });
+    }
 });
 
 router.post('/sendSMS', (req, res) => {
