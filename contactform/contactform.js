@@ -100,14 +100,9 @@ jQuery(document).ready(function($) {
     });
     if (ferror) return false;
     else var str = getFormData($(this));
-    console.log(str);
-    var action = $(this).attr('action');
-    if( ! action ) {
-      action = 'https://bitotsav.in/api/contact/add';
-    }
     $.ajax({
       type: "POST",
-      url: action,
+      url: 'https://bitotsav.in/api/contact/add',
       data: str,
       json: true,
       success: function(msg) {
