@@ -893,7 +893,7 @@
                         <div class="contact-email">
                             <i class="ion-ios-email-outline"></i>
                             <h3>Email</h3>
-                            <p><a href="mailto:info@example.com">bitotsav@bitmesra.ac.in</a></p>
+                            <p><a href="mailto:bitotsav@bitmesra.ac.in">bitotsav@bitmesra.ac.in</a></p>
                         </div>
                     </div>
 
@@ -906,7 +906,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                    data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                    data-rule="minlen:1" data-msg="Name is required" />
                                 <div class="validation"></div>
                             </div>
                             <div class="form-group col-md-6">
@@ -917,7 +917,7 @@
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
-                                data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                                data-rule="minlen:1" data-msg="Subject is required" />
                             <div class="validation"></div>
                         </div>
                         <div class="form-group">
@@ -925,6 +925,9 @@
                                 placeholder="Message"></textarea>
                             <div class="validation"></div>
                         </div>
+                        <center><div class="row">
+                            <div  class="g-recaptcha" data-sitekey="6LcW6YEUAAAAAF3hmEujSpLdQTXdFdqTTYftsRtt"></div>
+                        </div></center>
                         <div class="text-center"><button type="submit">Send Message</button></div>
                     </form>
                 </div>
@@ -1014,6 +1017,8 @@
     <script src="lib/lightbox/js/lightbox.min.js"></script>
     <script src="lib/touchSwipe/jquery.touchSwipe.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
     <!-- Contact Form JavaScript File -->
     <script src="contactform/contactform.js"></script>
 
@@ -1051,6 +1056,5 @@
     </script>
 </body>
 
-<!-- Mirrored from bootstrapmade.com/demo/themes/BizPage/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Jan 2019 05:02:41 GMT -->
 
 </html>

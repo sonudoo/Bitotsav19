@@ -12,6 +12,8 @@ const adminOpsHandler = require('./routes/admin');
 const eventsOpsHandler = require('./routes/events');
 const participantsOpsHandler = require('./routes/participants');
 const appOpsHandler = require('./routes/app');
+const contactOpsHandler = require('./routes/contact');
+
 
 
 const app = express();
@@ -35,6 +37,8 @@ app.use('/api/admin', adminOpsHandler);
 app.use('/api/events', eventsOpsHandler);
 app.use('/api/participants', participantsOpsHandler);
 app.use('/api/app', appOpsHandler);
+app.use('/api/contact', contactOpsHandler);
+
 
 /**
  * Listen indefinitely on port 3000
