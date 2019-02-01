@@ -390,87 +390,123 @@ router.post('/verify', (req, res) => {
 
 
 // Stage 3 of Registration
+// Stage 3 of Registration
 router.post('/saveparticipant', (req, res) => {
-    db.counters.find({}, (error, result) => {
-        if (error) {
+    db.participants.find({email: req.body.email}, function(error, result){
+        if(error){
             res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured."
-            }));
-        } else {
-            const bitId = "BT19/" + result[0].counter;
-            const updatedUserInfo = {
-                id: "BT19/" + result[0].counter,
-                gender: req.body.gender,
-                college: req.body.college,
-                rollno: req.body.rollno,
-                source: req.body.source,
-                year: req.body.year
-            }
-            db.counters.update({}, { $set: { counter: parseInt(result[0].counter + 1) } }, function (error, result) {
-                if (error) {
-                    res.status(502).send(JSON.stringify({
-                        success: false,
-                        msg: "Database fetch error occured."
-                    }));
-                }
-                else {
-                    db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
-                        if (error) {
-                            res.status(502).send(JSON.stringify({
-                                success: false,
-                                msg: "Database fetch error occured."
-                            }));
-                        }
-                        else {
-                            //sending confirmation email
-                            var transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                auth: {
-                                    user: 'webmaster@bitotsav.in',
-                                    pass: 'Bitotsav2018!@'
-                                }
-                            });
-
-                            var mailOptions = {
-                                from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                                to: req.body.email,
-                                subject: "Bitotsav'19 Registration",
-                                text: '',
-                                html: `
-                                <h2 align="center">Bitotsav</h2>
-                                <p>
-                                Hi,<br><br>
-                                You have successfully registered in Bitotsav 2019.<br>
-                                Your Bitotsav ID is ${updatedUserInfo.id}.<br>
-                                Login Details:<br>
-                                Email : ${req.body.email}<br>
-                                Password : ${req.body.password}<br><br>
-                                Regards,<br>
-                                Web Team,<br>
-                                Bitotsav '19</p>`
-                            };
-                            transporter.sendMail(mailOptions, function (error, info) {
-                                if (error) {
-                                    return res.status(502).send(JSON.stringify({
-                                        success: false,
-                                        msg: `Error sending Conformation Email. Please try again later`
-                                    }));
-                                } else {
-                                    return res.status(200).send(JSON.stringify({
-                                        success: true,
-                                        msg: "You are registered successfully",
-                                        data: bitId
-                                    }));
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            }))
         }
-    });
-});
+        else{
+            if(result[0].id == "-1" && result[0].otpVerified == true && result[0].verified == false){
+             db.counters.find({}, (error, result) => {
+                 if (error) {
+                     res.status(500).send(JSON.stringify({
+                         success: false,
+                         msg: "An unknown error occured"
+                     }));
+                 } else {
+                     const bitId = "BT19/" + result[0].counter;
+                     const updatedUserInfo = {
+                         id: "BT19/" + result[0].counter,
+                         gender : req.body.gender,
+                         college: req.body.college,
+                         rollno: req.body.rollno,
+                         source: req.body.source,
+                         year: req.body.year
+                     }
+                     db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
+                         if (error) {
+                             res.status(500).send(JSON.stringify({
+                                 success: false,
+                                 msg: "An unknown error occured"
+                             }));
+                         }
+                         else {
+                             db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
+                                 if (error) {
+                                     res.status(500).send(JSON.stringify({
+                                         success: false,
+                                         msg: "An unknown error occured"
+                                     }));
+                                 }
+                                 else {
+                                     //sending confirmation email
+                                     var transporter = nodemailer.createTransport({
+                                         service: 'gmail',
+                                         auth: {
+                                             user: 'webmaster@bitotsav.in',
+                                             pass: 'Bitotsav2018!@'
+                                         }
+                                     });
+         
+                                     var mailOptions = {
+                                         from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                                         to: req.body.email,
+                                         subject: "Bitotsav'19 Registration",
+                                         text: '',
+                                         html: `
+                                         <h2 align="center">Bitotsav</h2>
+                                         <p>
+                                         Hi,<br><br>
+                                         You have successfully registered in Bitotsav 2019.<br>
+                                         Your Bitotsav ID is ${updatedUserInfo.id}.<br>
+                                         Login Details:<br>
+                                         Email : ${req.body.email}<br>
+                                         Password : ${req.body.password}<br><br>
+                                         Regards,<br>
+                                         Web Team,<br>
+                                         Bitotsav '19</p>`
+                                     };
+                                     transporter.sendMail(mailOptions, function (error, info) {
+                                         if (error) {
+                                             console.log(error);
+                                             return res.status(500).send(JSON.stringify({
+                                                 success: false,
+                                                 msg: `Error sending Conformation Email. Please try again later`
+                                             }));
+                                         } else {
+                                             console.log('Confirmation Email sent: ' + info.response);
+                                             fs.readFile('collegeList.json', 'utf8', function readFileCallback(err, data){
+                                                 if (err){
+                                                     console.log(err);
+                                                 } else {
+                                                     obj = JSON.parse(data); //now it an object
+                                                     if(!obj.colleges.includes(req.body.college)){
+                                                         obj.colleges.push(req.body.college); //add some data
+                                                     }
+                                                     json = JSON.stringify(obj); //convert it back to json
+                                                     fs.writeFile('collegeList.json', json, 'utf8', function (err) {
+                                                         if (err) console.log(err);
+                                                         console.log('College File Updated!');
+                                                     }); // write it back
+                                                 }
+                                             });
+                                             return res.status(200).send(JSON.stringify({
+                                                 success: true,
+                                                 msg: "You are registered successfully",
+                                                 data: bitId
+                                             }));
+                                         }
+                                     });
+                                 }
+                             });
+                         }
+                     });
+                 }
+             });
+            }
+            else{
+                res.status(404).send(JSON.stringify({
+                    success: false,
+                    msg: ""
+                }))
+            }
+        }
+    }) 
+ });
 
 router.post('/login', (req, res) => {
     db.participants.find({ email: req.body.email }, function (error, user) {

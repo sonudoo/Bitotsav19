@@ -81,7 +81,7 @@ router.post('/saveparticipant', (req, res) => {
            }))
        }
        else{
-           if(result[0].id == "-1" && otpVerified == true && verified == false){
+           if(result[0].id == "-1" && result[0].otpVerified == true && result[0].verified == false){
             db.counters.find({}, (error, result) => {
                 if (error) {
                     res.status(500).send(JSON.stringify({
@@ -122,7 +122,7 @@ router.post('/saveparticipant', (req, res) => {
                                             pass: 'Bitotsav2018!@'
                                         }
                                     });
-        
+
                                     var mailOptions = {
                                         from: 'Bitotsav Team <webmaster@bitotsav.in>',
                                         to: req.body.email,
@@ -183,10 +183,10 @@ router.post('/saveparticipant', (req, res) => {
                res.status(404).send(JSON.stringify({
                    success: false,
                    msg: ""
-               }))
+               }));
            }
        }
-   }) 
+   });
 });
 
 // Stage 1 of Registration

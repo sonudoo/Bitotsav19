@@ -324,3 +324,5 @@ $('#services button').on("click",function(){
 $('.close-modal').on("click",function(){
     elements.removeClass('active');
 });
+
+

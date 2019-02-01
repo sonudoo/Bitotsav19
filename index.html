@@ -319,7 +319,7 @@
                                                                     <div class="row counters">
 
                                                                         <div class="col-lg-3 col-6 text-center">
-                                                                            <span data-toggle="counter-up">48660</span>
+                                                                            <span data-toggle="counter-up" id="fb-counter"></span>
                                                                             <p>Facebook</p>
                                                                         </div>
 
@@ -877,7 +877,7 @@ Contact Section
         <div class="form">
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>
-            <form action="#" method="post" role="form" class="contactForm">
+            <form role="form" class="contactForm">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
@@ -1002,6 +1002,11 @@ Footer
     <script src="js/gallery.js"></script>
     <script src="js/main.js"></script>
     <script src="contactform/contactform.js"></script>
+    <script>
+        $.get("https://bitotsav.in/api/likes", function(data, status){
+            $("#fb-counter").html(data);
+        });
+    </script>
 </body>
 
 
