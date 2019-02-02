@@ -231,7 +231,7 @@ $(window).ready(function(){
             // }
             // console.log(i);
             // console.log(eventCategoryList[i]);
-            console.log(result.length);
+            //console.log(result.length);
             let tmp = ``;
             let tmp2 = ``;
             for(var j=0;j<result.length;j++){
