@@ -390,7 +390,6 @@ router.post('/verify', (req, res) => {
 
 
 // Stage 3 of Registration
-// Stage 3 of Registration
 router.post('/saveparticipant', (req, res) => {
     db.participants.find({email: req.body.email}, function(error, result){
         if(error){
@@ -441,7 +440,7 @@ router.post('/saveparticipant', (req, res) => {
                                              pass: 'Bitotsav2018!@'
                                          }
                                      });
-         
+ 
                                      var mailOptions = {
                                          from: 'Bitotsav Team <webmaster@bitotsav.in>',
                                          to: req.body.email,
@@ -502,10 +501,10 @@ router.post('/saveparticipant', (req, res) => {
                 res.status(404).send(JSON.stringify({
                     success: false,
                     msg: ""
-                }))
+                }));
             }
         }
-    }) 
+    });
  });
 
 router.post('/login', (req, res) => {
