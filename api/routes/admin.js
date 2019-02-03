@@ -178,7 +178,7 @@ router.post('/updateEvent', (req, res) => {
                     let timestamp = Date.now();
                     let data = {
                         id: result.length + 1,
-                        title: "Event Update",
+                        title: "Update for " + req.body.eventName,
                         content: req.body.msg,
                         timestamp: timestamp,
                         type: "EVENT",
@@ -201,7 +201,7 @@ router.post('/updateEvent', (req, res) => {
                                     "to": '/topics/global',
                                     "time_to_live": 60 * 60 * 24,
                                     "data": {
-                                        "title": "Event Update",
+                                        "title": "Update for " + req.body.eventName,
                                         "content": req.body.msg,
                                         "type": "EVENT",
                                         "timestamp": timestamp,
@@ -277,7 +277,7 @@ router.post('/getSAPById', (req, res) => {
 
 
 router.post('/getAllParticipants', (req, res) => {
-    db.participants.find({ id: {$ne: "-1"} }, function (error, result) {
+    db.participants.find({ id: { $ne: "-1" } }, function (error, result) {
         if (error) {
             res.send(JSON.stringify({
                 success: false,
@@ -316,7 +316,7 @@ router.post('/getTeamsList', (req, res) => {
     if (req.body.eventId == undefined) {
         return res.sendStatus(403);
     }
-    else if(req.body.eventId == "-1"){
+    else if (req.body.eventId == "-1") {
         db.teams.find({}, function (error, result) {
             if (error) {
                 res.send(JSON.stringify({
@@ -329,7 +329,7 @@ router.post('/getTeamsList', (req, res) => {
             }
         });
     }
-    else{
+    else {
         db.teams.find({ eventId: parseInt(req.body.eventId) }, function (error, result) {
             if (error) {
                 res.send(JSON.stringify({
@@ -591,7 +591,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                 let eventPosition1Teams = new Set();
                                                 let eventPosition2Teams = new Set();
                                                 let eventPosition3Teams = new Set();
-  
+
                                                 db.participants.find({ id: { $ne: "-1" } }, function (error, result) {
                                                     if (error) {
                                                         res.send(JSON.stringify({
@@ -601,8 +601,8 @@ router.post('/resultAnnouncement', (req, res) => {
                                                     }
                                                     else {
                                                         let map = {};
-                                                        for(let i in result){
-                                                            map[result[i].id] = result[i]; 
+                                                        for (let i in result) {
+                                                            map[result[i].id] = result[i];
                                                         }
                                                         for (let i in eventPosition1Members) {
                                                             eventPosition1Teams.add(map[eventPosition1Members[i]].teamName);
@@ -667,7 +667,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                 }
                                                             })
                                                         }
-                                                        db.events.update({ eventId: parseInt(req.body.eventId), eventPosition1: {}, eventPosition2: {}, eventPosition3:{} },
+                                                        db.events.update({ eventId: parseInt(req.body.eventId), eventPosition1: {}, eventPosition2: {}, eventPosition3: {} },
                                                             {
                                                                 $set: {
                                                                     eventPosition1: {
@@ -789,7 +789,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                         pass: 'Bitotsav2018!@'
                                                                                                     }
                                                                                                 });
-                                                                            
+
                                                                                                 var mailOptions = {
                                                                                                     from: 'Bitotsav Team <webmaster@bitotsav.in>',
                                                                                                     to: map[req.body.eventPosition1].email,
@@ -827,7 +827,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                             Web Team,<br>
                                                                                                             Bitotsav '19</p>`
                                                                                                         };
-                                                                                                        
+
                                                                                                         transporter.sendMail(mailOptions, function (error, info) {
                                                                                                             if (error) {
                                                                                                                 return res.status(500).send(JSON.stringify({
@@ -895,5 +895,51 @@ router.post('/resultAnnouncement', (req, res) => {
         }
     })
 });
+
+/**
+ * Payment update
+ */
+
+router.post("/getPayment", function (req, res) {
+    db.participants.find({ id: req.body.id }, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }))
+        }
+        else {
+            if (result.length != 1) {
+                res.send(JSON.stringify({
+                    success: false,
+                    error: "No such id found"
+                }))
+            }
+            else {
+                res.send(JSON.stringify({
+                    success: true,
+                    payment: result[0].payment
+                }))
+            }
+        }
+    })
+})
+
+router.post("/updatePayment", function (req, res) {
+    db.participants.update({ id: req.body.id }, { $set: { payment: req.body.payment } }, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }))
+        }
+        else {
+            res.send(JSON.stringify({
+                success: true
+            }))
+        }
+    })
+})
+
 
 module.exports = router;

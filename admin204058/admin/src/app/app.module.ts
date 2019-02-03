@@ -20,6 +20,7 @@ import { SMSComponent } from './sms/sms.component';
 import { ResultAnnouncementComponent } from './result-announcement/result-announcement.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { PMComponent } from './pm/pm.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { PMComponent } from './pm/pm.component';
     SMSComponent,
     ResultAnnouncementComponent,
     AnnouncementComponent,
-    PMComponent
+    PMComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

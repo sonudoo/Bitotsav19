@@ -10,6 +10,7 @@ import { SMSComponent } from '../sms/sms.component';
 import { ResultAnnouncementComponent } from '../result-announcement/result-announcement.component';
 import { AnnouncementComponent } from '../announcement/announcement.component';
 import { PMComponent } from '../pm/pm.component';
+import { PaymentComponent } from '../payment/payment.component';
 const routes: Routes = [
     {
         path: '',
@@ -50,6 +51,10 @@ const routes: Routes = [
     {
         path: 'personalmessage',
         component: PMComponent
+    },
+    {
+        path: 'payment',
+        component: PaymentComponent
     }
 ];
 
