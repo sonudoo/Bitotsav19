@@ -10,7 +10,7 @@ const request = require('request');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const collegeList = require("../collegeList.json");
-
+const fs = require('fs');
 
 /**
  * Event routes
