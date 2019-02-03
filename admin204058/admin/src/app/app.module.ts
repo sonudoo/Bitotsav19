@@ -21,6 +21,7 @@ import { ResultAnnouncementComponent } from './result-announcement/result-announ
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { PMComponent } from './pm/pm.component';
 import { PaymentComponent } from './payment/payment.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PaymentComponent } from './payment/payment.component';
     ResultAnnouncementComponent,
     AnnouncementComponent,
     PMComponent,
-    PaymentComponent
+    PaymentComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

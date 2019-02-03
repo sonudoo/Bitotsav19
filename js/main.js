@@ -304,7 +304,6 @@ $(window).ready(function(){
         })
 
         .fail((err) => {
-            alert('Some error occured.Please try again.');
             location.reload(true);
         });
 
