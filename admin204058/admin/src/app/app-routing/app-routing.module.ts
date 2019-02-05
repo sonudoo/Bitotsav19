@@ -11,6 +11,7 @@ import { ResultAnnouncementComponent } from '../result-announcement/result-annou
 import { AnnouncementComponent } from '../announcement/announcement.component';
 import { PMComponent } from '../pm/pm.component';
 import { PaymentComponent } from '../payment/payment.component';
+import { LogoutComponent } from '../logout/logout.component';
 const routes: Routes = [
     {
         path: '',
@@ -55,6 +56,10 @@ const routes: Routes = [
     {
         path: 'payment',
         component: PaymentComponent
+    },
+    {
+        path: 'logout',
+        component: LogoutComponent
     }
 ];
 

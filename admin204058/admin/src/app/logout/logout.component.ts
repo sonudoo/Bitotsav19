@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+
 
 @Component({
   selector: 'app-logout',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor() { }
+  constructor( @Inject(LOCAL_STORAGE) private storage: StorageService, private router: Router) {}
 
   ngOnInit() {
+    this.storage.remove('token');
+    this.router.navigate(['/']);
   }
 
 }
