@@ -633,7 +633,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                                     msg: "Team Registered Successfully"
                                 }));
                             });
-            
+
                         }
                     });
                 }
@@ -930,5 +930,29 @@ router.post('/championship', checkAuth, (req, res) => {
             });
         }
     });
+});
+
+router.post('/getTeamDetails',checkAuth,(req, res) => {
+    db.championships
+        .find({teamName:req.body.teamName}, function(error,team){
+            console.log(team);
+            if(error){
+                console.log(err);
+                return res.status(500).send(JSON.stringify({
+                    success: false
+                }));
+            }
+            if(team.length<1){
+                return res.status(200).send(JSON.stringify({
+                    success: false,
+                    msg: "No such team."
+                }));
+            }
+            console.log("Team fetched");
+            return res.status(200).send(JSON.stringify({
+                success: true,
+                teamData: team[0]
+            }));
+        });
 });
 module.exports = router;

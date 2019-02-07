@@ -81,7 +81,7 @@ router.get('/getAllBCTeams', function (req, res) {
                 }
                 else {
                     let map = {};
-                    for(let i in result2){
+                    for (let i in result2) {
                         map[result2[i].id] = result2[i];
                     }
                     let result = [];
@@ -104,13 +104,13 @@ router.get('/getAllBCTeams', function (req, res) {
 
 
 router.post('/getBCTeamByName', function (req, res) {
-    if(req.body.teamName == undefined){
+    if (req.body.teamName == undefined) {
         return res.status(403).send(JSON.stringify({
             success: false,
             msg: "teamName is required"
         }))
     }
-    db.championships.find({teamName: req.body.teamName}, function (error, result1) {
+    db.championships.find({ teamName: req.body.teamName }, function (error, result1) {
         if (error) {
             res.status(502).send(JSON.stringify({
                 success: false,
@@ -118,13 +118,13 @@ router.post('/getBCTeamByName', function (req, res) {
             }));
         }
         else {
-            if(result1.length != 1){
+            if (result1.length != 1) {
                 res.status(404).send(JSON.stringify({
                     success: false,
                     msg: "Team not found"
                 }))
             }
-            else{
+            else {
                 db.participants.find({ id: { $ne: "-1" } }, function (error, result2) {
                     if (error) {
                         res.status(502).send(JSON.stringify({
@@ -134,7 +134,7 @@ router.post('/getBCTeamByName', function (req, res) {
                     }
                     else {
                         let map = {};
-                        for(let i in result2){
+                        for (let i in result2) {
                             map[result2[i].id] = result2[i];
                         }
                         let result = [];
@@ -391,62 +391,62 @@ router.post('/verify', (req, res) => {
 
 // Stage 3 of Registration
 router.post('/saveparticipant', (req, res) => {
-    db.participants.find({email: req.body.email}, function(error, result){
-        if(error){
+    db.participants.find({ email: req.body.email }, function (error, result) {
+        if (error) {
             res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured."
             }))
         }
-        else{
-            if(result[0].id == "-1" && result[0].otpVerified == true && result[0].verified == false){
-             db.counters.find({}, (error, result) => {
-                 if (error) {
-                     res.status(500).send(JSON.stringify({
-                         success: false,
-                         msg: "An unknown error occured"
-                     }));
-                 } else {
-                     const bitId = "BT19/" + result[0].counter;
-                     const updatedUserInfo = {
-                         id: "BT19/" + result[0].counter,
-                         gender : req.body.gender,
-                         college: req.body.college,
-                         rollno: req.body.rollno,
-                         source: req.body.source,
-                         year: req.body.year
-                     }
-                     db.counters.update({}, { $set : { counter : parseInt(result[0].counter + 1) } }, function (error, result) {
-                         if (error) {
-                             res.status(500).send(JSON.stringify({
-                                 success: false,
-                                 msg: "An unknown error occured"
-                             }));
-                         }
-                         else {
-                             db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
-                                 if (error) {
-                                     res.status(500).send(JSON.stringify({
-                                         success: false,
-                                         msg: "An unknown error occured"
-                                     }));
-                                 }
-                                 else {
-                                     //sending confirmation email
-                                     var transporter = nodemailer.createTransport({
-                                         service: 'gmail',
-                                         auth: {
-                                             user: 'webmaster@bitotsav.in',
-                                             pass: 'Bitotsav2018!@'
-                                         }
-                                     });
- 
-                                     var mailOptions = {
-                                         from: 'Bitotsav Team <webmaster@bitotsav.in>',
-                                         to: req.body.email,
-                                         subject: "Bitotsav'19 Registration",
-                                         text: '',
-                                         html: `
+        else {
+            if (result[0].id == "-1" && result[0].otpVerified == true && result[0].verified == false) {
+                db.counters.find({}, (error, result) => {
+                    if (error) {
+                        res.status(500).send(JSON.stringify({
+                            success: false,
+                            msg: "An unknown error occured"
+                        }));
+                    } else {
+                        const bitId = "BT19/" + result[0].counter;
+                        const updatedUserInfo = {
+                            id: "BT19/" + result[0].counter,
+                            gender: req.body.gender,
+                            college: req.body.college,
+                            rollno: req.body.rollno,
+                            source: req.body.source,
+                            year: req.body.year
+                        }
+                        db.counters.update({}, { $set: { counter: parseInt(result[0].counter + 1) } }, function (error, result) {
+                            if (error) {
+                                res.status(500).send(JSON.stringify({
+                                    success: false,
+                                    msg: "An unknown error occured"
+                                }));
+                            }
+                            else {
+                                db.participants.update({ email: req.body.email }, { $set: updatedUserInfo }, function (error, result) {
+                                    if (error) {
+                                        res.status(500).send(JSON.stringify({
+                                            success: false,
+                                            msg: "An unknown error occured"
+                                        }));
+                                    }
+                                    else {
+                                        //sending confirmation email
+                                        var transporter = nodemailer.createTransport({
+                                            service: 'gmail',
+                                            auth: {
+                                                user: 'webmaster@bitotsav.in',
+                                                pass: 'Bitotsav2018!@'
+                                            }
+                                        });
+
+                                        var mailOptions = {
+                                            from: 'Bitotsav Team <webmaster@bitotsav.in>',
+                                            to: req.body.email,
+                                            subject: "Bitotsav'19 Registration",
+                                            text: '',
+                                            html: `
                                          <h2 align="center">Bitotsav</h2>
                                          <p>
                                          Hi,<br><br>
@@ -458,46 +458,46 @@ router.post('/saveparticipant', (req, res) => {
                                          Regards,<br>
                                          Web Team,<br>
                                          Bitotsav '19</p>`
-                                     };
-                                     transporter.sendMail(mailOptions, function (error, info) {
-                                         if (error) {
-                                             console.log(error);
-                                             return res.status(500).send(JSON.stringify({
-                                                 success: false,
-                                                 msg: `Error sending Conformation Email. Please try again later`
-                                             }));
-                                         } else {
-                                             console.log('Confirmation Email sent: ' + info.response);
-                                             fs.readFile('collegeList.json', 'utf8', function readFileCallback(err, data){
-                                                 if (err){
-                                                     console.log(err);
-                                                 } else {
-                                                     obj = JSON.parse(data); //now it an object
-                                                     if(!obj.colleges.includes(req.body.college)){
-                                                         obj.colleges.push(req.body.college); //add some data
-                                                     }
-                                                     json = JSON.stringify(obj); //convert it back to json
-                                                     fs.writeFile('collegeList.json', json, 'utf8', function (err) {
-                                                         if (err) console.log(err);
-                                                         console.log('College File Updated!');
-                                                     }); // write it back
-                                                 }
-                                             });
-                                             return res.status(200).send(JSON.stringify({
-                                                 success: true,
-                                                 msg: "You are registered successfully",
-                                                 data: bitId
-                                             }));
-                                         }
-                                     });
-                                 }
-                             });
-                         }
-                     });
-                 }
-             });
+                                        };
+                                        transporter.sendMail(mailOptions, function (error, info) {
+                                            if (error) {
+                                                console.log(error);
+                                                return res.status(500).send(JSON.stringify({
+                                                    success: false,
+                                                    msg: `Error sending Conformation Email. Please try again later`
+                                                }));
+                                            } else {
+                                                console.log('Confirmation Email sent: ' + info.response);
+                                                fs.readFile('collegeList.json', 'utf8', function readFileCallback(err, data) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    } else {
+                                                        obj = JSON.parse(data); //now it an object
+                                                        if (!obj.colleges.includes(req.body.college)) {
+                                                            obj.colleges.push(req.body.college); //add some data
+                                                        }
+                                                        json = JSON.stringify(obj); //convert it back to json
+                                                        fs.writeFile('collegeList.json', json, 'utf8', function (err) {
+                                                            if (err) console.log(err);
+                                                            console.log('College File Updated!');
+                                                        }); // write it back
+                                                    }
+                                                });
+                                                return res.status(200).send(JSON.stringify({
+                                                    success: true,
+                                                    msg: "You are registered successfully",
+                                                    data: bitId
+                                                }));
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
-            else{
+            else {
                 res.status(404).send(JSON.stringify({
                     success: false,
                     msg: ""
@@ -505,7 +505,7 @@ router.post('/saveparticipant', (req, res) => {
             }
         }
     });
- });
+});
 
 router.post('/login', (req, res) => {
     db.participants.find({ email: req.body.email }, function (error, user) {
@@ -598,29 +598,29 @@ router.get('/getParticipantDetails', checkAuth, (req, res) => {
             }));
         }
         else {
-            if(user[0].teamName != "-1"){
-                db.championships.find({teamName: user[0].teamName}, function(error, result){
-                    if(error){
+            if (user[0].teamName != "-1") {
+                db.championships.find({ teamName: user[0].teamName }, function (error, result) {
+                    if (error) {
                         res.status(502).send(JSON.stringify({
                             success: false,
                             msg: "Database fetch error occured"
                         }))
                     }
-                    else{
-                        db.participants.find({}, function(error, result2){
-                            if(error){
+                    else {
+                        db.participants.find({}, function (error, result2) {
+                            if (error) {
                                 res.status(502).send(JSON.stringify({
                                     success: false,
                                     msg: "Database fetch error occured"
                                 }))
                             }
-                            else{
+                            else {
                                 let map = {};
-                                for(let i in result2){
+                                for (let i in result2) {
                                     map[result2[i].id] = result2[i];
                                 }
                                 let teamMembers = [];
-                                for(let j in result[0].teamMembers){
+                                for (let j in result[0].teamMembers) {
                                     teamMembers.push({
                                         name: map[result[0].teamMembers[j].memberId].name,
                                         email: map[result[0].teamMembers[j].memberId].email,
@@ -643,11 +643,11 @@ router.get('/getParticipantDetails', checkAuth, (req, res) => {
                                 }));
                             }
                         })
-                        
+
                     }
                 })
             }
-            else{
+            else {
                 res.status(200).send(JSON.stringify({
                     email: user[0].email,
                     name: user[0].name,
@@ -699,7 +699,7 @@ router.post('/getTeamDetails', function (req, res) {
                         }
                         else {
                             let map = {};
-                            for(let i in result2){
+                            for (let i in result2) {
                                 map[result2[i].id] = result2[i];
                             }
                             result1 = result1[0];
@@ -723,166 +723,186 @@ router.post('/getTeamDetails', function (req, res) {
 
 router.post('/eventRegistration', checkAuth, (req, res) => {
 
-    const memberArr = JSON.parse(req.body.members);
-    db.participants.find({email: req.userData.email}, function(error, result){
-        if(error){
+    db.events.find({ eventId: parseInt(req.body.eventId), eventStatus: "Scheduled" }, function (error, result) {
+        if (error) {
             res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured"
             }));
         }
-        else{
-            if(result.length != 1){
-                res.status(403).send(JSON.stringify({
+        else {
+            if (result.length != 1) {
+                return res.status(408).send(JSON.stringify({
                     success: false,
-                    msg: "Payload modified"
-                }));
+                    msg: "No such event exists or registration has been closed for the event."
+                }))
             }
-            else{
-                for(let i in result[0].events){
-                    if(result[0].events[i].eventId == parseInt(req.body.eventId)){
-                        return res.status(409).send(JSON.stringify({
+            else {
+                const memberArr = JSON.parse(req.body.members);
+                db.participants.find({ email: req.userData.email }, function (error, result) {
+                    if (error) {
+                        res.status(502).send(JSON.stringify({
                             success: false,
-                            msg: "Team leader is already registered for this event"
-                        }))
+                            msg: "Database fetch error occured"
+                        }));
                     }
-                }
-                if(memberArr.length == 0){
-                    db.participants.update({ email : req.userData.email }, {
-                        $push : {
-                            events: {
-                                "eventId" : parseInt(req.body.eventId),
-                                "teamLeader" : req.body.leaderId
-                            }
-                        }
-                    }, (error, result) => {
-                        if(error) {
-                            res.status(502).send(JSON.stringify({
+                    else {
+                        if (result.length != 1) {
+                            res.status(403).send(JSON.stringify({
                                 success: false,
-                                msg: "Some error occurred"
+                                msg: "Payload modified"
                             }));
-                        } else {
-                            const newTeam = {
-                                eventId: parseInt(req.body.eventId),
-                                teamLeaderId: req.body.leaderId,
-                                teamMembers: []
-                            }
-                            db.teams
-                            .insert(newTeam, function (error, result) {
-                                if (error) {
-                                    return res.status(502).send(JSON.stringify({
+                        }
+                        else {
+                            for (let i in result[0].events) {
+                                if (result[0].events[i].eventId == parseInt(req.body.eventId)) {
+                                    return res.status(409).send(JSON.stringify({
                                         success: false,
-                                        msg: "An unknown error occurred."
-                                    }));
+                                        msg: "Team leader is already registered for this event"
+                                    }))
                                 }
-                                res.status(200).send(JSON.stringify({
-                                    success: true,
-                                    msg: "Team Registered Successfully"
-                                }));
-                            });
-            
-                        }
-                    });
-                }
-                let validatedMembers = 0;
-                for(let j=0;j<memberArr.length;j++){
-                    db.participants.find({email : memberArr[j].memberEmail}, (error, result) => {
-                        if (error) {
-                            res.status(502).send(JSON.stringify({
-                                success: false,
-                                msg: "Some Error Occured!!"
-                            }));
-                        } else {
-                            if(result.length<1){
-                                res.status(404).send(JSON.stringify({
-                                    success: false,
-                                    msg: `Email ${memberArr[j].memberEmail} has not registered.`
-                                }));
                             }
-                            else if(result[0].id !== memberArr[j].memberId ){
-                                res.status(404).send(JSON.stringify({
-                                    success: false,
-                                    msg: "Incorrect Bitotsav ID"
-                                }));
-                            } else {
-                                for(let k=0;k<result[0].events.length;k++){
-                                    if(result[0].events[k].eventId == req.body.eventId){
-                                        return res.status(409).send(JSON.stringify({
-                                            success: false,
-                                            msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
-                                        }));
-                                    }
-                                }
-                                validatedMembers = validatedMembers + 1;
-                                if(validatedMembers == memberArr.length){
-                                    db.participants.update({email: req.body.leaderEmail}, {
-                                        $push : {
-                                            events :  {
-                                                "eventId" : parseInt(req.body.eventId),
-                                                "teamLeader" : req.body.leaderId
-                                            }
+                            if (memberArr.length == 0) {
+                                db.participants.update({ email: req.userData.email }, {
+                                    $push: {
+                                        events: {
+                                            "eventId": parseInt(req.body.eventId),
+                                            "teamLeader": req.body.leaderId
                                         }
-                                    }, (error, result) => {
-                                        if (error) {
-                                            res.status(502).send(JSON.stringify({
+                                    }
+                                }, (error, result) => {
+                                    if (error) {
+                                        res.status(502).send(JSON.stringify({
+                                            success: false,
+                                            msg: "Some error occurred"
+                                        }));
+                                    } else {
+                                        const newTeam = {
+                                            eventId: parseInt(req.body.eventId),
+                                            teamLeaderId: req.body.leaderId,
+                                            teamMembers: []
+                                        }
+                                        db.teams
+                                            .insert(newTeam, function (error, result) {
+                                                if (error) {
+                                                    return res.status(502).send(JSON.stringify({
+                                                        success: false,
+                                                        msg: "An unknown error occurred."
+                                                    }));
+                                                }
+                                                res.status(200).send(JSON.stringify({
+                                                    success: true,
+                                                    msg: "Team Registered Successfully"
+                                                }));
+                                            });
+
+                                    }
+                                });
+                            }
+                            let validatedMembers = 0;
+                            for (let j = 0; j < memberArr.length; j++) {
+                                db.participants.find({ email: memberArr[j].memberEmail }, (error, result) => {
+                                    if (error) {
+                                        res.status(502).send(JSON.stringify({
+                                            success: false,
+                                            msg: "Some Error Occured!!"
+                                        }));
+                                    } else {
+                                        if (result.length < 1) {
+                                            res.status(404).send(JSON.stringify({
                                                 success: false,
-                                                msg: "Some error occurred"
+                                                msg: `Email ${memberArr[j].memberEmail} has not registered.`
+                                            }));
+                                        }
+                                        else if (result[0].id !== memberArr[j].memberId) {
+                                            res.status(404).send(JSON.stringify({
+                                                success: false,
+                                                msg: "Incorrect Bitotsav ID"
                                             }));
                                         } else {
-                                            console.log('Team Leader registered');
-                                            // update for all the members
-                                            let updatedMembers = 0;
-                                            for(let i=0;i<memberArr.length;i++){
-                                                db.participants.update({ email : memberArr[i].memberEmail }, {
-                                                    $push : {
+                                            for (let k = 0; k < result[0].events.length; k++) {
+                                                if (result[0].events[k].eventId == req.body.eventId) {
+                                                    return res.status(409).send(JSON.stringify({
+                                                        success: false,
+                                                        msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
+                                                    }));
+                                                }
+                                            }
+                                            validatedMembers = validatedMembers + 1;
+                                            if (validatedMembers == memberArr.length) {
+                                                db.participants.update({ email: req.userData.email }, {
+                                                    $push: {
                                                         events: {
-                                                            "eventId" : parseInt(req.body.eventId),
-                                                            "teamLeader" : req.body.leaderId
+                                                            "eventId": parseInt(req.body.eventId),
+                                                            "teamLeader": req.body.leaderId
                                                         }
                                                     }
                                                 }, (error, result) => {
-                                                    if(error) {
+                                                    if (error) {
                                                         res.status(502).send(JSON.stringify({
                                                             success: false,
                                                             msg: "Some error occurred"
                                                         }));
                                                     } else {
-                                                        updatedMembers = updatedMembers + 1;
-                                                        if(updatedMembers == memberArr.length){
-                                                            const teamM = memberArr.map(member => member.memberId);
-                                                            const newTeam = {
-                                                                eventId: parseInt(req.body.eventId),
-                                                                teamLeaderId: req.body.leaderId,
-                                                                teamMembers: teamM
-                                                            }
-                                                            db.teams
-                                                            .insert(newTeam, function (error, result) {
-                                                                if (error) {
-                                                                    return res.status(502).send(JSON.stringify({
-                                                                        success: false,
-                                                                        msg: "An unknown error occurred."
-                                                                    }));
+                                                        console.log('Team Leader registered');
+                                                        // update for all the members
+                                                        let updatedMembers = 0;
+                                                        for (let i = 0; i < memberArr.length; i++) {
+                                                            db.participants.update({ email: memberArr[i].memberEmail }, {
+                                                                $push: {
+                                                                    events: {
+                                                                        "eventId": parseInt(req.body.eventId),
+                                                                        "teamLeader": req.body.leaderId
+                                                                    }
                                                                 }
-                                                                res.status(200).send(JSON.stringify({
-                                                                    success: true,
-                                                                    msg: "Team Registered Successfully"
-                                                                }));
+                                                            }, (error, result) => {
+                                                                if (error) {
+                                                                    res.status(502).send(JSON.stringify({
+                                                                        success: false,
+                                                                        msg: "Some error occurred"
+                                                                    }));
+                                                                } else {
+                                                                    updatedMembers = updatedMembers + 1;
+                                                                    if (updatedMembers == memberArr.length) {
+                                                                        const teamM = memberArr.map(member => member.memberId);
+                                                                        const newTeam = {
+                                                                            eventId: parseInt(req.body.eventId),
+                                                                            teamLeaderId: req.body.leaderId,
+                                                                            teamMembers: teamM
+                                                                        }
+                                                                        db.teams
+                                                                            .insert(newTeam, function (error, result) {
+                                                                                if (error) {
+                                                                                    return res.status(502).send(JSON.stringify({
+                                                                                        success: false,
+                                                                                        msg: "An unknown error occurred."
+                                                                                    }));
+                                                                                }
+                                                                                res.status(200).send(JSON.stringify({
+                                                                                    success: true,
+                                                                                    msg: "Team Registered Successfully"
+                                                                                }));
+                                                                            });
+                                                                    }
+                                                                }
                                                             });
                                                         }
                                                     }
                                                 });
                                             }
                                         }
-                                    });
-                                }
+                                    }
+                                });
                             }
-                        }
-                    });
-                }
 
+                        }
+                    }
+                })
             }
         }
     })
+
+
 });
 
 // Event De-Registration
@@ -890,93 +910,111 @@ router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
     let bitotsavID = "BT19/" + req.params.bitId;
     let eventID = parseInt(req.params.eventId);
     let countMembers = 0;
-    db.participants
-        .update({
-            email: req.userData.email,
-            events: {
-                $elemMatch: {
-                    eventId: eventID,
-                    teamLeader: bitotsavID
-                }
+    db.events.find({ eventId: parseInt(req.params.eventId), eventStatus: "Scheduled" }, function (error, result) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured"
+            }));
+        }
+        else {
+            if (result.length != 1) {
+                return res.status(408).send(JSON.stringify({
+                    success: false,
+                    msg: "No such event exists or registration has been locked for the event."
+                }))
             }
-        }, {
-                $pull: { events: { eventId: eventID } }
-            }, function (error, result) {
-                if (error) {
-                    res.status(502).send(JSON.stringify({
-                        success: false
-                    }));
-                }
-                db.teams
-                    .find({
-                        eventId: eventID,
-                        teamLeaderId: bitotsavID
-                    }, function (err, team) {
-                        if (err) {
-                            res.status(502).send(JSON.stringify({
-                                success: false
-                            }));
-                        }
-                        if (team.length < 1) {
-                            res.status(403).send(JSON.stringify({
-                                success: false,
-                                msg: "You are not registered in this event or you are not the Team Leader."
-                            }));
-                        }
-                        else {
-                            if (team[0].teamMembers.length == 0) {
-                                db.teams
-                                    .remove({
-                                        eventId: eventID,
-                                        teamLeaderId: bitotsavID
-                                    }, function (err, result) {
-                                        if (err) {
-                                            return res.status(502).send(JSON.stringify({
-                                                success: false
-                                            }));
-                                        }
-                                        return res.status(200).send(JSON.stringify({
-                                            success: true,
-                                            msg: 'Team De-Registered successfully'
-                                        }));
-                                    });
+            else {
+                db.participants
+                    .update({
+                        email: req.userData.email,
+                        events: {
+                            $elemMatch: {
+                                eventId: eventID,
+                                teamLeader: bitotsavID
                             }
-                            for (let i = 0; i < team[0].teamMembers.length; i++) {
-                                const memberId = team[0].teamMembers[i];
-                                db.participants
-                                    .update({
-                                        id: memberId
-                                    }, {
-                                            $pull: { events: { eventId: eventID } }
-                                        }, function (error, result) {
-                                            if (error) {
-                                                return res.status(502).send(JSON.stringify({
-                                                    success: false
-                                                }));
-                                            }
-                                            countMembers = countMembers + 1;
-                                            if (countMembers == team[0].teamMembers.length) {
-                                                db.teams
-                                                    .remove({
-                                                        eventId: eventID,
-                                                        teamLeaderId: bitotsavID
-                                                    }, function (err, result) {
-                                                        if (err) {
+                        }
+                    }, {
+                            $pull: { events: { eventId: eventID } }
+                        }, function (error, result) {
+                            if (error) {
+                                res.status(502).send(JSON.stringify({
+                                    success: false
+                                }));
+                            }
+                            db.teams
+                                .find({
+                                    eventId: eventID,
+                                    teamLeaderId: bitotsavID
+                                }, function (err, team) {
+                                    if (err) {
+                                        res.status(502).send(JSON.stringify({
+                                            success: false
+                                        }));
+                                    }
+                                    if (team.length < 1) {
+                                        res.status(403).send(JSON.stringify({
+                                            success: false,
+                                            msg: "You are not registered in this event or you are not the Team Leader."
+                                        }));
+                                    }
+                                    else {
+                                        if (team[0].teamMembers.length == 0) {
+                                            db.teams
+                                                .remove({
+                                                    eventId: eventID,
+                                                    teamLeaderId: bitotsavID
+                                                }, function (err, result) {
+                                                    if (err) {
+                                                        return res.status(502).send(JSON.stringify({
+                                                            success: false
+                                                        }));
+                                                    }
+                                                    return res.status(200).send(JSON.stringify({
+                                                        success: true,
+                                                        msg: 'Team De-Registered successfully'
+                                                    }));
+                                                });
+                                        }
+                                        for (let i = 0; i < team[0].teamMembers.length; i++) {
+                                            const memberId = team[0].teamMembers[i];
+                                            db.participants
+                                                .update({
+                                                    id: memberId
+                                                }, {
+                                                        $pull: { events: { eventId: eventID } }
+                                                    }, function (error, result) {
+                                                        if (error) {
                                                             return res.status(502).send(JSON.stringify({
                                                                 success: false
                                                             }));
                                                         }
-                                                        res.status(200).send(JSON.stringify({
-                                                            success: true,
-                                                            msg: 'Team De-Registered successfully'
-                                                        }));
+                                                        countMembers = countMembers + 1;
+                                                        if (countMembers == team[0].teamMembers.length) {
+                                                            db.teams
+                                                                .remove({
+                                                                    eventId: eventID,
+                                                                    teamLeaderId: bitotsavID
+                                                                }, function (err, result) {
+                                                                    if (err) {
+                                                                        return res.status(502).send(JSON.stringify({
+                                                                            success: false
+                                                                        }));
+                                                                    }
+                                                                    res.status(200).send(JSON.stringify({
+                                                                        success: true,
+                                                                        msg: 'Team De-Registered successfully'
+                                                                    }));
+                                                                });
+                                                        }
                                                     });
-                                            }
-                                        });
-                            }
-                        }
-                    });
-            });
+                                        }
+                                    }
+                                });
+                        });
+            }
+        }
+    });
 });
 
 //Bitotsav Championship registration
@@ -984,7 +1022,7 @@ router.post('/championship', checkAuth, (req, res) => {
     let memberCheck = 0;
     let memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
-    if(memberArr.length == 0){
+    if (memberArr.length == 0) {
         return res.status(403).send(JSON.stringify({
             success: false,
             msg: "No members sent"
@@ -1080,51 +1118,51 @@ router.post('/championship', checkAuth, (req, res) => {
 });
 
 router.post('/addStarEvent', checkAuth, (req, res) => {
-    if(req.body.eventId == undefined){
+    if (req.body.eventId == undefined) {
         res.status(403).send(JSON.stringify({
             success: false,
             msg: "eventId is required"
         }))
     }
-    else{
-        db.participants.find({id: req.userData.id}, function(error, result){
-            if(error){
+    else {
+        db.participants.find({ id: req.userData.id }, function (error, result) {
+            if (error) {
                 res.status(502).send(JSON.stringify({
                     success: false,
                     msg: "Database fetch error occurred"
                 }));
             }
-            else{
-                if(result.length != 1){
+            else {
+                if (result.length != 1) {
                     res.status(403).send(JSON.stringify({
                         success: false,
                         msg: "Unauthorized"
                     }))
                 }
-                else{
+                else {
                     result = result[0];
-                    if(result.starred == undefined){
+                    if (result.starred == undefined) {
                         result.starred = [req.body.eventId];
                     }
-                    else{
+                    else {
                         if (result.starred.indexOf(req.body.eventId) > -1) {
                             return res.status(409).send(JSON.stringify({
                                 success: false,
                                 msg: "Event is already starred"
                             }));
                         }
-                        else{  
+                        else {
                             result.starred.push(req.body.eventId);
                         }
                     }
-                    db.participants.update({id: req.userData.id}, result, function(error, updateResult){
-                        if(error){
+                    db.participants.update({ id: req.userData.id }, result, function (error, updateResult) {
+                        if (error) {
                             res.status(502).send(JSON.stringify({
                                 success: false,
                                 msg: "Database fetch error occured"
                             }))
                         }
-                        else{
+                        else {
                             res.status(200).send(JSON.stringify({
                                 success: true
                             }))
@@ -1137,54 +1175,54 @@ router.post('/addStarEvent', checkAuth, (req, res) => {
 })
 
 router.post('/removeStarEvent', checkAuth, (req, res) => {
-    if(req.body.eventId == undefined){
+    if (req.body.eventId == undefined) {
         res.status(403).send(JSON.stringify({
             success: false,
             msg: "eventId is required"
         }))
     }
-    else{
-        db.participants.find({id: req.userData.id}, function(error, result){
-            if(error){
+    else {
+        db.participants.find({ id: req.userData.id }, function (error, result) {
+            if (error) {
                 res.status(502).send(JSON.stringify({
                     success: false,
                     msg: "Database fetch error occurred"
                 }));
             }
-            else{
-                if(result.length != 1){
+            else {
+                if (result.length != 1) {
                     res.status(403).send(JSON.stringify({
                         success: false,
                         msg: "Unauthorized"
                     }))
                 }
-                else{
+                else {
                     result = result[0];
-                    if(result.starred == undefined){
+                    if (result.starred == undefined) {
                         res.status(404).send(JSON.stringify({
                             success: false,
                             msg: "The event was not found in starred events"
                         }))
                     }
-                    else{
+                    else {
                         let idx = result.starred.indexOf(req.body.eventId);
                         if (idx > -1) {
                             result.starred.splice(idx, 1);
-                            db.participants.update({id: req.userData.id}, result, function(error, updateResult){
-                                if(error){
+                            db.participants.update({ id: req.userData.id }, result, function (error, updateResult) {
+                                if (error) {
                                     res.status(502).send(JSON.stringify({
                                         success: false,
                                         msg: "Database fetch error occured"
                                     }))
                                 }
-                                else{
+                                else {
                                     res.status(200).send(JSON.stringify({
                                         success: true
                                     }))
                                 }
                             })
                         }
-                        else{  
+                        else {
                             res.status(404).send(JSON.stringify({
                                 success: false,
                                 msg: "The event was not found in starred events"

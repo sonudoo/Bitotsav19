@@ -1,6 +1,6 @@
 // GET request for Profile Page
 var requrl = "https://bitotsav.in";
-var userbitId,userbitCollege,userbitEmail;
+var userbitId,userbitCollege,userbitEmail,userTeam;
 $.ajax({
     url: requrl+"/api/participants/dashboard",
     type: 'GET',
@@ -26,6 +26,7 @@ $.ajax({
         $("#year").text(res.data.year);
         $("#emailT1").val(res.data.email);
         $("#bitotsavIdT1").val(res.data.id);
+        userTeam = res.data.teamName;
         var gender=res.data.gender.toLowerCase();
         if(gender==="female") {
             $("#gender").attr("src","img/woman.png");
@@ -34,6 +35,54 @@ $.ajax({
         userbitCollege=res.data.college;
         userbitEmail=res.data.email;
         prepareEventTable(res.data.id,res.data.events);
+        if(userTeam != "-1"){
+            $.ajax({
+                url: requrl+"/api/participants/getTeamDetails/",
+                type: 'POST',
+                headers: {
+                    token: localStorage.getItem('token')
+                },
+                data:{
+                    teamName:userTeam
+                },
+                success: function(res) {
+                    res = JSON.parse(res);
+                    let teamDetails =`<table class="table table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">Team Name - ${res.teamData.teamName}</th>
+                        <th scope="col">Team Points - ${res.teamData.teamPoints}</th>
+                        <th scope="col">Team Leader - ${res.teamData.teamLeader}</th>
+                      </tr>
+                    </thead>
+                    </table>
+                    <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Member</th>
+              <th scope="col">Email Id</th>
+              <th scope="col">Bitotsav Id</th>
+            </tr>
+          </thead>
+          <tbody>`;
+                    for(let i=0;i<res.teamData.teamMembers.length;i++){
+                        teamDetails+=`<tr>
+                          <th scope="row">${i+1}</th>
+                          <td>${res.teamData.teamMembers[i].memberEmail}</td>
+                          <td>${res.teamData.teamMembers[i].memberId}</td>
+                        </tr>`
+                    }
+                    teamDetails+=`</tbody></table>`;
+                    $('#team-reg').html(teamDetails);
+
+                },
+                error: function(){
+                    alert("Error! Please login");
+                    window.location.href="registration.html";
+                    return;
+                }
+            });
+        }
     },
     error: function(){
         alert("Error! Please login");

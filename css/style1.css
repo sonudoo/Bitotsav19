@@ -602,43 +602,43 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #f7f7f7;
 }
 
-/* Featured Services Section
+/* Featured flagship Section
 --------------------------------*/
 
-#featured-services {
+#featured-flagship {
   background: #000;
 }
 
-#featured-services .box {
+#featured-flagship .box {
   padding: 30px 20px;
 }
 
-#featured-services .box-bg {
+#featured-flagship .box-bg {
   background-image: linear-gradient(0deg, #000000 0%, #242323 50%, #000000 100%);
 }
 
-#featured-services i {
+#featured-flagship i {
   color: #18d26e;
   font-size: 48px;
   display: inline-block;
   line-height: 1;
 }
 
-#featured-services h4 {
+#featured-flagship h4 {
   font-weight: 400;
   margin: 15px 0;
   font-size: 18px;
 }
 
-#featured-services h4 a {
+#featured-flagship h4 a {
   color: #fff;
 }
 
-#featured-services h4 a:hover {
+#featured-flagship h4 a:hover {
   color: #18d26e;
 }
 
-#featured-services p {
+#featured-flagship p {
   font-size: 14px;
   line-height: 24px;
   color: #fff;
@@ -746,59 +746,59 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding: 0 20px 20px 20px;
 }
 
-/* Services Section
+/* flagship Section
 --------------------------------*/
 
-#services {
+#flagship {
   background: #fff;
   background-size: cover;
   padding: 60px 0 40px 0;
 }
 
-#services .box {
+#flagship .box {
   margin-bottom: 30px;
 }
 
-#services .box:hover{
+#flagship .box:hover{
     border-radius: 10px;
     box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
     cursor: pointer;
     transition: 0.5s;
 }
 
-#services .box:hover .card {
+#flagship .box:hover .card {
     outline:none;
     border: none;
     transition: 0.5s;
 }
 
-#services .icon {
+#flagship .icon {
   float: left;
 }
 
-#services .icon i {
+#flagship .icon i {
   color: #18d26e;
   font-size: 36px;
   line-height: 1;
   transition: 0.5s;
 }
 
-#services .title {
+#flagship .title {
   margin-left: 60px;
   font-weight: 700;
   margin-bottom: 15px;
   font-size: 18px;
 }
 
-#services .title:hover {
+#flagship .title:hover {
     color: #18d26e;
 }
 
-#services .card {
+#flagship .card {
     width: 100% !important;
 }
 
-#services .description {
+#flagship .description {
   font-size: 14px;
   margin-left: 60px;
   line-height: 24px;
@@ -808,23 +808,23 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* Call To Action Section
 --------------------------------*/
 
-#call-to-action {
+#knowmore {
   background: linear-gradient(rgba(0, 142, 99, 0.1), rgba(0, 0, 0, 0.1)), url(../img/know_more.jpg) fixed center center;
   background-size: cover;
   padding: 60px 0;
 }
 
-#call-to-action h3 {
+#knowmore h3 {
   color: #fff;
   font-size: 28px;
   font-weight: 700;
 }
 
-#call-to-action p {
+#knowmore p {
   color: #fff;
 }
 
-#call-to-action .cta-btn {
+#knowmore .cta-btn {
   font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
@@ -839,7 +839,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #fff;
 }
 
-#call-to-action .cta-btn:hover {
+#knowmore .cta-btn:hover {
   background: #18d26e;
   border: 2px solid #18d26e;
 }
@@ -923,21 +923,21 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding-top: 30px;
 }
 
-/* Portfolio Section
+/* events Section
 --------------------------------*/
 
-#portfolio {
+#events {
   padding: 60px 0;
 }
 
-#portfolio #portfolio-flters {
+#events #events-flters {
   padding: 0;
   margin: 5px 0 35px 0;
   list-style: none;
   text-align: center;
 }
 
-#portfolio #portfolio-flters li {
+#events #events-flters li {
   cursor: pointer;
   margin: 15px 15px 15px 0;
   display: inline-block;
@@ -952,32 +952,32 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: all 0.3s ease-in-out;
 }
 
-#portfolio #portfolio-flters li:hover,
-#portfolio #portfolio-flters li.filter-active {
+#events #events-flters li:hover,
+#events #events-flters li.filter-active {
   background: #18d26e;
   color: #fff;
 }
 
-#portfolio #portfolio-flters li:last-child {
+#events #events-flters li:last-child {
   margin-right: 0;
 }
 
-#portfolio .portfolio-wrap {
+#events .events-wrap {
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
   transition: 0.3s;
 }
 
-#portfolio .portfolio-wrap:hover {
+#events .events-wrap:hover {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.16);
 }
 
-#portfolio .portfolio-item {
+#events .events-item {
   position: relative;
   height: 360px;
   overflow: hidden;
 }
 
-#portfolio .portfolio-item figure {
+#events .events-item figure {
   background: #000;
   overflow: hidden;
   height: 240px;
@@ -986,13 +986,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin: 0;
 }
 
-#portfolio .portfolio-item figure:hover img {
+#events .events-item figure:hover img {
   opacity: 0.4;
   transition: 0.3s;
 }
 
-#portfolio .portfolio-item figure .link-preview,
-#portfolio .portfolio-item figure .link-details {
+#events .events-item figure .link-preview,
+#events .events-item figure .link-details {
   position: absolute;
   display: inline-block;
   opacity: 0;
@@ -1005,44 +1005,44 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: 0.2s linear;
 }
 
-#portfolio .portfolio-item figure .link-preview i,
-#portfolio .portfolio-item figure .link-details i {
+#events .events-item figure .link-preview i,
+#events .events-item figure .link-details i {
   padding-top: 6px;
   font-size: 22px;
   color: #333;
 }
 
-#portfolio .portfolio-item figure .link-preview:hover,
-#portfolio .portfolio-item figure .link-details:hover {
+#events .events-item figure .link-preview:hover,
+#events .events-item figure .link-details:hover {
   background: #18d26e;
 }
 
-#portfolio .portfolio-item figure .link-preview:hover i,
-#portfolio .portfolio-item figure .link-details:hover i {
+#events .events-item figure .link-preview:hover i,
+#events .events-item figure .link-details:hover i {
   color: #fff;
 }
 
-#portfolio .portfolio-item figure .link-preview {
+#events .events-item figure .link-preview {
   left: calc(50% - 38px);
   top: calc(50% - 18px);
 }
 
-#portfolio .portfolio-item figure .link-details {
+#events .events-item figure .link-details {
   right: calc(50% - 38px);
   top: calc(50% - 18px);
 }
 
-#portfolio .portfolio-item figure:hover .link-preview {
+#events .events-item figure:hover .link-preview {
   opacity: 1;
   left: calc(50% - 44px);
 }
 
-#portfolio .portfolio-item figure:hover .link-details {
+#events .events-item figure:hover .link-details {
   opacity: 1;
   right: calc(50% - 44px);
 }
 
-#portfolio .portfolio-item .portfolio-info {
+#events .events-item .events-info {
   background: #fff;
   text-align: center;
   padding: 30px;
@@ -1050,7 +1050,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   border-radius: 0 0 3px 3px;
 }
 
-#portfolio .portfolio-item .portfolio-info h4 {
+#events .events-item .events-info h4 {
   font-size: 18px;
   line-height: 1px;
   font-weight: 700;
@@ -1058,15 +1058,15 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding-bottom: 0;
 }
 
-#portfolio .portfolio-item .portfolio-info h4 a {
+#events .events-item .events-info h4 a {
   color: #333;
 }
 
-#portfolio .portfolio-item .portfolio-info h4 a:hover {
+#events .events-item .events-info h4 a:hover {
   color: #18d26e;
 }
 
-#portfolio .portfolio-item .portfolio-info p {
+#events .events-item .events-info p {
   padding: 0;
   margin: 0;
   color: #b8b8b8;
@@ -1075,26 +1075,26 @@ body.mobile-nav-active #mobile-nav-toggle {
   text-transform: uppercase;
 }
 
-/* Clients Section
+/* sponsors Section
 --------------------------------*/
 
-#clients {
+#sponsors {
   padding: 60px 0;
 }
 
-#clients img {
+#sponsors img {
   max-width: 100%;
   transition: 0.3s;
   padding: 15px 15px;
 }
 
-#clients .owl-nav,
-#clients .owl-dots {
+#sponsors .owl-nav,
+#sponsors .owl-dots {
   margin-top: 5px;
   text-align: center;
 }
 
-#clients .owl-dot {
+#sponsors .owl-dot {
   display: inline-block;
   margin: 0 5px;
   width: 12px;
@@ -1103,7 +1103,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   background-color: #ddd;
 }
 
-#clients .owl-dot.active {
+#sponsors .owl-dot.active {
   background-color: #18d26e;
 }
 
@@ -1641,7 +1641,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* modal */
 
 @media only screen and (min-width: 40em) {
-  #services .modal-overlay {
+  #flagship .modal-overlay {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1658,7 +1658,7 @@ body.mobile-nav-active #mobile-nav-toggle {
             backface-visibility: hidden;
     transition: opacity 0.6s cubic-bezier(0.55, 0, 0.1, 1), visibility 0.6s cubic-bezier(0.55, 0, 0.1, 1);
   }
-  #services .modal-overlay.active {
+  #flagship .modal-overlay.active {
     opacity: 1;
     visibility: visible;
   }
@@ -1666,7 +1666,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /**
  * Modal Flagshipppppp
  */
-#services .modal {
+#flagship .modal {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1689,7 +1689,7 @@ body.mobile-nav-active #mobile-nav-toggle {
           transform: scale(1.2);
   transition: all 0.6s cubic-bezier(0.55, 0, 0.1, 1);
 }
-#services .modal .close-modal {
+#flagship .modal .close-modal {
   position: absolute;
   cursor: pointer;
   top: 5px;
@@ -1702,27 +1702,27 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: opacity 0.6s cubic-bezier(0.55, 0, 0.1, 1), transform 0.6s cubic-bezier(0.55, 0, 0.1, 1), -webkit-transform 0.6s cubic-bezier(0.55, 0, 0.1, 1);
   transition-delay: 0.3s;
 }
-#services .modal .close-modal svg {
+#flagship .modal .close-modal svg {
   width: 1.75em;
   height: 1.75em;
 }
-#services .modal .mcontent {
+#flagship .modal .mcontent {
   opacity: 0;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
   transition: opacity 0.6s cubic-bezier(0.55, 0, 0.1, 1);
   transition-delay: 0.3s;
 }
-#services .modal.active {
+#flagship .modal.active {
   visibility: visible;
   opacity: 1;
   -webkit-transform: scale(1);
           transform: scale(1);
 }
-#services .modal.active .mcontent {
+#flagship .modal.active .mcontent {
   opacity: 1;
 }
-#services .modal.active .close-modal {
+#flagship .modal.active .close-modal {
   -webkit-transform: translateY(10px);
           transform: translateY(10px);
   opacity: 1;
@@ -1732,11 +1732,11 @@ body.mobile-nav-active #mobile-nav-toggle {
  * Mobile styling
  */
 @media only screen and (max-width: 39.9375em) {
-  #services h1 {
+  #flagship h1 {
     font-size: 1.5rem;
   }
 
-  #services .modal {
+  #flagship .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -1750,7 +1750,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     padding: 0 !important;
   }
 
-  #services .close-modal {
+  #flagship .close-modal {
     right: 20px !important;
   }
 }

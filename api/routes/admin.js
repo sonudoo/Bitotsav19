@@ -178,7 +178,7 @@ router.post('/updateEvent', (req, res) => {
                     let timestamp = Date.now();
                     let data = {
                         id: result.length + 1,
-                        title: "Update for " + req.body.eventName,
+                        title: "Update for " + req.body.updateEventData.eventName,
                         content: req.body.msg,
                         timestamp: timestamp,
                         type: "EVENT",
@@ -201,7 +201,7 @@ router.post('/updateEvent', (req, res) => {
                                     "to": '/topics/global',
                                     "time_to_live": 60 * 60 * 24,
                                     "data": {
-                                        "title": "Update for " + req.body.eventName,
+                                        "title": "Update for " + req.body.updateEventData.eventName,
                                         "content": req.body.msg,
                                         "type": "EVENT",
                                         "timestamp": timestamp,

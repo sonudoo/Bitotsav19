@@ -174,17 +174,17 @@
     });
 
     // Porfolio isotope and filter
-    var portfolioIsotope = $('.portfolio-container');
+    var eventsIsotope = $('.events-container');
 
-    $('#portfolio-flters li').on( 'click', function() {
-        $("#portfolio-flters li").removeClass('filter-active');
+    $('#events-flters li').on( 'click', function() {
+        $("#events-flters li").removeClass('filter-active');
         $(this).addClass('filter-active');
 
-        portfolioIsotope.isotope({ filter: $(this).data('filter') });
+        eventsIsotope.isotope({ filter: $(this).data('filter') });
     });
 
-    // Clients carousel (uses the Owl Carousel library)
-    $(".clients-carousel").owlCarousel({
+    // sponsors carousel (uses the Owl Carousel library)
+    $(".sponsors-carousel").owlCarousel({
         autoplay: true,
         dots: true,
         loop: true,
@@ -203,7 +203,7 @@ $(".testimonials-carousel").owlCarousel({
 // Modal
 var elements = $('.modal-overlay, .modal');
 
-$('#services button').on("click",function(){
+$('#flagship button').on("click",function(){
     elements.addClass('active');
 });
 
@@ -239,14 +239,14 @@ $(window).ready(function(){
                 var contact1=result[j].eventContact1Number;
                 var cname2=result[j].eventContact2Name;
                 var contact2=result[j].eventContact2Number;
-                tmp+=`<div class="col-lg-4 col-md-6 portfolio-item filter-`+category.toLowerCase().replace(' ','-')+` fadeInUp" >
-                <div class="portfolio-wrap">
+                tmp+=`<div class="col-lg-4 col-md-6 events-item filter-`+category.toLowerCase().replace(' ','-')+` fadeInUp" >
+                <div class="events-wrap">
                 <figure>
                 <button style="position:absolute;z-index:1;margin:31% 42%;" class = "btn btn-success" data-toggle="modal" data-target="#event`+result[j].eventId+`"><i class="ion ion-eye"></i></button>
                 <img src="./img/events/event`+result[j].eventId+`.png" class="img-fluid" alt="">
 
                 </figure>
-                <div class="portfolio-info">
+                <div class="events-info">
                 <h4><a href="#">`+result[j].eventName+`</a></h4>
                 <p>`+category+`</p>
                 </div>
@@ -299,7 +299,7 @@ $(window).ready(function(){
                     </div>`;
                 }
             }
-            $(".row.portfolio-container").append(tmp);
+            $(".row.events-container").append(tmp);
             $("body").append(tmp2);
         })
 
@@ -314,14 +314,12 @@ $(window).ready(function(){
 /**
 * Flagship js
 */
-var elements = $('#services .modal-overlay,#services .modal');
+var elements = $('#flagship .modal-overlay,#flagship .modal');
 
-$('#services button').on("click",function(){
+$('#flagship button').on("click",function(){
     elements.addClass('active');
 });
 
 $('.close-modal').on("click",function(){
     elements.removeClass('active');
 });
-
-
