@@ -770,7 +770,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                             db.teams
                             .insert(newTeam, function (error, result) {
                                 if (error) {
-                                    return res.status(500).send(JSON.stringify({
+                                    return res.status(502).send(JSON.stringify({
                                         success: false,
                                         msg: "An unknown error occurred."
                                     }));
@@ -794,20 +794,20 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                             }));
                         } else {
                             if(result.length<1){
-                                res.status(200).send(JSON.stringify({
+                                res.status(404).send(JSON.stringify({
                                     success: false,
                                     msg: `Email ${memberArr[j].memberEmail} has not registered.`
                                 }));
                             }
                             else if(result[0].id !== memberArr[j].memberId ){
-                                res.status(200).send(JSON.stringify({
+                                res.status(404).send(JSON.stringify({
                                     success: false,
                                     msg: "Incorrect Bitotsav ID"
                                 }));
                             } else {
                                 for(let k=0;k<result[0].events.length;k++){
                                     if(result[0].events[k].eventId == req.body.eventId){
-                                        return res.status(200).send(JSON.stringify({
+                                        return res.status(409).send(JSON.stringify({
                                             success: false,
                                             msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
                                         }));
@@ -858,7 +858,7 @@ router.post('/eventRegistration', checkAuth, (req, res) => {
                                                             db.teams
                                                             .insert(newTeam, function (error, result) {
                                                                 if (error) {
-                                                                    return res.status(500).send(JSON.stringify({
+                                                                    return res.status(502).send(JSON.stringify({
                                                                         success: false,
                                                                         msg: "An unknown error occurred."
                                                                     }));
