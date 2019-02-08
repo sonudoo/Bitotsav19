@@ -1022,99 +1022,91 @@ router.post('/championship', checkAuth, (req, res) => {
     let memberCheck = 0;
     let memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
-    if (memberArr.length == 0) {
-        return res.status(403).send(JSON.stringify({
-            success: false,
-            msg: "No members sent"
-        }))
-    }
+    memberArr.push({
+        memberId: req.userData.id,
+        memberEmail: req.userData.email
+    });
     db.championships
-        .find({ teamName: req.body.teamName }, function (error, team) {
-            if (error) {
-                return res.status(502).send(JSON.stringify({
-                    success: false
-                }));
-            }
-            if (team.length >= 1) {
-                return res.status(409).send(JSON.stringify({
-                    success: false,
-                    msg: `${req.body.teamName} is already in use.`
-                }));
-            }
-            for (let i = 0; i < memberArr.length; i++) {
-                db.participants
-                    .find({ email: memberArr[i].memberEmail }, function (error, member) {
-                        if (error) {
-                            return res.status(502).send(JSON.stringify({
-                                success: false
-                            }));
-                        }
-                        if (member.length < 1) {
-                            return res.status(404).send(JSON.stringify({
-                                success: false,
-                                msg: `${memberArr[i].memberEmail} is not registered.`
-                            }));
-                        }
-                        else if (member[0].teamName !== "-1") {
-                            return res.status(409).send(JSON.stringify({
-                                success: false,
-                                msg: `${memberArr[i].memberEmail} is already in a team.`
-                            }));
-                        }
-                        else if (member[0].college !== req.body.leaderCollege) {
-                            return res.status(405).send(JSON.stringify({
-                                success: false,
-                                msg: "Team members must be of the same college."
-                            }));
-                        }
-                        else if (member[0].id !== memberArr[i].memberId) {
-                            return res.status(404).send(JSON.stringify({
-                                success: false,
-                                msg: "Incorrect Bitotsav ID."
-                            }));
-                        }
-                        memberCheck = memberCheck + 1;
-                        if (memberCheck == memberArr.length) {
-                            for (let j = 0; j < memberArr.length; j++) {
-                                db.participants
-                                    .update({ email: memberArr[j].memberEmail }, {
-                                        $set: {
-                                            teamName: req.body.teamName
-                                        }
-                                    }, function (error, result) {
-                                        if (error) {
-                                            return res.status(502).send(JSON.stringify({
-                                                success: false
-                                            }));
-                                        }
-                                        memberUpdated = memberUpdated + 1;
-                                        if (memberUpdated == memberArr.length) {
-                                            const newTeam = {
-                                                teamName: req.body.teamName,
-                                                teamLeader: req.body.teamLeader,
-                                                teamMembers: memberArr,
-                                                teamPoints: 0
-                                            };
-                                            db.championships
-                                                .insert(newTeam, function (error, result) {
-                                                    if (error) {
-                                                        return res.status(502).send(JSON.stringify({
-                                                            success: false,
-                                                            msg: "An unknown error occurred."
-                                                        }));
-                                                    }
-                                                    res.status(200).send(JSON.stringify({
-                                                        success: true,
-                                                        msg: "Team Registered for Bitotsav Championship!"
-                                                    }));
-                                                });
-                                        }
-                                    });
+    .find({teamName: req.body.teamName},function(error, team){
+        if(error){
+            return res.status(502).send(JSON.stringify({
+                success: false
+            }));
+        }
+        if(team.length>=1){
+            return res.status(409).send(JSON.stringify({
+                success: false,
+                msg: `${req.body.teamName} is already in use.`
+            }));
+        }
+        for(let i=0;i<memberArr.length;i++){
+            db.participants
+            .find({email: memberArr[i].memberEmail},function(error, member){
+                if(error){
+                    return res.status(502).send(JSON.stringify({
+                        success: false
+                    }));
+                }
+                if(member.length<1){
+                    return res.status(404).send(JSON.stringify({
+                        success: false,
+                        msg: `${memberArr[i].memberEmail} is not registered.`
+                    }));
+                }
+                else if(member[0].teamName !== "-1"){
+                    return res.status(409).send(JSON.stringify({
+                        success: false,
+                        msg: `${memberArr[i].memberEmail} is already in a team.`
+                    }));
+                }
+                else if (member[0].id !== memberArr[i].memberId){
+                    return res.status(404).send(JSON.stringify({
+                        success: false,
+                        msg: "Incorrect Bitotsav ID."
+                    }));
+                }
+                memberCheck = memberCheck + 1;
+                if(memberCheck == memberArr.length){
+                    for(let j=0;j<memberArr.length;j++){
+                        db.participants
+                        .update({email: memberArr[j].memberEmail},{
+                            $set: {
+                                teamName: req.body.teamName
                             }
-                        }
-                    });
-            }
-        });
+                        },function(error, result){
+                            if(error){
+                                return res.status(502).send(JSON.stringify({
+                                    success: false
+                                }));
+                            }
+                            memberUpdated = memberUpdated + 1;
+                            if(memberUpdated == memberArr.length){
+                                const newTeam = {
+                                    teamName: req.body.teamName,
+                                    teamLeader: req.userData.id,
+                                    teamMembers: memberArr,
+                                    teamPoints: 0
+                                };
+                                db.championships
+                                .insert(newTeam, function (error, result) {
+                                    if (error) {
+                                        return res.status(502).send(JSON.stringify({
+                                            success: false,
+                                            msg: "An unknown error occurred."
+                                        }));
+                                    }
+                                    res.status(200).send(JSON.stringify({
+                                        success: true,
+                                        msg: "Team Registered for Bitotsav Championship!"
+                                    }));
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
 });
 
 router.post('/addStarEvent', checkAuth, (req, res) => {

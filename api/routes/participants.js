@@ -572,271 +572,299 @@ router.post('/updatePassword', checkAuth, (req, res) => {
     });
 });
 
-// Event Registration
 router.post('/eventRegistration', checkAuth, (req, res) => {
 
-    const memberArr = JSON.parse(req.body.members);
-    db.participants.find({email: req.userData.email}, function(error, result){
-        if(error){
-            res.status(500).send(JSON.stringify({
+    db.events.find({ eventId: parseInt(req.body.eventId), eventStatus: "Scheduled" }, function (error, result) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
                 success: false,
                 msg: "Database fetch error occured"
             }));
         }
-        else{
-            if(result.length != 1){
-                res.status(403).send(JSON.stringify({
+        else {
+            if (result.length != 1) {
+                return res.status(408).send(JSON.stringify({
                     success: false,
-                    msg: "Payload modified"
-                }));
+                    msg: "No such event exists or registration has been closed for the event."
+                }))
             }
-            else{
-                for(let i in result[0].events){
-                    if(result[0].events[i].eventId == parseInt(req.body.eventId)){
-                        return res.status(409).send(JSON.stringify({
+            else {
+                const memberArr = JSON.parse(req.body.members);
+                db.participants.find({ email: req.userData.email }, function (error, result) {
+                    if (error) {
+                        res.status(502).send(JSON.stringify({
                             success: false,
-                            msg: "Team leader is already registered for this event"
-                        }))
+                            msg: "Database fetch error occured"
+                        }));
                     }
-                }
-                if(memberArr.length == 0){
-                    db.participants.update({ email : req.userData.email }, {
-                        $push : {
-                            events: {
-                                "eventId" : parseInt(req.body.eventId),
-                                "teamLeader" : req.body.leaderId
-                            }
-                        }
-                    }, (error, result) => {
-                        if(error) {
-                            res.status(500).send(JSON.stringify({
+                    else {
+                        if (result.length != 1) {
+                            res.status(403).send(JSON.stringify({
                                 success: false,
-                                msg: "Some error occurred"
+                                msg: "Payload modified"
                             }));
-                        } else {
-                            const newTeam = {
-                                eventId: parseInt(req.body.eventId),
-                                teamLeaderId: req.body.leaderId,
-                                teamMembers: []
-                            }
-                            db.teams
-                            .insert(newTeam, function (error, result) {
-                                if (error) {
-                                    return res.status(500).send(JSON.stringify({
+                        }
+                        else {
+                            for (let i in result[0].events) {
+                                if (result[0].events[i].eventId == parseInt(req.body.eventId)) {
+                                    return res.status(409).send(JSON.stringify({
                                         success: false,
-                                        msg: "An unknown error occurred."
-                                    }));
+                                        msg: "Team leader is already registered for this event"
+                                    }))
                                 }
-                                console.log(result);
-                                res.status(200).send(JSON.stringify({
-                                    success: true,
-                                    msg: "Team Registered Successfully"
-                                }));
-                            });
-
-                        }
-                    });
-                }
-                let validatedMembers = 0;
-                for(let j=0;j<memberArr.length;j++){
-                    db.participants.find({email : memberArr[j].memberEmail}, (error, result) => {
-                        if (error) {
-                            res.status(500).send(JSON.stringify({
-                                success: false,
-                                msg: "Some Error Occured!!"
-                            }));
-                        } else {
-                            if(result.length<1){
-                                res.status(200).send(JSON.stringify({
-                                    success: false,
-                                    msg: `Email ${memberArr[j].memberEmail} has not registered.`
-                                }));
                             }
-                            else if(result[0].id !== memberArr[j].memberId ){
-                                res.status(200).send(JSON.stringify({
-                                    success: false,
-                                    msg: "Incorrect Bitotsav ID"
-                                }));
-                            } else {
-                                for(let k=0;k<result[0].events.length;k++){
-                                    if(result[0].events[k].eventId == req.body.eventId){
-                                        return res.status(200).send(JSON.stringify({
-                                            success: false,
-                                            msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
-                                        }));
-                                    }
-                                }
-                                validatedMembers = validatedMembers + 1;
-                                if(validatedMembers == memberArr.length){
-                                    db.participants.update({email: req.body.leaderEmail}, {
-                                        $push : {
-                                            events :  {
-                                                "eventId" : parseInt(req.body.eventId),
-                                                "teamLeader" : req.body.leaderId
-                                            }
+                            if (memberArr.length == 0) {
+                                db.participants.update({ email: req.userData.email }, {
+                                    $push: {
+                                        events: {
+                                            "eventId": parseInt(req.body.eventId),
+                                            "teamLeader": req.body.leaderId
                                         }
-                                    }, (error, result) => {
-                                        if (error) {
-                                            res.status(500).send(JSON.stringify({
+                                    }
+                                }, (error, result) => {
+                                    if (error) {
+                                        res.status(502).send(JSON.stringify({
+                                            success: false,
+                                            msg: "Some error occurred"
+                                        }));
+                                    } else {
+                                        const newTeam = {
+                                            eventId: parseInt(req.body.eventId),
+                                            teamLeaderId: req.body.leaderId,
+                                            teamMembers: []
+                                        }
+                                        db.teams
+                                            .insert(newTeam, function (error, result) {
+                                                if (error) {
+                                                    return res.status(502).send(JSON.stringify({
+                                                        success: false,
+                                                        msg: "An unknown error occurred."
+                                                    }));
+                                                }
+                                                res.status(200).send(JSON.stringify({
+                                                    success: true,
+                                                    msg: "Team Registered Successfully"
+                                                }));
+                                            });
+
+                                    }
+                                });
+                            }
+                            let validatedMembers = 0;
+                            for (let j = 0; j < memberArr.length; j++) {
+                                db.participants.find({ email: memberArr[j].memberEmail }, (error, result) => {
+                                    if (error) {
+                                        res.status(502).send(JSON.stringify({
+                                            success: false,
+                                            msg: "Some Error Occured!!"
+                                        }));
+                                    } else {
+                                        if (result.length < 1) {
+                                            res.status(404).send(JSON.stringify({
                                                 success: false,
-                                                msg: "Some error occurred"
+                                                msg: `Email ${memberArr[j].memberEmail} has not registered.`
+                                            }));
+                                        }
+                                        else if (result[0].id !== memberArr[j].memberId) {
+                                            res.status(404).send(JSON.stringify({
+                                                success: false,
+                                                msg: "Incorrect Bitotsav ID"
                                             }));
                                         } else {
-                                            console.log('Team Leader registered');
-                                            // update for all the members
-                                            let updatedMembers = 0;
-                                            for(let i=0;i<memberArr.length;i++){
-                                                db.participants.update({ email : memberArr[i].memberEmail }, {
-                                                    $push : {
+                                            for (let k = 0; k < result[0].events.length; k++) {
+                                                if (result[0].events[k].eventId == req.body.eventId) {
+                                                    return res.status(409).send(JSON.stringify({
+                                                        success: false,
+                                                        msg: `Member ${memberArr[j].memberId} is already registered to the event ${req.body.eventId}`
+                                                    }));
+                                                }
+                                            }
+                                            validatedMembers = validatedMembers + 1;
+                                            if (validatedMembers == memberArr.length) {
+                                                db.participants.update({ email: req.userData.email }, {
+                                                    $push: {
                                                         events: {
-                                                            "eventId" : parseInt(req.body.eventId),
-                                                            "teamLeader" : req.body.leaderId
+                                                            "eventId": parseInt(req.body.eventId),
+                                                            "teamLeader": req.body.leaderId
                                                         }
                                                     }
                                                 }, (error, result) => {
-                                                    if(error) {
-                                                        res.status(500).send(JSON.stringify({
+                                                    if (error) {
+                                                        res.status(502).send(JSON.stringify({
                                                             success: false,
                                                             msg: "Some error occurred"
                                                         }));
                                                     } else {
-                                                        updatedMembers = updatedMembers + 1;
-                                                        if(updatedMembers == memberArr.length){
-                                                            const teamM = memberArr.map(member => member.memberId);
-                                                            const newTeam = {
-                                                                eventId: parseInt(req.body.eventId),
-                                                                teamLeaderId: req.body.leaderId,
-                                                                teamMembers: teamM
-                                                            }
-                                                            db.teams
-                                                            .insert(newTeam, function (error, result) {
-                                                                if (error) {
-                                                                    return res.status(500).send(JSON.stringify({
-                                                                        success: false,
-                                                                        msg: "An unknown error occurred."
-                                                                    }));
+                                                        console.log('Team Leader registered');
+                                                        // update for all the members
+                                                        let updatedMembers = 0;
+                                                        for (let i = 0; i < memberArr.length; i++) {
+                                                            db.participants.update({ email: memberArr[i].memberEmail }, {
+                                                                $push: {
+                                                                    events: {
+                                                                        "eventId": parseInt(req.body.eventId),
+                                                                        "teamLeader": req.body.leaderId
+                                                                    }
                                                                 }
-                                                                console.log(result);
-                                                                res.status(200).send(JSON.stringify({
-                                                                    success: true,
-                                                                    msg: "Team Registered Successfully"
-                                                                }));
+                                                            }, (error, result) => {
+                                                                if (error) {
+                                                                    res.status(502).send(JSON.stringify({
+                                                                        success: false,
+                                                                        msg: "Some error occurred"
+                                                                    }));
+                                                                } else {
+                                                                    updatedMembers = updatedMembers + 1;
+                                                                    if (updatedMembers == memberArr.length) {
+                                                                        const teamM = memberArr.map(member => member.memberId);
+                                                                        const newTeam = {
+                                                                            eventId: parseInt(req.body.eventId),
+                                                                            teamLeaderId: req.body.leaderId,
+                                                                            teamMembers: teamM
+                                                                        }
+                                                                        db.teams
+                                                                            .insert(newTeam, function (error, result) {
+                                                                                if (error) {
+                                                                                    return res.status(502).send(JSON.stringify({
+                                                                                        success: false,
+                                                                                        msg: "An unknown error occurred."
+                                                                                    }));
+                                                                                }
+                                                                                res.status(200).send(JSON.stringify({
+                                                                                    success: true,
+                                                                                    msg: "Team Registered Successfully"
+                                                                                }));
+                                                                            });
+                                                                    }
+                                                                }
                                                             });
                                                         }
                                                     }
                                                 });
                                             }
                                         }
-                                    });
-                                }
+                                    }
+                                });
                             }
-                        }
-                    });
-                }
 
+                        }
+                    }
+                })
             }
         }
     })
+
+
 });
 
 // Event De-Registration
 router.get('/eventDeregistration/:eventId/:bitId', checkAuth, (req, res) => {
-    let bitotsavID = "BT19/"+req.params.bitId;
+    let bitotsavID = "BT19/" + req.params.bitId;
     let eventID = parseInt(req.params.eventId);
     let countMembers = 0;
-    db.participants
-    .update({
-        email: req.userData.email,
-        events: {
-            $elemMatch:{
-                eventId: eventID,
-                teamLeader: bitotsavID
-            }
-        }
-    }, {
-        $pull: { events: { eventId: eventID } }
-    }, function(error, result){
-        if(error){
-            console.log(err);
-            res.status(500).send(JSON.stringify({
-                success: false
+    db.events.find({ eventId: parseInt(req.params.eventId), eventStatus: "Scheduled" }, function (error, result) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured"
             }));
         }
-        console.log('Team Leader De-Registered');
-        db.teams
-        .find({
-            eventId: eventID,
-            teamLeaderId: bitotsavID
-        }, function(err, team){
-            if(err){
-                console.log(err);
-                res.status(500).send(JSON.stringify({
-                    success: false
-                }));
-            }
-            if(team.length<1){
-                res.status(200).send(JSON.stringify({
+        else {
+            if (result.length != 1) {
+                return res.status(408).send(JSON.stringify({
                     success: false,
-                    msg: "You are not registered in this event or you are not the Team Leader."
-                }));
+                    msg: "No such event exists or registration has been locked for the event."
+                }))
             }
-            else{
-                if(team[0].teamMembers.length == 0){
-                    db.teams
-                    .remove({
-                        eventId: eventID,
-                        teamLeaderId: bitotsavID
-                    }, function(err, result){
-                        if(err){
-                            console.log(err);
-                            return res.status(500).send(JSON.stringify({
-                                success: false
-                            }));
-                        }
-                        return res.status(200).send(JSON.stringify({
-                            success: true,
-                            msg: 'Team De-Registered successfully'
-                        }));
-                    });
-                }
-                for(let i=0;i<team[0].teamMembers.length;i++){
-                    const memberId = team[0].teamMembers[i];
-                    db.participants
+            else {
+                db.participants
                     .update({
-                        id: memberId
-                    }, {
-                        $pull: { events: { eventId: eventID } }
-                    }, function(error, result){
-                        if(error){
-                            console.log(err);
-                            return res.status(500).send(JSON.stringify({
-                                success: false
-                            }));
-                        }
-                        countMembers = countMembers + 1;
-                        if(countMembers == team[0].teamMembers.length){
-                            console.log('Team members De-Registered');
-                            db.teams
-                            .remove({
+                        email: req.userData.email,
+                        events: {
+                            $elemMatch: {
                                 eventId: eventID,
-                                teamLeaderId: bitotsavID
-                            }, function(err, result){
-                                if(err){
-                                    console.log(err);
-                                    return res.status(500).send(JSON.stringify({
-                                        success: false
-                                    }));
-                                }
-                                res.status(200).send(JSON.stringify({
-                                    success: true,
-                                    msg: 'Team De-Registered successfully'
-                                }));
-                            });
+                                teamLeader: bitotsavID
+                            }
                         }
-                    });
-                }
+                    }, {
+                            $pull: { events: { eventId: eventID } }
+                        }, function (error, result) {
+                            if (error) {
+                                res.status(502).send(JSON.stringify({
+                                    success: false
+                                }));
+                            }
+                            db.teams
+                                .find({
+                                    eventId: eventID,
+                                    teamLeaderId: bitotsavID
+                                }, function (err, team) {
+                                    if (err) {
+                                        res.status(502).send(JSON.stringify({
+                                            success: false
+                                        }));
+                                    }
+                                    if (team.length < 1) {
+                                        res.status(403).send(JSON.stringify({
+                                            success: false,
+                                            msg: "You are not registered in this event or you are not the Team Leader."
+                                        }));
+                                    }
+                                    else {
+                                        if (team[0].teamMembers.length == 0) {
+                                            db.teams
+                                                .remove({
+                                                    eventId: eventID,
+                                                    teamLeaderId: bitotsavID
+                                                }, function (err, result) {
+                                                    if (err) {
+                                                        return res.status(502).send(JSON.stringify({
+                                                            success: false
+                                                        }));
+                                                    }
+                                                    return res.status(200).send(JSON.stringify({
+                                                        success: true,
+                                                        msg: 'Team De-Registered successfully'
+                                                    }));
+                                                });
+                                        }
+                                        for (let i = 0; i < team[0].teamMembers.length; i++) {
+                                            const memberId = team[0].teamMembers[i];
+                                            db.participants
+                                                .update({
+                                                    id: memberId
+                                                }, {
+                                                        $pull: { events: { eventId: eventID } }
+                                                    }, function (error, result) {
+                                                        if (error) {
+                                                            return res.status(502).send(JSON.stringify({
+                                                                success: false
+                                                            }));
+                                                        }
+                                                        countMembers = countMembers + 1;
+                                                        if (countMembers == team[0].teamMembers.length) {
+                                                            db.teams
+                                                                .remove({
+                                                                    eventId: eventID,
+                                                                    teamLeaderId: bitotsavID
+                                                                }, function (err, result) {
+                                                                    if (err) {
+                                                                        return res.status(502).send(JSON.stringify({
+                                                                            success: false
+                                                                        }));
+                                                                    }
+                                                                    res.status(200).send(JSON.stringify({
+                                                                        success: true,
+                                                                        msg: 'Team De-Registered successfully'
+                                                                    }));
+                                                                });
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                        });
             }
-        });
+        }
     });
 });
 

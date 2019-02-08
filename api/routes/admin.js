@@ -530,6 +530,7 @@ router.post('/resultAnnouncement', (req, res) => {
                 let eventPosition1Members = [];
                 let eventPosition2Members = [];
                 let eventPosition3Members = [];
+
                 db.teams.find({ eventId: parseInt(req.body.eventId), teamLeaderId: req.body.eventPosition1 }, function (error, result) {
                     if (error) {
                         res.send(JSON.stringify({
@@ -538,6 +539,7 @@ router.post('/resultAnnouncement', (req, res) => {
                         }));
                     }
                     else {
+
                         if (result.length == 0) {
                             res.send(JSON.stringify({
                                 success: false,
@@ -545,9 +547,10 @@ router.post('/resultAnnouncement', (req, res) => {
                             }))
                         }
                         else {
+                            console.log(eventPosition1Members);
                             eventPosition1Members.push(result[0].teamLeaderId);
                             for (let i in result[0].teamMembers) {
-                                eventPostion1Members.push(result[0].teamMembers[i]);
+                                eventPosition1Members.push(result[0].teamMembers[i]);
                             }
                             db.teams.find({ eventId: parseInt(req.body.eventId), teamLeaderId: req.body.eventPosition2 }, function (error, result) {
                                 if (error) {
@@ -566,7 +569,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                     else {
                                         eventPosition2Members.push(result[0].teamLeaderId);
                                         for (let i in result[0].teamMembers) {
-                                            eventPostion2Members.push(result[0].teamMembers[i]);
+                                            eventPosition2Members.push(result[0].teamMembers[i]);
                                         }
                                     }
                                     db.teams.find({ eventId: parseInt(req.body.eventId), teamLeaderId: req.body.eventPosition3 }, function (error, result) {
@@ -586,7 +589,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                             else {
                                                 eventPosition3Members.push(result[0].teamLeaderId);
                                                 for (let i in result[0].teamMembers) {
-                                                    eventPostion3Members.push(result[0].teamMembers[i]);
+                                                    eventPosition3Members.push(result[0].teamMembers[i]);
                                                 }
                                                 let eventPosition1Teams = new Set();
                                                 let eventPosition2Teams = new Set();
@@ -799,7 +802,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                     <h2 align="center">Bitotsav</h2>
                                                                                                     <p>
                                                                                                     Hi,<br><br>
-                                                                                                    We express our heartiest congratulations for securing 1st Postion for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
+                                                                                                    We express our heartiest congratulations for securing 1st Position for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
                                                                                                     In case you are registered for Bitotsav Championship, your points will be automatically updated.<br><br>
                                                                                                     Regards,<br>
                                                                                                     Web Team,<br>
@@ -821,7 +824,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                             <h2 align="center">Bitotsav</h2>
                                                                                                             <p>
                                                                                                             Hi,<br><br>
-                                                                                                            We express our heartiest congratulations for securing 2nd Postion for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
+                                                                                                            We express our heartiest congratulations for securing 2nd Position for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
                                                                                                             In case you are registered for Bitotsav Championship, your points will be automatically updated.<br><br>
                                                                                                             Regards,<br>
                                                                                                             Web Team,<br>
@@ -844,7 +847,7 @@ router.post('/resultAnnouncement', (req, res) => {
                                                                                                                     <h2 align="center">Bitotsav</h2>
                                                                                                                     <p>
                                                                                                                     Hi,<br><br>
-                                                                                                                    We express our heartiest congratulations for securing 3rd Postion for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
+                                                                                                                    We express our heartiest congratulations for securing 3rd Position for the event ${event.eventName}. We request you to collect your certificates and prize money (if any) from the infocell.<br><br>
                                                                                                                     In case you are registered for Bitotsav Championship, your points will be automatically updated.<br><br>
                                                                                                                     Regards,<br>
                                                                                                                     Web Team,<br>
