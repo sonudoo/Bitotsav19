@@ -25,13 +25,26 @@ export class ParticipantComponent implements OnInit {
     if(this.storage.get('token') != undefined){
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
-          console.log("Data", data);
           for(let i in data){
-            this.participants.push({
-              id: data[i].id,
-              name: data[i].name,
-              college: data[i].college
-            });
+            if(data[i].id == "-1"){
+              this.participants.push({
+                id: data[i].id,
+                name: "",
+                college: "",
+                phno: data[i].phno,
+                email: data[i].email
+              });
+            }
+            else{
+              this.participants.push({
+                id: data[i].id,
+                name: data[i].name,
+                college: data[i].college,
+                phno: data[i].phno,
+                email: data[i].email
+              });
+            }
+            
           }
         },
         error => {
@@ -55,7 +68,6 @@ export class ParticipantComponent implements OnInit {
     }, 1000);
   }
   search(){
-    console.log(this.participant);
     if(this.participant.length < 3){
       return;
     }
@@ -69,8 +81,13 @@ export class ParticipantComponent implements OnInit {
               this.tbody.nativeElement.innerHTML = "";
               cleared = true;
             }
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td><a id="participant-'+i+'" style="cursor: pointer; text-decoration: underline; color: blue;">'+this.participants[i].id+'</a></td></tr>');
-            this.el.nativeElement.querySelector('#participant-'+i).addEventListener('click', (event) => this.showDetails(this.participants[i].id.slice(5)));
+            if(this.participants[i].id == "-1"){
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td>No</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            else{
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td>Yes</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            this.el.nativeElement.querySelector('#'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")).addEventListener('click', (event) => this.showDetails(this.participants[i].email.replace("@","__at__").replace(/\./g,"-")));
 
           }
         }
@@ -78,15 +95,62 @@ export class ParticipantComponent implements OnInit {
           this.tbody.nativeElement.innerHTML = "No result found";
         }
       }
-      else{
+      else if(this.searchBy == "id"){
         for(let i in this.participants){
           if(this.participants[i].id.toLowerCase().indexOf(this.participant.toLowerCase()) >= 0){
             if(cleared == false){
               this.tbody.nativeElement.innerHTML = "";
               cleared = true;
             }
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].college+'</td><td><a id="participant-'+i+'" style="cursor: pointer; text-decoration: underline; color: blue;">'+this.participants[i].id+'</a></td></tr>');
-            this.el.nativeElement.querySelector('#participant-'+i).addEventListener('click', (event) => this.showDetails(this.participants[i].id.slice(5)));
+            if(this.participants[i].id == "-1"){
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].id+'</td><td>No</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            else{
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].id+'</td><td>Yes</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            this.el.nativeElement.querySelector('#'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")).addEventListener('click', (event) => this.showDetails(this.participants[i].email.replace("@","__at__").replace(/\./g,"-")));
+
+          }
+        }
+        if(cleared == false){
+          this.tbody.nativeElement.innerHTML = "No result found";
+        }
+      }
+      else if(this.searchBy == "phno"){
+        for(let i in this.participants){
+          if(this.participants[i].phno.toLowerCase().indexOf(this.participant.toLowerCase()) >= 0){
+            if(cleared == false){
+              this.tbody.nativeElement.innerHTML = "";
+              cleared = true;
+            }
+            if(this.participants[i].id == "-1"){
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].phno+'</td><td>No</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            else{
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].phno+'</td><td>Yes</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            this.el.nativeElement.querySelector('#'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")).addEventListener('click', (event) => this.showDetails(this.participants[i].email.replace("@","__at__").replace(/\./g,"-")));
+
+          }
+        }
+        if(cleared == false){
+          this.tbody.nativeElement.innerHTML = "No result found";
+        }
+      }
+      else if(this.searchBy == "email"){
+        for(let i in this.participants){
+          if(this.participants[i].email.toLowerCase().indexOf(this.participant.toLowerCase()) >= 0){
+            if(cleared == false){
+              this.tbody.nativeElement.innerHTML = "";
+              cleared = true;
+            }
+            if(this.participants[i].id == "-1"){
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].email+'</td><td>No</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            else{
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>'+this.participants[i].name+'</td><td>'+this.participants[i].email+'</td><td>Yes</td><td><a id="'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")+'" class="btn btn-primary">View</a></td>');
+            }
+            this.el.nativeElement.querySelector('#'+this.participants[i].email.replace("@","__at__").replace(/\./g,"-")).addEventListener('click', (event) => this.showDetails(this.participants[i].email.replace("@","__at__").replace(/\./g,"-")));
 
           }
         }
@@ -95,8 +159,9 @@ export class ParticipantComponent implements OnInit {
         }
       }
     }
+    
   }
-  showDetails(id: string){
-    this.router.navigate(["participant", id]);
+  showDetails(email: string){
+    this.router.navigate(["participant", email]);
   }
 }

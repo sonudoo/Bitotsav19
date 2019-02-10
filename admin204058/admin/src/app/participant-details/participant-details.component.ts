@@ -3,6 +3,7 @@ import { GetParticipantByIdService } from '../get-participant-by-id.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { VerifyTokenService } from '../verify-token.service';
 import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+import { GetParticipantByEmailService } from '../get-participant-by-email.service';
 
 @Component({
   selector: 'app-participant',
@@ -11,7 +12,7 @@ import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 })
 export class ParticipantDetailsComponent implements OnInit {
 
-  public id = "";
+  public email = "";
   public participantData = {
     id: "",
     name: "",
@@ -24,6 +25,8 @@ export class ParticipantDetailsComponent implements OnInit {
     year: 0,
     password: "",
     events: [],
+    emailOTP: -1,
+    phoneOTP: -1,
     payment: {
       day1: false,
       day2: false,
@@ -32,15 +35,15 @@ export class ParticipantDetailsComponent implements OnInit {
     }
   }
 
-  constructor(private getParticipantById: GetParticipantByIdService, @Inject(LOCAL_STORAGE) private storage: StorageService, private verifyTokenService: VerifyTokenService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private getParticipantById: GetParticipantByIdService, private getParticipantByEmail: GetParticipantByEmailService, @Inject(LOCAL_STORAGE) private storage: StorageService, private verifyTokenService: VerifyTokenService, private router: Router, private route: ActivatedRoute) { }
 
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = "BT19/" + params.get('id');
+      this.email = params.get('id').replace("__at__","@").replace(/\-/g,".");
     });
     if (this.storage.get('token') != undefined) {
-      this.getParticipantById.getParticipantById(this.storage.get('token'), this.id).subscribe(
+      this.getParticipantByEmail.getParticipantByEmail(this.storage.get('token'), this.email).subscribe(
         data => {
           this.participantData = {
             id: data.id,
@@ -52,6 +55,8 @@ export class ParticipantDetailsComponent implements OnInit {
             rollno: data.rollno,
             source: data.source,
             year: data.year,
+            emailOTP: data.emailOtp,
+            phoneOTP: data.phoneOtp,
             password: data.password,
             events: data.events,
             payment: {

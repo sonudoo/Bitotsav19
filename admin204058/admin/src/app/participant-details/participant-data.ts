@@ -15,6 +15,8 @@ export interface ParticipantData {
     year: Number;
     password: String;
     events: EventList[];
+    emailOTP: Number;
+    phoneOTP: Number;
     payment: {
         day1: Boolean;
         day2: Boolean;

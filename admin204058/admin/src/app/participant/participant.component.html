@@ -5,6 +5,12 @@
   <div class="form-group radio-inline">
     <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="id" (change)="search()">Search by Id</label>
   </div>
+  <div class="form-group radio-inline">
+    <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="phno" (change)="search()">Search by Phone</label>
+  </div>
+  <div class="form-group radio-inline">
+    <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="email" (change)="search()">Search by Email</label>
+  </div>
   <div class="form-group">
     <label for="field">Name/Id</label>
     <input type="text" class="form-control" #field="ngModel" id="field" name="field" [(ngModel)]="participant"
@@ -16,7 +22,8 @@
       <tr>
         <th>Name</th>
         <th>College</th>
-        <th>Bitotsav Id</th>
+        <th>Verified</th>
+        <th>Details</th>
       </tr>
     </thead>
     <tbody #tbody>

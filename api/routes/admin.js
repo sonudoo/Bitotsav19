@@ -277,7 +277,7 @@ router.post('/getSAPById', (req, res) => {
 
 
 router.post('/getAllParticipants', (req, res) => {
-    db.participants.find({ id: { $ne: "-1" } }, function (error, result) {
+    db.participants.find({}, function (error, result) {
         if (error) {
             res.send(JSON.stringify({
                 success: false,
@@ -295,6 +295,28 @@ router.post('/getParticipantById', (req, res) => {
         return res.sendStatus(403);
     }
     db.participants.find({ id: req.body.id }, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        }
+        else {
+            if (result.length != 1) {
+                return res.sendStatus(404);
+            }
+            else {
+                return res.send(JSON.stringify(result[0]));
+            }
+        }
+    });
+});
+
+router.post('/getParticipantByEmail', (req, res) => {
+    if (req.body.email == undefined) {
+        return res.sendStatus(403);
+    }
+    db.participants.find({ email: req.body.email }, function (error, result) {
         if (error) {
             res.send(JSON.stringify({
                 success: false,

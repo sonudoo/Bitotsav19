@@ -121,7 +121,6 @@ $('#js-dropdown3').on('change',function(){
 });
 
 function logout(){
-    e.preventDefault();
     localStorage.setItem('token','');
     window.location.href = 'registration.html';
 }
