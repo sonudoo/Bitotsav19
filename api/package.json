@@ -16,6 +16,7 @@
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.4.0",
+    "jszip": "^3.1.5",
     "mongojs": "^2.6.0",
     "mongoose": "^5.4.2",
     "nodemailer": "^5.0.0",

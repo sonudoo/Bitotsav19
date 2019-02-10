@@ -40,6 +40,9 @@
                 <li>
                     <a href="#payment">Payment</a>
                 </li>
+                <li>
+                    <a href="#logout" onclick="logout()">Logout</a>
+                </li>
             </ul>
         </nav>
 
@@ -87,6 +90,9 @@
                             <td><span id="year"></span></td>
                         </tr>
                     </table>
+                    <br>
+                    <br>
+                    <button class="btn btn-danger" onclick="logout()">Logout</button>
                 </div>
                 <div id="instructions" class="tab-pane fade" style="text-align: left;">
                     <h1 style="text-align: center;">Instructions</h1>
@@ -192,93 +198,103 @@
                             </div>
                         </div>
                         <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 1</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT1' disabled>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT1' disabled>
-                            </div>
-                        </div>
+                        <label for="js-dropdown3">Members</label>
+                        <select id="js-dropdown3" style="width: 15%">
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8" selected="selected">8</option>
+                        </select>
                         <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 2</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT2' placeholder='Email' required>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT2' placeholder='Bitotsav Id'
-                                    required>
-                            </div>
-                        </div>
                         <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 3</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT3' placeholder='Email' required>
+                        <div class="champion">
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 1</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT1' disabled>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT1' disabled>
+                                </div>
                             </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT3' placeholder='Bitotsav Id'
-                                    required>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 2</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT2' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT2' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
                             </div>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 3</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT3' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT3' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 4</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT4' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT4' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 5</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT5' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT5' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 6</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT6' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT6' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 7</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT7' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT7' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class='row'>
+                                <div class='col-xs-2'>Member 8</div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='emailT8' placeholder='Email' required>
+                                </div>
+                                <div class='col-xs-5'>
+                                    <input style="width:100%" type='text' id='bitotsavIdT8' placeholder='Bitotsav Id'
+                                        required>
+                                </div>
+                            </div>
+                            <br>
                         </div>
-                        <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 4</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT4' placeholder='Email' required>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT4' placeholder='Bitotsav Id'
-                                    required>
-                            </div>
-                        </div>
-                        <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 5</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT5' placeholder='Email' required>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT5' placeholder='Bitotsav Id'
-                                    required>
-                            </div>
-                        </div>
-                        <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 6</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT6' placeholder='Email' required>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT6' placeholder='Bitotsav Id'
-                                    required>
-                            </div>
-                        </div>
-                        <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 7</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT7' placeholder='Email' required>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT7' placeholder='Bitotsav Id'
-                                    required>
-                            </div>
-                        </div>
-                        <br>
-                        <div class='row'>
-                            <div class='col-xs-2'>Member 8</div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='emailT8' placeholder='Email' required>
-                            </div>
-                            <div class='col-xs-5'>
-                                <input style="width:100%" type='text' id='bitotsavIdT8' placeholder='Bitotsav Id'
-                                    required>
-                            </div>
-                        </div>
-                        <br>
                         <p style="line-height: 1em; font-size: 1em;" id="error-message3"></p>
                         <button type="submit" class="btn btn-primary" name="teamRegistration" id="team-registration">Register</button>
                     </form>

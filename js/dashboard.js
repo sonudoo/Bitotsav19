@@ -1,6 +1,6 @@
 // GET request for Profile Page
 var requrl = "https://bitotsav.in";
-var userbitId,userbitCollege,userbitEmail,userTeam;
+var userbitId,userbitCollege,userbitEmail,userTeam,dd=8;
 $.ajax({
     url: requrl+"/api/participants/dashboard",
     type: 'GET',
@@ -90,6 +90,41 @@ $.ajax({
         return;
     }
 });
+$('#js-dropdown3').on('change',function(){
+    $('.champion').html("");
+    dd = $('#js-dropdown3').val();
+    $('.champion').append(`<div class='row'>
+        <div class='col-xs-2'>Member 1</div>
+        <div class='col-xs-5'>
+            <input style="width:100%" type='text' id='emailT1' disabled>
+        </div>
+        <div class='col-xs-5'>
+            <input style="width:100%" type='text' id='bitotsavIdT1' disabled>
+        </div>
+    </div>
+    <br>`);
+    $("#emailT1").val(userbitEmail);
+    $("#bitotsavIdT1").val(userbitId);
+    for(let i=1;i<dd;i++){
+        $('.champion').append(`<div class='row'>
+        <div class='col-xs-2'>Member ${i+1}</div>
+        <div class='col-xs-5'>
+            <input style="width:100%" type='text' id='emailT${i+1}' placeholder='Email' required>
+        </div>
+        <div class='col-xs-5'>
+            <input style="width:100%" type='text' id='bitotsavIdT${i+1}' placeholder='Bitotsav Id'
+                required>
+        </div>
+    </div>
+    <br>`);
+    }
+});
+
+function logout(){
+    e.preventDefault();
+    localStorage.setItem('token','');
+    window.location.href = 'registration.html';
+}
 
 // Championship registration
 $('#team-info').submit(function(e){
@@ -108,11 +143,11 @@ $('#team-info').submit(function(e){
         return false;
     }
     var emails=[],bitIds=[];
-    for(var i=1;i<9;i++) {
+    for(var i=1;i<=dd;i++) {
         emails.push($("#emailT"+i).val().trim());
         bitIds.push($("#bitotsavIdT"+i).val().trim());
     }
-    for(var i=0;i<8;i++) {
+    for(var i=0;i<dd;i++) {
         if(emails[i]==="")
         {
             var fieldNum=i+1;
@@ -132,9 +167,9 @@ $('#team-info').submit(function(e){
             return false;
         }
     }
-    for(var i=0;i<8;i++) {
+    for(var i=0;i<dd;i++) {
         if(check_email(emails[i])===false) {
-            var fieldNum=i+2;
+            var fieldNum=i+1;
             $("#error-message3").text("*Email "+fieldNum+" is incorrect!");
             $("#error-message3").css("color", "red");
             $('#team-registration').html('Register');
@@ -143,14 +178,15 @@ $('#team-info').submit(function(e){
         }
     }
     var members=[];
-    for(var i=0;i<8;i++) {
+    for(var i=0;i<dd;i++) {
         members.push({
             memberEmail: emails[i],
             memberId: bitIds[i]
         });
     }
     var memberSet=new Set(emails);
-    if(memberSet.size!==8) {
+    
+    if(memberSet.size!=dd) {
         $("#error-message3").text("*All Field Should be different");
         $("#error-message3").css("color", "red");
         $('#team-registration').html('Register');
