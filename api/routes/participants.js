@@ -873,6 +873,12 @@ router.post('/championship', checkAuth, (req, res) => {
     let memberCheck = 0;
     let memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
+    if (memberArr.length < 6 || memberArr.length > 8) {
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "6-8 members are required"
+        }))
+    }
     db.championships
     .find({teamName: req.body.teamName},function(error, team){
         if(error){

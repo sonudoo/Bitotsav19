@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "in.bitotsav",
+    "sha256_cert_fingerprints":
+    ["B1:EF:F0:21:23:54:98:5C:E6:E5:A5:66:5D:09:9D:4F:A6:0E:7F:13:3C:CF:36:74:15:93:A3:E9:4E:12:CB:66"]
+  }
+}]

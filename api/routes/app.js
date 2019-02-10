@@ -1022,6 +1022,18 @@ router.post('/championship', checkAuth, (req, res) => {
     let memberCheck = 0;
     let memberUpdated = 0;
     const memberArr = JSON.parse(req.body.teamMembers);
+    if (memberArr.length == 0) {
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "No members sent"
+        }))
+    }
+    if (memberArr.length < 5 || memberArr.length > 7) {
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "6-8 members are required"
+        }))
+    }
     memberArr.push({
         memberId: req.userData.id,
         memberEmail: req.userData.email
