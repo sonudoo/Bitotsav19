@@ -21,6 +21,7 @@ export interface ParticipantData {
         day1: Boolean;
         day2: Boolean;
         day3: Boolean;
-        day4: Boolean;
+        merchandise: Boolean;
+        accommodation: Boolean;
     };
 }

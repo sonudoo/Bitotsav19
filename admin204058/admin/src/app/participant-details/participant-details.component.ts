@@ -32,7 +32,8 @@ export class ParticipantDetailsComponent implements OnInit {
       day1: false,
       day2: false,
       day3: false,
-      day4: false,
+      merchandise: false,
+      accommodation: false
     }
   }
 
@@ -68,7 +69,8 @@ export class ParticipantDetailsComponent implements OnInit {
               day1: data.payment.day1,
               day2: data.payment.day2,
               day3: data.payment.day3,
-              day4: data.payment.day4
+              merchandise: data.payment.merchandise,
+              accommodation: data.payment.accommodation
             }
           }
         },

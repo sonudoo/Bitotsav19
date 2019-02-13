@@ -111,6 +111,98 @@ router.post('/getAllFeeds', function (req, res) {
     });
 });
 
+router.post('/getAllBCTeams', function (req, res) {
+    db.championships.find({}, function (error, result1) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured"
+            }));
+        }
+        else {
+            db.participants.find({ id: { $ne: "-1" } }, function (error, result2) {
+                if (error) {
+                    res.status(502).send(JSON.stringify({
+                        success: false,
+                        msg: "Database fetch error occured"
+                    }));
+                }
+                else {
+                    let map = {};
+                    for (let i in result2) {
+                        map[result2[i].id] = result2[i];
+                    }
+                    let result = [];
+                    for (let i in result1) {
+                        let tmp = {};
+                        tmp['teamName'] = result1[i].teamName;
+                        tmp['teamPoints'] = result1[i].teamPoints;
+                        tmp.teamMembers = {};
+                        for (let j in result1[i].teamMembers) {
+                            tmp.teamMembers[result1[i].teamMembers[j].memberId] = map[result1[i].teamMembers[j].memberId].name;
+                        }
+                        result.push(tmp);
+                    }
+                    res.send(JSON.stringify(result));
+                }
+            })
+        }
+    })
+});
+
+router.post('/getBCTeamByName', function (req, res) {
+    if (req.body.teamName == undefined) {
+        return res.status(403).send(JSON.stringify({
+            success: false,
+            msg: "teamName is required"
+        }))
+    }
+    db.championships.find({ teamName: req.body.teamName }, function (error, result1) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured"
+            }));
+        }
+        else {
+            if (result1.length != 1) {
+                res.status(404).send(JSON.stringify({
+                    success: false,
+                    msg: "Team not found"
+                }))
+            }
+            else {
+                db.participants.find({ id: { $ne: "-1" } }, function (error, result2) {
+                    if (error) {
+                        res.status(502).send(JSON.stringify({
+                            success: false,
+                            msg: "Database fetch error occured"
+                        }));
+                    }
+                    else {
+                        let map = {};
+                        for (let i in result2) {
+                            map[result2[i].id] = result2[i];
+                        }
+                        let result = [];
+                        for (let i in result1) {
+                            let tmp = {};
+                            tmp['teamName'] = result1[i].teamName;
+                            tmp['teamPoints'] = result1[i].teamPoints;
+                            tmp.teamMembers = {};
+                            for (let j in result1[i].teamMembers) {
+                                tmp.teamMembers[result1[i].teamMembers[j].memberId] = map[result1[i].teamMembers[j].memberId].name;
+                            }
+                            result.push(tmp);
+                        }
+                        res.send(JSON.stringify(result[0]));
+                    }
+                })
+            }
+        }
+    })
+});
+
 
 router.post('/getEventById', (req, res) => {
     if (req.body.eventId == undefined) {

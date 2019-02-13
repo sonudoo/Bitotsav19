@@ -22,6 +22,7 @@ import { AnnouncementComponent } from './announcement/announcement.component';
 import { PMComponent } from './pm/pm.component';
 import { PaymentComponent } from './payment/payment.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ChampionshipTeamsComponent } from './championship-teams/championship-teams.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LogoutComponent } from './logout/logout.component';
     AnnouncementComponent,
     PMComponent,
     PaymentComponent,
-    LogoutComponent
+    LogoutComponent,
+    ChampionshipTeamsComponent
   ],
   imports: [
     BrowserModule,

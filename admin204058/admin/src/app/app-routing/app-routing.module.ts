@@ -12,6 +12,7 @@ import { AnnouncementComponent } from '../announcement/announcement.component';
 import { PMComponent } from '../pm/pm.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { LogoutComponent } from '../logout/logout.component';
+import { ChampionshipTeamsComponent } from '../championship-teams/championship-teams.component';
 const routes: Routes = [
     {
         path: '',
@@ -60,6 +61,10 @@ const routes: Routes = [
     {
         path: 'logout',
         component: LogoutComponent
+    },
+    {
+        path: 'championship',
+        component: ChampionshipTeamsComponent
     }
 ];
 
