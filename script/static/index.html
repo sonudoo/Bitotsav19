@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="assets/favicon.ico">
+
+  <title>Bitotsav Verification Portal</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="assets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="assets/starter-template.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="https://bitotsav.in/"><img height="30px" src="assets/logo.png"></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 style="text-align: center">Instructions</h1>
+        <hr>
+        <ul>
+          <li>This portal is for students of BIT Mesra to get their account verified without being physically present at
+            the Infocell.</li>
+          <li>Please provide your Bitotsav email & password and your Cyberoam credentials to get your account verified.
+          </li>
+          <li>Passwords are hashed and not stored by the system.</li>
+        </ul>
+        <hr>
+      </div>
+      <div class="col-md-6">
+        <form #pmForm="ngForm" (submit)="onSubmit(pmForm)">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" name="email">
+            <small class="text-danger" id="emailError"></small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <small class="text-danger" id="passwordError"></small>
+          </div>
+          <div class="form-group">
+            <label for="username">Cyberoam Username:</label>
+            <input type="text" class="form-control" id="username" name="username">
+            <small class="text-danger" id="usernameError"></small>
+          </div>
+          <div class="form-group">
+            <label for="password">Cyberoam Password:</label>
+            <input type="password" class="form-control" id="cpassword" name="cpassword">
+            <small class="text-danger" id="cpasswordError"></small>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="verify()">Verify</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="text-center">
+            <img src="assets/ajax-loader.gif" class="icon" />
+            <p id="processing-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="assets/jquery-3.1.1.slim.min.js"></script>
+  <script src="assets/tether.min.js"></script>
+  <script src="assets/bootstrap.min.js"></script>
+  <script>
+    function verify() {
+      let email = $("#email").val();
+      let password = $("#password").val();
+      let username = $("#username").val();
+      let cpassword = $("#cpassword").val();
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (re.test(email) == false) {
+        $("#emailError").html("Email is incorrect");
+        return false;
+      }
+      else {
+        $("#emailError").html("");
+      }
+      if (password.length < 6) {
+        $("#passwordError").html("Invalid password");
+        return false;
+      }
+      else {
+        $("#passwordError").html("");
+      }
+      if (username == "") {
+        $("#usernameError").html("Cyberoam username is required");
+        return false;
+      }
+      else {
+        $("#usernameError").html("");
+      }
+      if (cpassword == "") {
+        $("#cpasswordError").html("Cyberoam password is required");
+        return false;
+      }
+      else {
+        $("#cpasswordError").html("");
+      }
+
+      $("#processing-text").html("Verifying.");
+      $('#processing-modal').modal('show');
+      $.ajax({
+        url: "/verifyParticipant",
+        type: "post",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          email: email,
+          bitotsavPassword: password,
+          username: username,
+          cyberoamPassword: cpassword
+        }),
+        success: function (d) {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+          alert("Verification successful. The status will reflect on your dashboard soon.");
+          location.href = "https://bitotsav.in/registration.html";
+        },
+        error: function (d) {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+          if(d.status == 404){
+            alert("Incorrect Bitotsav email or password");
+          }
+          else if(d.status == 408){
+            alert("You are already verified");
+            location.href = "https://bitotsav.in/registration.html";
+
+          }
+          else if(d.status == 403){
+            alert("Failed to match your Cyberoam account to Bitotsav account. Please contact our team to get your account verified")
+          }
+          else{
+            alert("An unknown error occured");
+          }
+        }
+      });
+    }
+  </script>
+  <style>
+    .modal-static {
+      position: fixed;
+      top: 50% !important;
+      left: 50% !important;
+      margin-top: -100px;
+      margin-left: -100px;
+      overflow: visible !important;
+    }
+
+    .modal-static,
+    .modal-static .modal-dialog,
+    .modal-static .modal-content {
+      width: 200px;
+      height: 200px;
+    }
+
+    .modal-static .modal-dialog,
+    .modal-static .modal-content {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .modal-static .modal-content .icon {}
+  </style>
+</body>
+
+</html>

@@ -4,11 +4,11 @@ from urllib.parse import quote_plus, urlencode
 from urllib.request import Request, urlopen
 
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
 
-app = Flask(__name__, static_url_path="")
+app = Flask(__name__, static_url_path="/static")
 CORS(app)
 
 dbPass = quote_plus("Bitotsav2019!@")
@@ -30,8 +30,8 @@ def getDb():
 
 def login():
     # Enter cyberoam credential here
-    username = "YOUR_USERNAME_HERE"
-    password = "YOUR_PASSWORD_HERE"
+    username = "be1005815"
+    password = "/*-+"
     data = {"username": username, "password": password, "mode": "191"}
     res = str(urlopen(Request(url, urlencode(data).encode()), context=ctx).read())
 
@@ -46,7 +46,10 @@ def verifyCredentials(username, password):
     res = str(urlopen(Request(url, urlencode(data).encode()), context=ctx).read())
 
     if (
-        len(res.split("<message><![CDATA[You have successfully logged in]]></message>"))
+        len(res.split("You have successfully logged in"))
+        > 1
+        or
+        len(res.split("You have reached Maximum Login Limit"))
         > 1
     ):
         # Login successful
@@ -97,10 +100,9 @@ def getFirstLastFromString(value):
     return (first, last)
 
 
-# endpoint to root
-@app.route("/", methods=["GET"])
-def home():
-    return app.send_static_file("index.html")
+@app.route('/')
+def hello():
+    return redirect("static/index.html", code=302)
 
 
 @app.route("/verifyParticipant", methods=["POST"])
@@ -140,6 +142,7 @@ def verifyParticipant():
 
     # print(participantRoll)
     if verifyCredentials(username, cyberoamPassword):
+        print("Verified")
         # Verified
         try:
             # print("Updating db..")
@@ -150,7 +153,7 @@ def verifyParticipant():
                         "payment.day1": True,
                         "payment.day2": True,
                         "payment.day3": True,
-                        "paymemt.accommodation": True
+                        "payment.accommodation": True
                     }
                 },
             )
@@ -168,4 +171,4 @@ def verifyParticipant():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=8080)
