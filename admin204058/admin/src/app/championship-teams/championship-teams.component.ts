@@ -1,6 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { GetAllSAPSService } from '../get-all-saps.service';
-import { GetSAPByIdService } from '../get-sapby-id.service';
 import { Router } from '@angular/router';
 import { VerifyTokenService } from '../verify-token.service';
 import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
@@ -31,11 +29,9 @@ export class ChampionshipTeamsComponent implements OnInit {
           for (let i in data) {
             this.teams.push({
               teamName: data[i].teamName,
-              teamLeader: data[i].teamLeader,
               teamPoints: data[i].teamPoints
             });
           }
-          console.log(data);
         },
         error => {
           $("#processing-text").html("");
@@ -50,26 +46,32 @@ export class ChampionshipTeamsComponent implements OnInit {
     }
   }
 
-  onChange(id: any) {
+  onChange(teamName: String) {
     if (this.storage.get('token') != undefined) {
-      $("#processing-text").html("Fetching SAP details.");
+      $("#processing-text").html("Fetching Team details.");
       $('#processing-modal').modal('show');
-      this.getChampionshipTeamByNameService.getBCTeamByName({ token: this.storage.get('token'), id: this.currentTeam }).subscribe(
+      this.getChampionshipTeamByNameService.getBCTeamByName(this.storage.get('token'), this.currentTeam).subscribe(
         data => {
           $("#processing-text").html("");
           $('#processing-modal').modal('hide');
           this.teamData = data;
+          let res = '<p><b>Name: </b>'+this.teamData.teamName+"</p>";
+          res += '<p><b>Points: </b>'+this.teamData.teamPoints+"</p>";
+          for(let i in this.teamData.teamMembers){
+            res += '<p><b>'+i+': </b>'+this.teamData.teamMembers[i]+"</p>";
+          }
+          $("#data-display").html(res);
         },
-        error => {
-          $("#processing-text").html("");
-          $('#processing-modal').modal('hide');
-          alert("Error fetching data. Try again..");
-          this.router.navigate([""]);
-        }
+error => {
+  $("#processing-text").html("");
+  $('#processing-modal').modal('hide');
+  alert("Error fetching data. Try again..");
+  this.router.navigate([""]);
+}
       );
     }
     else {
-      this.router.navigate([""]);
-    }
+  this.router.navigate([""]);
+}
   }
 }

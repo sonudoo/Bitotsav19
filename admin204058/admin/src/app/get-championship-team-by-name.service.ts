@@ -10,7 +10,7 @@ export class GetChampionshipTeamByNameService {
 
   }
 
-  getBCTeamByName(token: any){
-    return this._http.post<any>(this._url, {token: token});
+  getBCTeamByName(token: any, teamName: String){
+    return this._http.post<any>(this._url, {token: token, teamName: teamName});
   } 
 }

@@ -1,3 +1,31 @@
-<p>
-  championship-teams works!
-</p>
+<div class="row">
+  <div class="col-md-6">
+    <h1 style="text-align: center">Instructions</h1>
+    <hr>
+    <ul>
+      <li>This section is to view teams for Bitotsav Championship</li>
+      <li>Use the dropout to select the team. Details will be displayed below.</li>
+    </ul>
+    <hr>
+  </div>
+  <div class="col-md-6">
+
+    <form>
+      <div class="form-group">
+        <label for="team">Team</label>
+        <select class="form-control" id="team" #team="ngModel" name="team" [(ngModel)]="currentTeam"
+          [class.is-invalid]="team.invalid && team.touched" required (change)="onChange(team.value)">
+          <option *ngFor="let t of teams" value="{{t.teamName}}">{{t.teamName}} - {{t.teamPoints}}</option>
+        </select>
+        <small class="text-danger" [class.d-none]="team.valid || team.untouched">Team is required.</small>
+      </div>
+    </form>
+
+    <div class="container-fluid" id="data-display">
+      
+
+    </div>
+  </div>
+  <br>
+  <br>
+</div>
