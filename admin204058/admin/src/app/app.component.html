@@ -1,19 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center; background-color: #222; color: #FFF; padding: 10px 0px; margin-bottom: 10px; position: sticky; top: 0; width: 100%; z-index: 10;">
-  <h2>
-    Bitotsav Admin Panel
-  </h2>
-</div>
+<app-sidebar></app-sidebar>
+<br><hr><hr><br>
 <div class="container-fluid">
-    <div class="row" style="min-height: 100vh;">
-      <div class="col-md-4">
-        <app-sidebar></app-sidebar>
-      </div>
-      <div class="col-md-4">
-        <router-outlet></router-outlet>
-      </div>
-      <div class="col-md-4">
-   
-      </div>
+  <router-outlet></router-outlet>
+</div>
+<div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="../assets/ajax-loader.gif" class="icon" />
+                    <p id="processing-text"></p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+</div>

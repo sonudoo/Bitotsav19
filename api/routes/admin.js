@@ -97,6 +97,21 @@ router.post('/getAllEvents', (req, res) => {
     });
 });
 
+router.post('/getAllFeeds', function (req, res) {
+    db.announcements.find({}, function (error, result) {
+        if (error) {
+            res.status(502).send(JSON.stringify({
+                success: false,
+                error: "Database fetch error occured"
+            }));
+        }
+        else {
+            res.status(200).send(JSON.stringify(result));
+        }
+    });
+});
+
+
 router.post('/getEventById', (req, res) => {
     if (req.body.eventId == undefined) {
         return res.sendStatus(403);
@@ -289,6 +304,8 @@ router.post('/getAllParticipants', (req, res) => {
         }
     });
 });
+
+
 
 router.post('/getParticipantById', (req, res) => {
     if (req.body.id == undefined) {

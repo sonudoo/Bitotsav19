@@ -1,17 +1,10 @@
-nav {
-    background-color: #222;
-    margin-top: -10px;
-    margin-left: -20px;
-    width: 50%;
-    height: 100%;
-    color: #EEE;
-}
-
 a {
-    color: #EEE;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: rgb(253, 251, 251);
 }
 
 a:hover {
     cursor: pointer;
-    color: #999;
+    color: #FFF;
 }

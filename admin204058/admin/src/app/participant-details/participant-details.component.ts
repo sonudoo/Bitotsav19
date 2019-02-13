@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { VerifyTokenService } from '../verify-token.service';
 import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { GetParticipantByEmailService } from '../get-participant-by-email.service';
+declare var $: any;
 
 @Component({
   selector: 'app-participant',
@@ -40,11 +41,15 @@ export class ParticipantDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.email = params.get('id').replace("__at__","@").replace(/\-/g,".");
+      this.email = params.get('id').replace("__at__", "@").replace(/\-/g, ".");
     });
     if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching Participant Details.");
+      $('#processing-modal').modal('show');
       this.getParticipantByEmail.getParticipantByEmail(this.storage.get('token'), this.email).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           this.participantData = {
             id: data.id,
             name: data.name,
@@ -68,6 +73,8 @@ export class ParticipantDetailsComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("No such participant found.");
         }
       );

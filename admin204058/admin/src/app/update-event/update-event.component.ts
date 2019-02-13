@@ -6,6 +6,7 @@ import { UpdateEventService } from '../update-event.service';
 import { NgForm } from '@angular/forms';
 import { LOCAL_STORAGE, StorageService } from 'angular-webstorage-service';
 import { Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-update-event',
@@ -45,9 +46,14 @@ export class UpdateEventComponent implements OnInit {
   constructor(private getAllEventsService: GetAllEventsService, private getEventByIdService: GetEventByIdService, private updateEventService: UpdateEventService, @Inject(LOCAL_STORAGE) private storage: StorageService, private router: Router) { }
 
   ngOnInit() {
-    if(this.storage.get('token') != undefined){
+    if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching Event list.");
+      $('#processing-modal').modal('show');
       this.getAllEventsService.getAllEvents(this.storage.get('token')).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+
           for (let i in data) {
             this.events.push({
               eventId: data[i].eventId,
@@ -56,20 +62,26 @@ export class UpdateEventComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }
       );
     }
-    else{
+    else {
       this.router.navigate([""]);
     }
   }
   onChange(eventId: any) {
-    if(this.storage.get('token') != undefined){
+    if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching Event details.");
+      $('#processing-modal').modal('show');
       this.getEventByIdService.getEventById({ token: this.storage.get('token'), eventId: this.currentEventId }).subscribe(
         data => {
-          if(data.length != undefined){
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+          if (data.length != undefined) {
             data = data[0];
           }
           this.updateEventData = {
@@ -99,12 +111,14 @@ export class UpdateEventComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error fetching data. Try again..");
           this.router.navigate([""]);
         }
       );
     }
-    else{
+    else {
       this.router.navigate([""]);
     }
   }
@@ -122,10 +136,14 @@ export class UpdateEventComponent implements OnInit {
       alert("Event Prizes are not properly ordered");
       return false;
     }
-    if(this.storage.get('token') != undefined){
-      this.updateEventService.updateEvent(this.storage.get('token'), this.currentEventId, this.updateEventData , this.msgData).subscribe(
+    if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Updating..");
+      $('#processing-modal').modal('show');
+      this.updateEventService.updateEvent(this.storage.get('token'), this.currentEventId, this.updateEventData, this.msgData).subscribe(
         data => {
-          if(data.success == true){
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+          if (data.success == true) {
             this.updateEventData = {
               eventName: "",
               eventVenue: "",
@@ -154,18 +172,20 @@ export class UpdateEventComponent implements OnInit {
             alert("Event updated successfully");
             updateEventForm.reset();
           }
-          else{
+          else {
             alert("An unknown error occured");
             this.router.navigate([""]);
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("An unknown error occured");
           this.router.navigate([""]);
         }
       );
     }
-    else{
+    else {
       this.router.navigate([""]);
     }
 

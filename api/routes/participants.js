@@ -520,6 +520,47 @@ router.get('/dashboard', checkAuth, (req, res) => {
     });
 });
 
+router.get('/getPaymentDetails', checkAuth, function(req, res){
+    db.participants.find({ email: req.userData.email }, function (error, user) {
+        if (error) {
+            return res.status(502).send(JSON.stringify({
+                success: false,
+                msg: "Database fetch error occured."
+            }));
+        }
+        if (user.length != 1) {
+            res.status(404).send(JSON.stringify({
+                success: false,
+                msg: "No such participant present"
+            }));
+        }
+        else {
+            let result = {}
+            try{
+                result.day1 = user[0].payment.day1;
+                result.day2 = user[0].payment.day2;
+                result.day3 = user[0].payment.day3;
+                result.merchandize = user[0].payment.merchandize;
+                result.accommodation = user[0].payment.accommodation;
+                for(let key in result){
+                    if (result[key] == undefined){
+                        result[key] = false;
+                    }
+                }
+                res.status(200).send(JSON.stringify(result));
+            }
+            catch(error){
+                res.status(200).send(JSON.stringify({
+                    day1: false,
+                    day2: false,
+                    day3: false,
+                    merchandize: false,
+                    accommodation: false
+                }))
+            }
+        }
+    });
+})
 // Update Participant Password
 router.post('/updatePassword', checkAuth, (req, res) => {
     db.participants

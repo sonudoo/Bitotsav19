@@ -4,14 +4,14 @@ import { GetSAPByIdService } from '../get-sapby-id.service';
 import { Router } from '@angular/router';
 import { VerifyTokenService } from '../verify-token.service';
 import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
-
+declare var $: any;
 @Component({
   selector: 'app-sap',
   templateUrl: './sap.component.html',
   styleUrls: ['./sap.component.css']
 })
 export class SAPComponent implements OnInit {
-  
+
   public SAPs = [];
   public currentSAPId;
   public SAPData = {
@@ -30,10 +30,14 @@ export class SAPComponent implements OnInit {
 
 
   ngOnInit() {
-    if(this.storage.get('token') != undefined){
+    if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching SAP list.");
+      $('#processing-modal').modal('show');
       this.getAllSAPSService.getAllSAPS(this.storage.get('token')).subscribe(
         data => {
-          for(let i in data){
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+          for (let i in data) {
             this.SAPs.push({
               SAPId: data[i].id,
               SAPName: data[i].name
@@ -41,29 +45,37 @@ export class SAPComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }
       );
     }
-    else{
+    else {
       this.router.navigate([""]);
     }
   }
 
-  onChange(id: any){
-    if(this.storage.get('token') != undefined){
-      this.getSAPByIdService.getSAPById({token: this.storage.get('token'), id: this.currentSAPId}).subscribe(
+  onChange(id: any) {
+    if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching SAP details.");
+      $('#processing-modal').modal('show');
+      this.getSAPByIdService.getSAPById({ token: this.storage.get('token'), id: this.currentSAPId }).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           this.SAPData = data;
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error fetching data. Try again..");
           this.router.navigate([""]);
         }
       );
     }
-    else{
+    else {
       this.router.navigate([""]);
     }
   }

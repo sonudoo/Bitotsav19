@@ -3,6 +3,7 @@ import { GetAllParticipantsService } from '../get-all-participants.service';
 import { Router } from '@angular/router';
 import { VerifyTokenService } from '../verify-token.service';
 import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+declare var $: any;
 
 @Component({
   selector: 'app-participant',
@@ -23,8 +24,12 @@ export class ParticipantComponent implements OnInit {
 
   ngOnInit() {
     if(this.storage.get('token') != undefined){
+      $("#processing-text").html("Fetching Participant list.");
+      $('#processing-modal').modal('show');
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
+          $("#processing-text").html("");
+      $('#processing-modal').modal('hide');
           for(let i in data){
             if(data[i].id == "-1"){
               this.participants.push({
@@ -48,6 +53,8 @@ export class ParticipantComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+      $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }

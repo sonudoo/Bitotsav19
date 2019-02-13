@@ -1,33 +1,55 @@
-<form #participantSearchForm="ngForm">
-  <div class="form-group radio-inline">
-    <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="name" checked (change)="search()">Search by Name</label>
+<div class="row">
+  <div class="col-md-6">
+    <h1 style="text-align: center">Instructions</h1>
+    <hr>
+    <ul>
+      <li>This section is used to view to all the registrations</li>
+      <li>4 filters can be applied - Name, Id (BT19/1XXXX), Phone and Email.</li>
+      <li>The search result contains both verified and unverified accounts.</li>
+      <li>Click on the individual participant to view his/her details.</li>
+      <li>Minimum 3 characters are required to trigger search.</li>
+      <li>Incase no result is shown, type again to trigger search.</li>
+    </ul>
+    <hr>
   </div>
-  <div class="form-group radio-inline">
-    <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="id" (change)="search()">Search by Id</label>
+  <div class="col-md-6">
+    <form #participantSearchForm="ngForm">
+      <div class="form-group radio-inline">
+        <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="name" checked
+            (change)="search()"> Search by Name</label>
+      </div>
+      <div class="form-group radio-inline">
+        <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="id"
+            (change)="search()"> Search by Id</label>
+      </div>
+      <div class="form-group radio-inline">
+        <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="phno"
+            (change)="search()"> Search by Phone</label>
+      </div>
+      <div class="form-group radio-inline">
+        <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="email"
+            (change)="search()"> Search by Email</label>
+      </div>
+      <div class="form-group">
+        <label for="field">Name/Id/Phone/Email</label>
+        <input type="text" class="form-control" #field="ngModel" id="field" name="field" [(ngModel)]="participant"
+          [class.is-invalid]="field.invalid && field.touched" required minlength="3" (keyup)="detectTyping()">
+        <small class="text-danger" [class.d-none]="field.valid || field.untouched">Minimum 3 characters before search
+          can trigger.</small>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>College</th>
+            <th>Verified</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody #tbody>
+
+        </tbody>
+      </table>
+    </form>
   </div>
-  <div class="form-group radio-inline">
-    <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="phno" (change)="search()">Search by Phone</label>
-  </div>
-  <div class="form-group radio-inline">
-    <label><input type="radio" name="searchBy" id="searchBy" [(ngModel)]="searchBy" value="email" (change)="search()">Search by Email</label>
-  </div>
-  <div class="form-group">
-    <label for="field">Name/Id</label>
-    <input type="text" class="form-control" #field="ngModel" id="field" name="field" [(ngModel)]="participant"
-      [class.is-invalid]="field.invalid && field.touched"  required minlength="3" (keyup)="detectTyping()">
-    <small class="text-danger" [class.d-none]="field.valid || field.untouched">Minimum 3 characters before search can trigger.</small>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>College</th>
-        <th>Verified</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody #tbody>
-      
-    </tbody>
-  </table>
-</form>
+</div>

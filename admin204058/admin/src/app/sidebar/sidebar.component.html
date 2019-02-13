@@ -1,12 +1,54 @@
-<nav class="nav flex-column">
-    <a class="nav-link" (click)="navigate('event')">Events</a>
-    <a class="nav-link" (click)="navigate('sap')">SAP</a>
-    <a class="nav-link" (click)="navigate('participants')">Participants</a>
-    <a class="nav-link" (click)="navigate('teams')">Teams</a>
-    <a class="nav-link" (click)="navigate('sms')">Send SMS</a>
-    <a class="nav-link" (click)="navigate('result')">Result Announcement</a>
-    <a class="nav-link" (click)="navigate('announcement')">General Announcement</a>
-    <a class="nav-link" (click)="navigate('personalmessage')">Personal Message</a>
-    <a class="nav-link" (click)="navigate('payment')">Payment Update</a>
-    <a class="nav-link" (click)="navigate('logout')">Logout</a>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+    <!-- Brand -->
+    <div class="navbar-brand"><img src="https://bitotsav.in/logo.png" height="30px"></div>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('event')"> Events </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('sap')"> SAP </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('participants')"> Participants </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('teams')"> Teams </a>
+
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('sms')"> SMS </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('result')"> Result </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('announcement')"> Announcement </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('personalmessage')"> PM </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('payment')"> Payment </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigate('logout')"> Logout </a>
+
+            </li>
+        </ul>
+    </div>
 </nav>

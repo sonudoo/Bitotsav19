@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { VerifyTokenService } from '../verify-token.service';
 import { StorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { GetAllEventsService } from '../get-all-events.service';
-
+declare var $: any;
 @Component({
   selector: 'app-team-list',
   templateUrl: './team-list.component.html',
@@ -23,8 +23,12 @@ export class TeamListComponent implements OnInit {
 
   ngOnInit() {
     if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching Participant list.");
+      $('#processing-modal').modal('show');
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           for (let i in data) {
             this.participants[data[i].id] = {
               id: data[i].id,
@@ -36,12 +40,18 @@ export class TeamListComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }
       );
+      $("#processing-text").html("Fetching Event list.");
+      $('#processing-modal').modal('show');
       this.getAllEventsService.getAllEvents(this.storage.get('token')).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           for (let i in data) {
             this.events.push({
               eventId: data[i].eventId,
@@ -50,6 +60,8 @@ export class TeamListComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }
@@ -62,25 +74,31 @@ export class TeamListComponent implements OnInit {
   onChange(event: any) {
     this.tbody.nativeElement.innerHTML = "Searching..";
     if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Fetching Team list.");
+      $('#processing-modal').modal('show');
       this.getTeamsListService.getTeamsList(this.storage.get('token'), event).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           this.tbody.nativeElement.innerHTML = "";
-          this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4">Total teams - '+data.length+'</td>');
+          this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4">Total teams - ' + data.length + '</td>');
 
           for (let i in data) {
-            let j = parseInt(i)+1;
-            if(this.currentEventId == "-1"){
-              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4" style="font-weight: bold;">Event - '+this.events[parseInt(data[i].eventId)-1].eventName+'</td></tr>');
+            let j = parseInt(i) + 1;
+            if (this.currentEventId == "-1") {
+              this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4" style="font-weight: bold;">Event - ' + this.events[parseInt(data[i].eventId) - 1].eventName + '</td></tr>');
             }
-            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4" style="font-weight: bold;">'+j+'. '+data[i].teamLeaderId+' ('+this.participants[data[i].teamLeaderId].name+') ('+this.participants[data[i].teamLeaderId].phno+')</td></tr>');
-            
+            this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td colspan="4" style="font-weight: bold;">' + j + '. ' + data[i].teamLeaderId + ' (' + this.participants[data[i].teamLeaderId].name + ') (' + this.participants[data[i].teamLeaderId].phno + ')</td></tr>');
+
             this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[data[i].teamLeaderId].name + '</td><td>' + this.participants[data[i].teamLeaderId].college + '</td><td>' + this.participants[data[i].teamLeaderId].rollno + '</td><td>' + this.participants[data[i].teamLeaderId].id + '</td></tr>');
-            for(let j in data[i].teamMembers){
+            for (let j in data[i].teamMembers) {
               this.tbody.nativeElement.insertAdjacentHTML('beforeend', '<tr><td>' + this.participants[data[i].teamMembers[j]].name + '</td><td>' + this.participants[data[i].teamMembers[j]].college + '</td><td>' + this.participants[data[i].teamMembers[j]].rollno + '</td><td>' + this.participants[data[i].teamMembers[j]].id + '</td></tr>');
             }
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }

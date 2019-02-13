@@ -4,7 +4,7 @@ import { AddEventService } from '../add-event-service.service';
 import { NgForm } from '@angular/forms';
 import { LOCAL_STORAGE, StorageService } from 'angular-webstorage-service';
 import { Router } from '@angular/router';
-
+declare var $: any;
 @Component({
   selector: 'app-add-event',
   templateUrl: './add-event.component.html',
@@ -54,8 +54,12 @@ export class AddEventComponent implements OnInit {
       return false;
     }
     if (this.storage.get('token') != undefined) {
+      $("#processing-text").html("Adding..");
+      $('#processing-modal').modal('show');
       this.addEventService.addEvent(this.addEventData, this.storage.get('token')).subscribe(
         data => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           if (data.success == true) {
             this.addEventData = {
               eventName: "",
@@ -90,6 +94,8 @@ export class AddEventComponent implements OnInit {
           }
         },
         error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
           alert("An unknown error occured");
           this.router.navigate([""]);
         }
