@@ -747,7 +747,7 @@ router.post('/getTeamDetails', function (req, res) {
                             result1 = result1[0];
                             let teamMembers = {};
                             teamMembers[req.body.teamLeaderId] = map[req.body.teamLeaderId].name;
-                            for (let i in result1.teamMembers.length) {
+                            for (let i in result1.teamMembers) {
                                 teamMembers[result1.teamMembers[i]] = map[result1.teamMembers[i]].name;
                             }
                             res.status(200).send(JSON.stringify({
