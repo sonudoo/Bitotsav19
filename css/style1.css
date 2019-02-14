@@ -390,7 +390,7 @@ h6 {
   color: #fff;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 0.7em;
   text-transform: uppercase;
   outline: none;
 }
@@ -1138,6 +1138,13 @@ body.mobile-nav-active #mobile-nav-toggle {
 .spon{
   font-family: 'PT Serif', serif;
 }
+/* Nights */ 
+#nights .section-header {
+  margin-bottom: 40px;
+}
+#nights {
+  padding: 60px 0;
+}
 
 /* Testimonials Section
 --------------------------------*/
@@ -1567,7 +1574,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*--------------------------------------------------------------
 # Responsive Media Queries
 --------------------------------------------------------------*/
-
+@media (max-width: 400px){
+  #logo{
+    margin-left:0px !important;
+  }
+}
 @media (min-width: 768px) {
   #contact .contact-address,
   #contact .contact-phone,
@@ -1619,6 +1630,9 @@ body.mobile-nav-active #mobile-nav-toggle {
     #about .about-col p {
         font-size: 0.85em;
     }
+    .nav-menu a {
+        font-size: 0.6em; 
+      }
   }
 
 @media (max-width: 768px) {
@@ -1794,4 +1808,205 @@ body.mobile-nav-active #mobile-nav-toggle {
     top:0; left:0;
     background:rgba(0,0,0,0.6);
     opacity:0.4;
+}
+
+/**
+ * Nights
+ */
+.snip1529 {
+  background-color: #000000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6em;
+  margin: 10px;
+  max-width: 310px;
+  min-width: 250px;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.snip1529 * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.snip1529 img {
+  max-width: 100%;
+  vertical-align: top;
+  position: relative;
+  opacity: 0.75;
+}
+
+.snip1529 figcaption {
+    width: 100%;
+  padding: 25px 20px 25px;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+}
+
+.snip1529 .date {
+  background-color: #fff;
+  color: #333;
+  font-size: 18px;
+  font-weight: 800;
+  min-height: 48px;
+  min-width: 48px;
+  padding: 10px 0;
+  position: absolute;
+  right: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  top: 0;
+}
+
+.snip1529 .date span {
+  display: block;
+  line-height: 14px;
+}
+
+.snip1529 .date .month {
+  font-size: 11px;
+}
+
+.snip1529 h3,
+.snip1529 p {
+  margin: 0;
+  text-align: center;
+  padding: 0;
+}
+
+.snip1529 p {
+    font-family: "Montserrat", sans-serif;
+}
+
+.snip1529 h3 {
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.snip1529 .hover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  background-color: rgba(236, 188, 46, 0.75);
+  display: flex;
+  font-size: 65px;
+  justify-content: center;
+  opacity: 0;
+}
+
+.snip1529 a {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.snip1529:hover .hover,
+.snip1529.hover .hover {
+  -webkit-transition-delay: 0.1s;
+  transition-delay: 0.1s;
+  opacity: 1;
+}
+
+.snip1529:hover figcaption,
+.snip1529.hover figcaption {
+  opacity: 0;
+}
+
+.snip1529:hover .date,
+.snip1529.hover .date {
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+
+.snip1529 .image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.snip1529 .image img {
+    width: 100%;
+    transition: .5s;
+}
+.snip1529:hover .image img {
+    opacity: .5;
+    transform: translateX(30%);/*100%*/
+}
+
+
+.snip1529 .details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70%;/*100%*/
+    height: 100%;
+    background: #ffc107;
+    transition: .5s;
+    transform-origin: left;
+    transform: perspective(2000px) rotateY(-90deg);
+}
+.snip1529:hover .details {
+    transform: perspective(2000px) rotateY(0deg);
+}
+.snip1529 .details .center {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.snip1529 .details .center h1 {
+    margin: 0;
+    padding: 0;
+    color: #ff3636;
+    line-height: 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+.snip1529 .details .center h1 span {
+    font-size: 14px;
+    color: #262626;
+}
+.snip1529 .details .center p {
+    margin: 10px 0;
+    padding: 0;
+    color: #262626;
+}
+.snip1529 .details .center ul {
+    margin: 10px auto 0;
+    padding: 0;
+    display: table;
+}
+.snip1529 .details .center ul li {
+    list-style: none;
+    margin: 0 5px;
+    float: left;
+}
+.snip1529 .details .center ul li a {
+    display: block;
+    background: #262626;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    transform: .5s;
+}
+.snip1529 .details .center ul li a:hover {
+    background: #ff3636;
 }

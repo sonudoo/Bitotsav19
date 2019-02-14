@@ -7,13 +7,16 @@
       <li>Message must contain maximum 500 characters.</li>
     </ul>
     <hr>
+
   </div>
   <div class="col-md-6">
     <form #pmForm="ngForm" (submit)="onSubmit(pmForm)">
       <div class="form-group">
         <label for="id">Bitotsav Id</label>
-        <input type="text" class="form-control" #id="ngModel" id="id" name="id" [(ngModel)]="bitotsavId"
-          [class.is-invalid]="id.invalid && id.touched" pattern="BT19/1[0-9]{4}" required>
+        <select class="form-control" id="id" #id="ngModel" name="id" [(ngModel)]="bitotsavId"
+          [class.is-invalid]="id.invalid && id.touched" required>
+          <option *ngFor="let participantId of participantIds" value="{{participantId}}">{{participantId}}</option>
+        </select>
         <small class="text-danger" [class.d-none]="id.valid || id.untouched">Bitotsav Id is required</small>
       </div>
       <div class="form-group">

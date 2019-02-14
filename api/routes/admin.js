@@ -382,6 +382,26 @@ router.post('/getSAPById', (req, res) => {
     });
 });
 
+router.post('/getFCMList', (req, res) => {
+    db.fcm.find({}, function (error, result) {
+        if (error) {
+            res.send(JSON.stringify({
+                success: false,
+                error: "An unknown error occured"
+            }));
+        }
+        else {
+            let list = [];
+            for(let i in result){
+                if(result[i].tokens.length > 0){
+                    list.push(result[i].id);
+                }
+            }
+            list.sort();
+            res.send(JSON.stringify(list));
+        }
+    });
+});
 
 router.post('/getAllParticipants', (req, res) => {
     db.participants.find({}, function (error, result) {
