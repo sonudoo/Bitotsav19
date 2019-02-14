@@ -34,6 +34,21 @@ $.ajax({
         userbitId=res.data.id;
         userbitCollege=res.data.college;
         userbitEmail=res.data.email;
+        if(res.data.payment.day1 == true){
+            $('.day1').html('Confirmed');
+        }
+        if(res.data.payment.day2 == true){
+            $('.day2').html('Confirmed');
+        }
+        if(res.data.payment.day3 == true){
+            $('.day3').html('Confirmed');
+        }
+        if(res.data.payment.merchandise == true){
+            $('.merchandise').html('Confirmed');
+        }
+        if(res.data.payment.accommodation == true){
+            $('.accommodation').html('Confirmed');
+        }
         prepareEventTable(res.data.id,res.data.events);
         if(userTeam != "-1"){
             $.ajax({
