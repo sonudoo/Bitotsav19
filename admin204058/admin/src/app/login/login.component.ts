@@ -4,6 +4,8 @@ import { LOCAL_STORAGE, StorageService } from 'angular-webstorage-service';
 import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 import { VerifyTokenService } from '../verify-token.service';
+declare var $: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,8 +34,12 @@ export class LoginComponent implements OnInit {
     }
   }
   onSubmit(loginForm){
+    $("#processing-text").html("Logging in..");
+    $('#processing-modal').modal('show');
     this.loginService.login(this.cusername, this.cpassword).subscribe(
       data => {
+        $("#processing-text").html("");
+        $('#processing-modal').modal('hide');
         if(data.success == true){
           this.storage.set('token', data.token);
           this.router.navigate(["event"]);
@@ -44,6 +50,8 @@ export class LoginComponent implements OnInit {
         loginForm.reset();
       },
       error => {
+        $("#processing-text").html("");
+        $('#processing-modal').modal('hide');
         alert("An unknown error occured.");
       }
     )

@@ -55,23 +55,23 @@ export class ChampionshipTeamsComponent implements OnInit {
           $("#processing-text").html("");
           $('#processing-modal').modal('hide');
           this.teamData = data;
-          let res = '<p><b>Name: </b>'+this.teamData.teamName+"</p>";
-          res += '<p><b>Points: </b>'+this.teamData.teamPoints+"</p>";
-          for(let i in this.teamData.teamMembers){
-            res += '<p><b>'+i+': </b>'+this.teamData.teamMembers[i]+"</p>";
+          let res = '<p><b>Name: </b>' + this.teamData.teamName + "</p>";
+          res += '<p><b>Points: </b>' + this.teamData.teamPoints + "</p>";
+          for (let i in this.teamData.teamMembers) {
+            res += '<p><b>' + i + ': </b>' + this.teamData.teamMembers[i] + "</p>";
           }
           $("#data-display").html(res);
         },
-error => {
-  $("#processing-text").html("");
-  $('#processing-modal').modal('hide');
-  alert("Error fetching data. Try again..");
-  this.router.navigate([""]);
-}
+        error => {
+          $("#processing-text").html("");
+          $('#processing-modal').modal('hide');
+          alert("Error fetching data. Try again..");
+          this.router.navigate([""]);
+        }
       );
     }
     else {
-  this.router.navigate([""]);
-}
+      this.router.navigate([""]);
+    }
   }
 }

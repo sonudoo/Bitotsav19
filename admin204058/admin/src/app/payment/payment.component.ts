@@ -48,7 +48,7 @@ export class PaymentComponent implements OnInit {
       }
       else {
         $("#processing-text").html("Updating..");
-        $('#processing-modal').modal('hide');
+        $('#processing-modal').modal('show');
         this.paymentService.update(this.storage.get('token'), this.bitotsavId, this.payment).subscribe(
           data => {
             $("#processing-text").html("");

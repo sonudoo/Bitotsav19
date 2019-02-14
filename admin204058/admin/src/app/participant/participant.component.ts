@@ -29,7 +29,7 @@ export class ParticipantComponent implements OnInit {
       this.getAllParticipantsService.getAllParticipants(this.storage.get('token')).subscribe(
         data => {
           $("#processing-text").html("");
-      $('#processing-modal').modal('hide');
+          $('#processing-modal').modal('hide');
           for(let i in data){
             if(data[i].id == "-1"){
               this.participants.push({
@@ -54,7 +54,7 @@ export class ParticipantComponent implements OnInit {
         },
         error => {
           $("#processing-text").html("");
-      $('#processing-modal').modal('hide');
+          $('#processing-modal').modal('hide');
           alert("Error occured while fetching event list.");
           this.router.navigate([""]);
         }
