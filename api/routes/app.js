@@ -269,7 +269,8 @@ router.post('/register', (req, res) => {
                                                             day1: false,
                                                             day2: false,
                                                             day3: false,
-                                                            day4: false
+                                                            merchandise: false,
+                                                            accommodation: false
                                                         },
                                                         emailOtp: emailOtpsent,
                                                         phoneOtp: phoneOtpsent,
