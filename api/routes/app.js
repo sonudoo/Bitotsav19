@@ -710,6 +710,8 @@ router.get('/getPaymentDetails', checkAuth, function(req, res){
     });
 })
 
+let teamDetailsMap = {};
+
 router.post('/getTeamDetails', function (req, res) {
     if (req.body.eventId == undefined || req.body.teamLeaderId == undefined) {
         res.status(403).send(JSON.stringify({
@@ -718,6 +720,10 @@ router.post('/getTeamDetails', function (req, res) {
         }));
     }
     else {
+        let key = req.body.eventId + req.body.teamLeaderId;
+        if(key in teamDetailsMap){
+            return res.status(200).send(teamDetailsMap[key]);
+        }
         db.teams.find({ eventId: parseInt(req.body.eventId), teamLeaderId: req.body.teamLeaderId }, function (error, result1) {
             if (error) {
                 res.status(502).send(JSON.stringify({
@@ -751,10 +757,12 @@ router.post('/getTeamDetails', function (req, res) {
                             for (let i in result1.teamMembers) {
                                 teamMembers[result1.teamMembers[i]] = map[result1.teamMembers[i]].name;
                             }
-                            res.status(200).send(JSON.stringify({
+                            let result2 = JSON.stringify({
                                 success: true,
                                 teamMembers: teamMembers
-                            }))
+                            });
+                            teamDetailsMap[key] = result2;
+                            res.status(200).send(result2);
                         }
                     });
                 }

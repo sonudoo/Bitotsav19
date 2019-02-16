@@ -8,7 +8,7 @@ const request = require('request');
 const JSZip = require("jszip");
 const fs = require("fs");
 const db = require('./setup').db;
-const expressip = require('express-ip');
+//const expressip = require('express-ip');
 /**
  * Include all the routes
  */
@@ -22,12 +22,12 @@ const contactOpsHandler = require('./routes/contact');
 
 
 const app = express();
-app.use(expressip().getIpInfoMiddleware);
+/*app.use(expressip().getIpInfoMiddleware);
 app.use((req, res, next) => {
     if(req.ipInfo.country == "IN"){
         next();
     }
-});
+});*/
 
 // Body Parser middleware
 app.use(bodyParser.json());
