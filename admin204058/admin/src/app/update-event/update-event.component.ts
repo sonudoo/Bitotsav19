@@ -51,6 +51,7 @@ export class UpdateEventComponent implements OnInit {
       $('#processing-modal').modal('show');
       this.getAllEventsService.getAllEvents(this.storage.get('token')).subscribe(
         data => {
+          console.log(data);
           $("#processing-text").html("");
           $('#processing-modal').modal('hide');
 

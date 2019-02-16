@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class GetParticipantByIdService {
-  _url = 'https://bitotsav.in/api/admin/getParticipantById';
+  _url = 'http://localhost:3000/api/admin/getParticipantById';
   constructor(private _http: HttpClient) { 
 
   }

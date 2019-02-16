@@ -8,8 +8,7 @@ const request = require('request');
 const JSZip = require("jszip");
 const fs = require("fs");
 const db = require('./setup').db;
-
-
+const expressip = require('express-ip');
 /**
  * Include all the routes
  */
@@ -23,11 +22,39 @@ const contactOpsHandler = require('./routes/contact');
 
 
 const app = express();
+app.use(expressip().getIpInfoMiddleware);
+app.use((req, res, next) => {
+    if(req.ipInfo.country == "IN"){
+        next();
+    }
+});
 
 // Body Parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
+
+/*let mp = {};
+
+app.use(function(req, res, next){
+    let ip = req.headers['x-real-ip'];
+    if(ip in mp){
+        mp[ip] += 1;
+    }
+    else{
+        mp[ip] = 1;
+    }
+    let str = "";
+    for(let ip in mp){
+        str += ip+": "+mp[ip]+" || ";
+    }
+    process.stdout.write("\r"+str)
+    next();
+});
+
+*/
+
+/**
 
 /**
  * CORS middleware. This is important for letting the UI and APIs on separate domain.
@@ -252,9 +279,9 @@ app.get('/api/backup/:password', function (req, res) {
     });
 })
 
-/**
- * Listen indefinitely on port 3000
- */
+
+
+ 
 app.listen(3000, () => {
     console.log('API Server up at port 3000...');
 })

@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class GetChampionshipTeamByNameService {
-  _url = 'https://bitotsav.in/api/admin/getBCTeamByName';
+  _url = 'http://localhost:3000/api/admin/getBCTeamByName';
   constructor(private _http: HttpClient) { 
 
   }

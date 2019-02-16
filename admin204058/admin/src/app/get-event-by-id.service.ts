@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GetEventByIdService {
 
-  _url = 'https://bitotsav.in/api/admin/getEventById';
+  _url = 'http://localhost:3000/api/admin/getEventById';
   constructor(private _http: HttpClient) { 
 
   }

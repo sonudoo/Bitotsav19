@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class GetAllSAPSService {
-  _url = 'https://bitotsav.in/api/admin/getAllSAPS';
+  _url = 'http://localhost:3000/api/admin/getAllSAPS';
   constructor(private _http: HttpClient) { 
 
   }

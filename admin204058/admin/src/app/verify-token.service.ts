@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class VerifyTokenService {
-  _verifyUrl = "https://bitotsav.in/api/admin/verifyToken";
+  _verifyUrl = "http://localhost:3000/api/admin/verifyToken";
   constructor(private _http: HttpClient) { }
   verify(token: any){
     return this._http.post<any>(this._verifyUrl, {token: token});

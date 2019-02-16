@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SendSMSService {
-  _loginUrl = "https://bitotsav.in/api/admin/sendSMS";
+  _loginUrl = "http://localhost:3000/api/admin/sendSMS";
   
   constructor(private _http: HttpClient) { }
   sendSMS(token: any, phno: Number, msg: String){

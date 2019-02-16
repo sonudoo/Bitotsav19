@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     if(this.storage.get('token') != undefined){
       this.verifyTokenService.verify(this.storage.get('token')).subscribe(
         data => {
+          console.log(data);
           if(data.success == true){
             this.router.navigate(["event"]);
           }

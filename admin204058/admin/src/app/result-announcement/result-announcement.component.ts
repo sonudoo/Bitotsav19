@@ -33,7 +33,7 @@ export class ResultAnnouncementComponent implements OnInit {
           $("#processing-text").html("");
           $('#processing-modal').modal('hide');
           for (let i in data) {
-            if (data[i].eventPosition1.teamLeaderId != undefined || data[i].eventPosition2.teamLeaderId != undefined || data[i].eventPosition3.teamLeaderId != undefined || data[i].eventStatus != "Completed") {
+            if (data[i].eventPosition1.teamLeader != undefined || data[i].eventPosition2.teamLeader != undefined || data[i].eventPosition3.teamLeader != undefined || data[i].eventStatus != "Completed") {
               continue;
             }
             this.events.push({
@@ -67,6 +67,7 @@ export class ResultAnnouncementComponent implements OnInit {
           for (let i in data) {
             this.teams.push(data[i].teamLeaderId);
           }
+          this.teams.sort();
         },
         error => {
           $("#processing-text").html("");

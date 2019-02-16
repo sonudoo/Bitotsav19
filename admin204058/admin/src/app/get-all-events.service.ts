@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class GetAllEventsService {
-  _url = 'https://bitotsav.in/api/admin/getAllEvents';
+  _url = 'http://localhost:3000/api/admin/getAllEvents';
   constructor(private _http: HttpClient) { 
 
   }

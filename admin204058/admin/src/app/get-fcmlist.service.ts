@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GetFCMListService {
 
-  _url = 'https://bitotsav.in/api/admin/getFCMList';
+  _url = 'http://localhost:3000/api/admin/getFCMList';
   constructor(private _http: HttpClient) { 
 
   }
