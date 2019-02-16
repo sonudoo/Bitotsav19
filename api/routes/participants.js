@@ -434,9 +434,7 @@ router.post('/participantLogin', (req, res) =>{
 //Get Events for registration
 router.get('/getEvents', (req, res) => {
     db.events
-    .find({
-        eventStatus: "Scheduled"
-    }, function(error, result){
+    .find({}, function(error, result){
         if (error) {
             return res.status(500).send(JSON.stringify({
                 success: false,
@@ -449,7 +447,8 @@ router.get('/getEvents', (req, res) => {
                 eventId: result[i].eventId,
                 eventName: result[i].eventName,
                 mini: result[i].eventMinimumMembers,
-                maxx: result[i].eventMaximumMembers
+                maxx: result[i].eventMaximumMembers,
+                status: result[i].eventStatus
             };
         }
         res.status(200).send(JSON.stringify({

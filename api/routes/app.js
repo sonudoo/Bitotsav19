@@ -757,12 +757,12 @@ router.post('/getTeamDetails', function (req, res) {
                             for (let i in result1.teamMembers) {
                                 teamMembers[result1.teamMembers[i]] = map[result1.teamMembers[i]].name;
                             }
-                            let result2 = JSON.stringify({
+                            let result3 = JSON.stringify({
                                 success: true,
                                 teamMembers: teamMembers
                             });
-                            teamDetailsMap[key] = result2;
-                            res.status(200).send(result2);
+                            teamDetailsMap[key] = result3;
+                            res.status(200).send(result3);
                         }
                     });
                 }

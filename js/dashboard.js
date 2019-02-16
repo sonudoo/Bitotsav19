@@ -264,6 +264,7 @@ function prepareEventTable(id, events) {
             var userEvents=[],n=events.length,n2=res.data.length,mark=[];
             for(var i=0;i<n2;i++) {
                 mark[i]=0;
+                if(res.data[i].status != "Scheduled")mark[i]=1;
             }
             for(var i=0;i<n;i++) {
                 var eventId=events[i].eventId;
