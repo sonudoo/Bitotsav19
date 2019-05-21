@@ -1,0 +1,193 @@
+body {
+    min-height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+  }
+  
+  body::-webkit-scrollbar {
+      width: .5em;
+  }
+  
+  body::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+  
+  .modal::-webkit-scrollbar {
+      width: .5em;
+  }
+  
+  
+  
+  .init-load-screen {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+  }
+  
+  .modal::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  
+  .modal::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+  
+  .front {
+    display: none;
+    overflow: hidden;
+  
+  }
+  
+  .front h1 {
+    text-align: center;
+    font-size: 200%;
+    padding-bottom: 50px;
+  }
+  
+  .container {
+    padding: 5px 50px;
+    display: none;
+  }
+  
+  .container p {
+    font-size: 100%;
+  }
+  
+  .container a {
+    text-decoration: none;
+  }
+  
+  .container a:hover {
+    text-decoration: none;
+    color: red;
+  }
+  
+  .container ul {
+    text-decoration: none;
+    font-size: 100%;
+  }
+  
+  .col-sm-4::-webkit-scrollbar {
+      width: .5em;
+  }
+  
+  .col-sm-4::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  
+  .team {
+    cursor: pointer;
+    transition: all .5s;
+  }
+  
+  .team:hover {
+    background-color: rgba(121, 121, 121, 0.4);
+  }
+  
+  .col-sm-4::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+  
+  .table::-webkit-scrollbar {
+      width: .5em;
+  }
+  
+  .table::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  
+  .table::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+  
+  .table {
+    overflow-x: hidden;
+    width: 60vw;
+  }
+  
+  .col-sm-8 {
+    overflow-x: hidden;
+  }
+  
+  .close {
+    opacity: 1;
+    transition: all .5s;
+    font-size: 200%;
+  }
+  
+  .close:hover {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  
+  .modal .modal-content{
+    font-size: 100%;
+  }
+  
+  .modal-body {
+    margin: auto 15px;
+    text-align: justify;
+    font-size: 100%;
+  }
+  
+  
+  .modal-title {
+    font-size: 200%;
+    text-align: center;
+    color: red;
+  }
+  .events-div {
+    padding: 50px 0px 50px 0px;
+  }
+  
+  
+  .row img {
+    margin: auto;
+  }
+  
+  .col-sm-2 img {
+    margin: 0px auto;
+    transform: scale(1.2);
+  }
+  
+  .event {
+    cursor: pointer;
+  }
+  
+  .logo {
+    height: 100px
+    width: auto;
+    text-align: center;
+  }
+  
+  
+  .btn {
+    padding: 7px 35px;
+    color: rgba(44, 62, 80,1.0);
+    font-family: 'Jura', sans-serif;
+    font-size: 120%;
+    font-weight: 600;
+    background-color: rgba(240, 240, 240, 0.57);
+    border: 2px solid white;
+    transition: all .3s;
+    position: relative;
+  }
+  
+  .btn:hover {
+    color: black;
+  }
+  
+  .register-btn {
+    text-align: center;
+    margin: 30px auto;
+  }
