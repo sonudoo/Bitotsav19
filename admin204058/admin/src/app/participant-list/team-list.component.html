@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-12 d-print-none">
+    <h1 style="text-align: center">Instructions</h1>
+    <hr>
+    <ul>
+      <li>This section is used to view to teams for a given event.</li>
+      <li>Click on the Print button to print the team list once it is fetched.</li>
+    </ul>
+    <br>
+    <hr>
+  </div>
+  <div class="col-md-12">
+    <form>
+      <div class="form-group d-print-none">
+        <label for="eventId">Event Id</label>
+        <select class="form-control" id="eventId" #eventId="ngModel" name="eventId" [(ngModel)]="currentEventId"
+          [class.is-invalid]="eventId.invalid && eventId.touched" required (change)="onChange(eventId.value)">
+          <option value="-1">All Events</option>
+
+          <option *ngFor="let event of events" value="{{event.eventId}}">{{event.eventId}} - {{event.eventName}}
+          </option>
+        </select>
+        <small class="text-danger" [class.d-none]="eventId.valid || eventId.untouched">Event Id is required.</small>
+        <br>
+        <div style="text-align: center;">
+          <button class="btn btn-primary" style="text-align: center;" onclick="window.print()">Print this page</button>
+        </div>
+        <br>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>College</th>
+            <th>Rollno</th>
+            <th>Bitotsav Id</th>
+          </tr>
+        </thead>
+        <tbody #tbody>
+
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

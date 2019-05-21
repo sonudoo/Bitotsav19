@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-md-6">
+        <h1 style="text-align: center">Instructions</h1>
+        <hr>
+        <ul>
+            <li>This section is used for adding and updating an event.</li>
+            <li>Once an event is added, a new event id is generated automatically.</li>
+            <li>Any update made to an event will be sent as a notification to the Bitotsav app with the specified message.</li>
+            <li>All event updates are dynamic and happen at real time on both website and app.</li>
+        </ul>
+        <hr>
+        <app-event-topbar (childEvent)="displayComponent($event)"></app-event-topbar>
+    </div>
+    <div class="col-md-6">
+            
+            <app-add-event [display]="addEventDisplay"></app-add-event>
+            <app-show-event [display]="showEventDisplay"></app-show-event>
+            <app-update-event [display]="updateEventDisplay"></app-update-event>
+    </div>
+</div>
