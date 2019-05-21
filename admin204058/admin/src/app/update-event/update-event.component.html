@@ -1,0 +1,219 @@
+<form #updateEventForm="ngForm" (submit)="onSubmit(updateEventForm)" *ngIf="display">
+  <div class="form-group">
+    <label for="eventId">Event Id</label>
+    <select class="form-control" id="eventId" #eventId="ngModel" name="eventId" [(ngModel)]="currentEventId"
+      [class.is-invalid]="eventId.invalid && eventId.touched" required (change)="onChange(eventId.value)">
+      <option *ngFor="let event of events" value="{{event.eventId}}">{{event.eventId}} - {{event.eventName}}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventId.valid || eventId.untouched">Event Id is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventName">Name</label>
+    <input type="text" class="form-control" #eventName="ngModel" id="eventName" name="eventName" [(ngModel)]="updateEventData.eventName"
+      [class.is-invalid]="eventName.invalid && eventName.touched" required>
+    <small class="text-danger" [class.d-none]="eventName.valid || eventName.untouched">Event Name is required.</small>
+  </div>
+  <div class="form-group">
+    <label for="eventVenue">Venue</label>
+    <input type="text" class="form-control" #eventVenue="ngModel" id="eventVenue" name="eventVenue" [(ngModel)]="updateEventData.eventVenue"
+      [class.is-invalid]="eventVenue.invalid && eventVenue.touched" required>
+    <small class="text-danger" [class.d-none]="eventVenue.valid || eventVenue.untouched">Event Venue is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventTime">Time</label>
+    <input type="time" class="form-control" #eventTime="ngModel" id="eventTime" name="eventTime" [(ngModel)]="updateEventData.eventTime"
+      [class.is-invalid]="eventTime.invalid && eventTime.touched" required>
+    <small class="text-danger" [class.d-none]="eventTime.valid || eventTime.untouched">Event Time is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventDay">Day</label>
+    <input type="number" class="form-control" #eventDay="ngModel" id="eventDay" name="eventDay" [(ngModel)]="updateEventData.eventDay"
+      required pattern="^[1-4]$" [class.is-invalid]="eventDay.invalid && eventDay.touched" required>
+    <small class="text-danger" [class.d-none]="eventDay.valid || eventDay.untouched">Event Day is required and must be
+      1-4.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventFacultyAdvisor">Faculty Advisor</label>
+    <input type="text" class="form-control" #eventFacultyAdvisor="ngModel" id="eventFacultyAdvisor" name="eventFacultyAdvisor"
+      [(ngModel)]="updateEventData.eventFacultyAdvisor" [class.is-invalid]="eventFacultyAdvisor.invalid && eventFacultyAdvisor.touched"
+      required>
+    <small class="text-danger" [class.d-none]="eventFacultyAdvisor.valid || eventFacultyAdvisor.untouched">Faculty
+      Advisor is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventDescription">Description</label>
+    <textarea type="text" class="form-control" #eventDescription="ngModel" id="eventDescription" name="eventDescription"
+      [(ngModel)]="updateEventData.eventDescription" required [class.is-invalid]="eventDescription.invalid && eventDescription.touched"></textarea>
+    <small class="text-danger" [class.d-none]="eventDescription.valid || eventDescription.untouched">Event Description
+      is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventDescription">Rules</label>
+    <textarea type="text" class="form-control" #eventRules="ngModel" id="eventRules" name="eventRules" [(ngModel)]="updateEventData.eventRules"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="eventContact">Contact 1</label>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="form-control" #eventContact1Name="ngModel" id="eventContact1Name" name="eventContact1Name"
+          [(ngModel)]="updateEventData.eventContact1Name" [class.is-invalid]="eventContact1Name.invalid && eventContact1Name.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventContact1Name.valid || eventContact1Name.untouched">Contact 1 is
+          required.</small>
+      </div>
+      <div class="col-md-6">
+        <input type="number" class="form-control" #eventContact1Number="ngModel" id="eventContact1Number" name="eventContact1Number"
+          [(ngModel)]="updateEventData.eventContact1Number" [class.is-invalid]="eventContact1Number.invalid && eventContact1Number.touched"
+          required pattern="^[0-9]{10}$">
+        <small class="text-danger" [class.d-none]="eventContact1Number.valid || eventContact1Number.untouched">Contact
+          1 is required.</small>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="eventContact">Contact 2</label>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="form-control" #eventContact2Name="ngModel" id="eventContact2Name" name="eventContact2Name"
+          [(ngModel)]="updateEventData.eventContact2Name">
+      </div>
+      <div class="col-md-6">
+        <input type="number" class="form-control" #eventContact2Number="ngModel" id="eventContact2Number" name="eventContact2Number"
+          [(ngModel)]="updateEventData.eventContact2Number">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="eventRequirement">Requirement</label>
+    <textarea type="text" class="form-control" #eventRules="ngModel" id="eventRequirement" name="eventRequirement"
+      [(ngModel)]="updateEventData.eventRequirement"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="eventCategory">Category</label>
+    <select class="form-control" id="eventCategory" #eventCategory="ngModel" name="eventCategory" [(ngModel)]="updateEventData.eventCategory"
+      [class.is-invalid]="eventCategory.invalid && eventCategory.touched" required>
+      <option value="">-----</option>
+      <option value="Music">Music</option>
+      <option value="Dance">Dance</option>
+      <option value="Dramatics">Dramatics</option>
+      <option value="Speaking Arts">Speaking Arts</option>
+      <option value="Literary Arts">Literary Arts</option>
+      <option value="Digital Arts">Digital Arts</option>
+      <option value="Fine Arts">Fine Arts</option>
+      <option value="Fashion">Fashion</option>
+      <option value="Journalism">Journalism</option>
+      <option value="Informals">Informals</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventCategory.valid || eventCategory.untouched">Event Category is required.</small>
+  </div>
+  <div class="form-group">
+    <label for="eventPoints">Prize</label>
+    <div class="row">
+      <div class="col-md-4">
+        <input type="number" class="form-control" #eventPoints1="ngModel" id="eventPoints1" name="eventPoints1"
+          [(ngModel)]="updateEventData.eventPoints1" [class.is-invalid]="eventPoints1.invalid && eventPoints1.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventPoints1.valid || eventPoints1.untouched">Prize is
+          required.</small>
+      </div>
+      <div class="col-md-4">
+        <input type="number" class="form-control" #eventPoints2="ngModel" id="eventPoints2" name="eventPoints2"
+          [(ngModel)]="updateEventData.eventPoints2" [class.is-invalid]="eventPoints2.invalid && eventPoints2.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventPoints2.valid || eventPoints2.untouched">Prize is
+          required.</small>
+      </div>
+      <div class="col-md-4">
+        <input type="number" class="form-control" #eventPoints3="ngModel" id="eventPoints3" name="eventPoints3"
+          [(ngModel)]="updateEventData.eventPoints3" [class.is-invalid]="eventPoints3.invalid && eventPoints3.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventPoints3.valid || eventPoints3.untouched">Prize is
+          required.</small>
+      </div>
+    </div>
+
+    <small></small>
+  </div>
+  <div class="form-group">
+    <label for="eventPrize">Prize</label>
+    <div class="row">
+      <div class="col-md-4">
+        <input type="number" class="form-control" #eventPrize1="ngModel" id="eventPrize1" name="eventPrize1"
+          [(ngModel)]="updateEventData.eventPrize1" [class.is-invalid]="eventPrize1.invalid && eventPrize1.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventPrize1.valid || eventPrize1.untouched">Prize is
+          required.</small>
+      </div>
+      <div class="col-md-4">
+        <input type="number" class="form-control" #eventPrize2="ngModel" id="eventPrize2" name="eventPrize2"
+          [(ngModel)]="updateEventData.eventPrize2" [class.is-invalid]="eventPrize2.invalid && eventPrize2.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventPrize2.valid || eventPrize2.untouched">Prize is
+          required.</small>
+      </div>
+      <div class="col-md-4">
+        <input type="number" class="form-control" #eventPrize3="ngModel" id="eventPrize3" name="eventPrize3"
+          [(ngModel)]="updateEventData.eventPrize3" [class.is-invalid]="eventPrize3.invalid && eventPrize3.touched"
+          required>
+        <small class="text-danger" [class.d-none]="eventPrize3.valid || eventPrize3.untouched">Prize is
+          required.</small>
+      </div>
+    </div>
+
+    <small></small>
+  </div>
+  <div class="form-group">
+    <label for="eventType">Event Type</label>
+    <select class="form-control" id="eventType" #eventType="ngModel" name="eventType" [(ngModel)]="updateEventData.eventType"
+      [class.is-invalid]="eventType.invalid && eventType.touched" required>
+      <option value="">-----</option>
+      <option value="NF">Non-Flaship</option>
+      <option value="F">Flagship</option>
+    </select>
+    <small class="text-danger" [class.d-none]="eventType.valid || eventType.untouched">Event Type is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventMinimumMembers">Minimum Members</label>
+    <input type="number" class="form-control" #eventMinimumMembers="ngModel" id="eventMinimumMembers" name="eventMinimumMembers"
+      [(ngModel)]="updateEventData.eventMinimumMembers" required [class.is-invalid]="eventMinimumMembers.invalid && eventMinimumMembers.touched"
+      required>
+    <small class="text-danger" [class.d-none]="eventMinimumMembers.valid || eventMinimumMembers.untouched">Event
+      minimum members is required.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventMaximumMembers">Maximum Members</label>
+    <input type="number" class="form-control" #eventMaximumMembers="ngModel" id="eventMaximumMembers" name="eventMaximumMembers"
+      [(ngModel)]="updateEventData.eventMaximumMembers" required [class.is-invalid]="eventMaximumMembers.invalid && eventMaximumMembers.touched"
+      required>
+    <small class="text-danger" [class.d-none]="eventMaximumMembers.valid || eventMaximumMembers.untouched">Event
+      maximum members is required.</small>
+  </div>
+  <div class="form-group">
+      <label for="eventStatus">Event Status</label>
+      <select class="form-control" id="eventStatus" #eventStatus="ngModel" name="eventStatus" [(ngModel)]="updateEventData.eventStatus"
+        [class.is-invalid]="eventStatus.invalid && eventStatus.touched" required>
+        <option value="">-----</option>
+        <option value="Scheduled">Scheduled</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Ongoing">Ongoing</option>
+        <option value="Completed">Completed</option>
+      </select>
+      <small class="text-danger" [class.d-none]="eventStatus.valid || eventStatus.untouched">Event Status is required.</small>
+    </div>
+    <div class="form-group">
+        <label for="msg">Briefly describe the change (To be sent to App)</label>
+        <textarea type="text" class="form-control" #msg="ngModel" id="msg" name="msg"
+          [(ngModel)]="msgData" required [class.is-invalid]="msg.invalid && msg.touched"></textarea>
+        <small class="text-danger" [class.d-none]="msg.valid || msg.untouched">This field is required</small>
+      </div>
+  <button type="submit" [disabled]="updateEventForm.form.invalid" class="btn btn-primary">Submit</button>
+</form>
+<br>
